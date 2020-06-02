@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = "***"
+}
+
+enum Unit {
+  TSP
+  TBSP
+  CUP
+  MG
+  G
+  KG
+  OZ
+  FLOZ
+}
+
+enum CategoryType {
+  CUSTOM
+  MEAL
+  CUISINE
+  DISH_TYPE
+  CONSIDERATION
+  OCCASION
+  PREPARATION
+  SEASON
+}
+
+model User {
+  id             Int        @default(autoincrement()) @id
+  email          String     @unique
+  name           String
+  googleId       Int? @unique
+  avatarUrl      String
+  hash           String
+  salt           String
+  ownKitchen     Kitchen    @relation("KitchenOwnership")
+  kitchens       Kitchen[]  @relation(references: [id])
+  starredRecipes Recipe[]
+  categories     Category[]
+}
+
+model Kitchen {
+  id          Int      @default(autoincrement()) @id
+  name        String
+  description String
+  owner       User     @relation("KitchenOwnership", references: [id], fields: [ownerId])
+  ownerId     Int
+  users       User[]   @relation(references: [id])
+  recipes     Recipe[]
+}
+
+model Recipe {
+  id                 Int      @default(autoincrement()) @id
+  name               String
+  summary            String
+  publicID           String   @unique
+  sourceName         String
+  sourceURL          String
+  servings           Int
+  prepDuration       Int
+  cookDuration       Int
+  totalDuration      Int
+  kitchen            Kitchen  @relation(references: [id], fields: [kitchenId])
+  kitchenId          Int
+  imageURL           String
+  //ingredients  RecipeIngredient[]
+  ingredientSections String[]
+  instructions       String
+  isDeleted          Boolean  @default(value: false)
+  //categories   Category[] @relation(references: [id])
+  starredBy          User[]
+
+  RecipeIngredient RecipeIngredient[]
+}
+
+model Ingredient {
+  id       Int                @default(autoincrement()) @id
+  name     String
+  category String
+  uses     RecipeIngredient[]
+}
+
+model RecipeIngredient {
+  id           Int        @default(autoincrement()) @id
+  freeform     String
+  ingredient   Ingredient @relation(references: [id], fields: [ingredientId])
+  ingredientId Int
+  recipe       Recipe     @relation(references: [id], fields: [recipeId])
+  recipeId     Int
+  priority     Float
+  quantity     Float
+  unit         Unit
+  section      Int
+}
+
+model Category {
+  id          Int          @default(autoincrement()) @id
+  name        String
+  description String
+  author      User         @relation(references: [id], fields: [authorId])
+  authorId    Int
+  type        CategoryType
+}

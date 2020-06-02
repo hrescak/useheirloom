@@ -1,0 +1,80 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "DeleteField",
+      "model": "User",
+      "field": "categories"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Kitchen",
+      "field": "categories",
+      "type": "Category",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Category",
+      "field": "kitchen",
+      "type": "Kitchen",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Category",
+          "field": "kitchen"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Category",
+          "field": "kitchen"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Category",
+          "field": "kitchen"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[kitchenId]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Category",
+      "field": "kitchenId",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Category",
+      "field": "author"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Category",
+      "field": "authorId"
+    }
+  ]
+}
