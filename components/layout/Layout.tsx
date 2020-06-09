@@ -26,7 +26,7 @@ const Layout: React.FC<Props> = ( props ) => {
             <>
             <OutlineButton onClick={()=> createRecipe()} icon={<PlusCircle/>} style={{marginRight:"8px"}}>New Recipe</OutlineButton>
             <Link href="/api/auth/logout">
-              <OutlineButton data-active={isActive('/signup')} icon={<LogOut/>}>Log out</OutlineButton>
+              <OutlineButton data-active={isActive('/signup')} icon={<LogOut/>}/>
             </Link>
             </>
           ) : (

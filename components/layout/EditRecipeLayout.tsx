@@ -18,8 +18,8 @@ const Layout: React.FC<Props> = ( props ) => (
             <PrimaryButton icon={<ChevronLeft/>}>Back</PrimaryButton>
         </Link>
         <div style={{flex:2}}/>
-        <PrimaryButton icon={<Trash2/>} style={{marginRight:'0.5rem'}} onClick = {props.deleteClicked}>Delete Recipe</PrimaryButton>
-        <AccentButton icon={<CheckCircle/>} onClick = {props.saveClicked}>Save Changes</AccentButton>
+        <PrimaryButton icon={<Trash2/>} style={{marginRight:'0.5rem'}} onClick = {props.deleteClicked}>Delete</PrimaryButton>
+        <AccentButton icon={<CheckCircle/>} onClick = {props.saveClicked}>Save</AccentButton>
 
     </HeaderWrapper>
     <Wrapper>
