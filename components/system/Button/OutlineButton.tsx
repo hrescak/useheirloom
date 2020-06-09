@@ -11,7 +11,7 @@ export const OutlineButton = React.forwardRef((props:ButtonProps, ref?: React.Re
     return(
         <StyledOutlineButton ref={ref} {...props}>
             {props.icon &&
-                <IconWrapper>{props.icon}</IconWrapper>
+                <IconWrapper style={{marginRight:(props.children) ? '4px' : '0'}}>{props.icon}</IconWrapper>
             }
             {props.children}
         </StyledOutlineButton>

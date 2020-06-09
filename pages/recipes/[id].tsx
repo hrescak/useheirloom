@@ -32,7 +32,7 @@ const Summary = styled.p`
 const RecipePage: React.FC = () => {
   const router = useRouter()
   const {id} = router.query
-  const {data,error, mutate}:{data?:RecipeProps,error?:any,mutate?:any} = useSWR(`/api/recipes/${id}`,  url => fetch(url).then(r => r.json()))
+  const {data,error, mutate}:{data?:RecipeProps,error?:any,mutate?:any} = useSWR(`/api/recipes/` + id,  url => fetch(url).then(r => r.json()))
   return (
     <Layout recipeId={Number(id)}>
         <H1>{data?.name || "Untitled Recipe"}</H1>
