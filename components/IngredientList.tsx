@@ -37,8 +37,8 @@ const InlineInput = styled.input`
 `
 
 const IngredientList  : React.FC<IngredientListProps> = (props) => {
-    const {data,error, mutate}:{data?:Partial<RecipeIngredient>[],error?:any,mutate?:any} = useSWR(`/api/recipes/${props.recipeId}/recipe-ingredients`, url => fetch(url).then(r => r.json()))
-    const {register, setValue, handleSubmit, errors} = useForm();
+    const {data,mutate}:{data?:Partial<RecipeIngredient>[],error?:any,mutate?:any} = useSWR(`/api/recipes/${props.recipeId}/recipe-ingredients`, url => fetch(url).then(r => r.json()))
+    const {register, setValue, handleSubmit} = useForm();
     async function onMove(ingredient) {
         const mutateData = data.map(ing =>(
             ing.id == ingredient.id ? {priority:ingredient.priority,...ing} : ing

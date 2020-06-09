@@ -14,7 +14,7 @@ type Props = {
 const Layout: React.FC<Props> = ( props ) => (
     <div>
     <HeaderWrapper reverse>
-        <Link href={`/recipes/${props.recipeId}`}>
+        <Link href={`/recipes/[id]`} as={`/recipes/${props.recipeId}`}>
             <PrimaryButton icon={<ChevronLeft/>}>Back</PrimaryButton>
         </Link>
         <div style={{flex:2}}/>

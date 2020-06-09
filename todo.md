@@ -1,3 +1,4 @@
 - Flash of No Data Content
 - Optimistic editing
-- Recipe sharing
+- Recipe sharing (isPublic)
+- page titles and favicon, mobile homescreen version

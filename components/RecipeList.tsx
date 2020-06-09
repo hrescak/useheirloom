@@ -26,7 +26,7 @@ const RecipeList: React.FC = () => {
             <main style={{marginTop:'2rem'}}>
             {recipes && recipes.map(recipe => (
                 <div key={recipe.id} >
-                <Link href={`/recipes/${recipe.id}`}>
+                <Link href={`/recipes/[id]`} as={`/recipes/${recipe.id}`}>
                     <Recipe>
                         <H2>{recipe.name ? recipe.name : "Untitled Recipe"}</H2>
                         <Meta>

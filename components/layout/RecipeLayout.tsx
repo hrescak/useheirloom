@@ -17,7 +17,7 @@ const Layout: React.FC<Props> = ( props ) => (
             <InlineButton noMargin icon={<ChevronLeft/>}>Recipes</InlineButton>
         </Link>
         <div style={{flex:2}}/>
-        <Link href={`/recipes/edit/${props.recipeId}`}>
+        <Link href={`/recipes/edit/[id]`} as ={`/recipes/edit/${props.recipeId}`}>
             <OutlineButton icon={<Edit3/>}>Edit</OutlineButton>
         </Link>
     </HeaderWrapper>
