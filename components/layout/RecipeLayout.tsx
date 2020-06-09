@@ -5,13 +5,16 @@ import {ChevronLeft, Edit3} from 'react-feather'
 import {InlineButton, OutlineButton} from '../system/Button'
 import Link from 'next/link'
 import HeaderWrapper from './HeaderWrapper'
+import Meta from './Meta'
 
 type Props = {
   children: ReactNode
   recipeId: number
+  title? : string
 }
 const Layout: React.FC<Props> = ( props ) => (
     <>
+    <Meta title={props.title}/>
     <HeaderWrapper>
         <Link href={`/`}>
             <InlineButton noMargin icon={<ChevronLeft/>}>Recipes</InlineButton>

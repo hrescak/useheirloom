@@ -34,7 +34,7 @@ const RecipePage: React.FC = () => {
   const {id} = router.query
   const {data}:{data?:RecipeProps,error?:any,mutate?:any} = useSWR(`/api/recipes/` + id,  url => fetch(url).then(r => r.json()))
   return (
-    <Layout recipeId={Number(id)}>
+    <Layout recipeId={Number(id)} title={data?.name}>
         {data ? (
         <>
           <H1>{data.name || "Untitled Recipe"}</H1>

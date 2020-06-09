@@ -48,6 +48,8 @@ async function handlePOST(req, res) {
       },
     })
     res.json(result)
+  } else {
+    res.status(401).send("Unauthorized")
   }
   
 }
