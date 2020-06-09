@@ -24,7 +24,8 @@ async function handleGET(req, res) {
   if (session) {
     const result = await prisma.recipe.findMany({
         where: {
-            kitchenId: session.kitchenId
+            kitchenId: session.kitchenId,
+            isDeleted: false
         }
     })
     res.json(result)

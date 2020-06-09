@@ -1,6 +1,6 @@
 import React,{ ReactNode } from 'react'
 import Wrapper from '../system/Wrapper'
-import {ChevronLeft, CheckCircle} from 'react-feather'
+import {ChevronLeft, CheckCircle, Trash2} from 'react-feather'
 import {PrimaryButton, AccentButton} from '../system/Button'
 import Link from 'next/link'
 import HeaderWrapper from './HeaderWrapper'
@@ -9,6 +9,7 @@ type Props = {
   children: ReactNode
   recipeId: number
   saveClicked: () => any
+  deleteClicked: () => any
 }
 const Layout: React.FC<Props> = ( props ) => (
     <div>
@@ -17,6 +18,7 @@ const Layout: React.FC<Props> = ( props ) => (
             <PrimaryButton icon={<ChevronLeft/>}>Back</PrimaryButton>
         </Link>
         <div style={{flex:2}}/>
+        <PrimaryButton icon={<Trash2/>} style={{marginRight:'0.5rem'}} onClick = {props.deleteClicked}>Delete Recipe</PrimaryButton>
         <AccentButton icon={<CheckCircle/>} onClick = {props.saveClicked}>Save Changes</AccentButton>
 
     </HeaderWrapper>

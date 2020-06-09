@@ -27,8 +27,16 @@ const EditRecipe : React.FC = () => {
     }))
     //.then(p=>router.push(`/recipes/${id}`))
   }
+  async function handleDelete(){
+    if(confirm('Are you sure you want to delete this recipe?')){
+      mutate(await fetch(`/api/recipes/${id}`, {
+        method: 'DELETE',
+        body: JSON.stringify(data)
+      })).then(p=>router.push(`/`))
+    }
+  }
   return (
-    <Layout recipeId={Number(id)} saveClicked={handleSubmit(onSubmit)}>
+    <Layout recipeId={Number(id)} saveClicked={handleSubmit(onSubmit)} deleteClicked={()=>handleDelete()}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Label>Recipe Title</Label>
         <Input type="text" placeholder="Something super tasty" name="name" defaultValue={data?.name} ref={register} />

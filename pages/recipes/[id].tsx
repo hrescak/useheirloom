@@ -16,11 +16,17 @@ const SourceSection = styled.div`
   & a {
     color: ${p=>p.theme.colors.textSecondary}
   }
+  @media(max-width: ${(p)=>p.theme.breakpoints.medium}) {
+      font-size:1rem;
+  }
 `
 const Summary = styled.p`
   font-style:italic;
   margin:0 0 0.5rem;
   color: ${p=>p.theme.colors.textSecondary};
+  @media(max-width: ${(p)=>p.theme.breakpoints.medium}) {
+      font-size:1.125rem;
+  }
 `
 
 const RecipePage: React.FC = () => {

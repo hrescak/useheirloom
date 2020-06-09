@@ -9,6 +9,7 @@ import { useMoveRecipeIngredient } from '../lib/hooks'
 import styled from 'styled-components';
 import { Plus, PlusCircle } from 'react-feather';
 import { PrimaryButton } from './system/Button';
+import { UL } from './system/Typography';
 
 
 const Separator = styled.div`
@@ -100,7 +101,7 @@ const IngredientList  : React.FC<IngredientListProps> = (props) => {
                     </form>
                 </>
             ) : (
-                <ul style={{padding:"0"}}>
+                <UL>
                     {data && _.sortBy(data,i => i.priority).map((ingredient, index) => (
                         <li key ={ingredient.freeform} style={{padding:"4px 0"}}>
                             <IngredientItem 
@@ -112,7 +113,7 @@ const IngredientList  : React.FC<IngredientListProps> = (props) => {
                                 />
                         </li>
                     ))}
-                </ul>
+                </UL>
             )} 
         </div>
     )

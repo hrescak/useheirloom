@@ -1,3 +1,3 @@
-- [ ] Ingredient editing edit and delete no reordering
-- [ ] Coat of paint + styled components
-- [ ] Deployment
+- Flash of No Data Content
+- Optimistic editing
+- Recipe sharing

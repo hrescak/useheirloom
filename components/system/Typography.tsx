@@ -15,5 +15,16 @@ export const H2= styled.h2`
 
 export const P = styled.p`
     line-height: 1.5;
-    white-space: pre-wrap;
+    white-space: pre-wrap; 
+    @media(max-width: ${theme.breakpoints.medium}) {
+        font-size:1.125rem;
+    }
+`
+
+export const UL = styled.ul`
+    padding: 0;
+    @media(max-width: ${theme.breakpoints.medium}) {
+        padding: 0 1.25rem 0;
+        font-size:1.125rem;
+    }
 `

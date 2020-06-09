@@ -53,8 +53,9 @@ async function handlePOST(req, res) {
 async function handleDELETE(req, res) {
   const session = await getSession(req)
   if (session) {
-    const post = await prisma.recipe.delete({
+    const post = await prisma.recipe.update({
       where: { id: Number(req.query.id) },
+      data: {isDeleted: true}
     })
     res.json(post)
   }

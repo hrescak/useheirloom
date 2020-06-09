@@ -15,6 +15,7 @@ const StyledHeaderWrapper = styled.div<{reverse?:boolean}>`
 const InnerWrapper = styled.div`
     display: flex;
     flex-direction: row;
+    align-items: center;
 `
 
 const HeaderWrapper : React.FC<Props> = (props) => {
