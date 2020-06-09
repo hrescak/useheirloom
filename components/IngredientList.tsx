@@ -102,7 +102,7 @@ const IngredientList  : React.FC<IngredientListProps> = (props) => {
                 </>
             ) : (
                 <UL>
-                    {data && _.sortBy(data,i => i.priority).map((ingredient, index) => (
+                    {data && data.length > 0 ?( _.sortBy(data,i => i.priority).map((ingredient, index) => (
                         <li key ={ingredient.freeform} style={{padding:"4px 0"}}>
                             <IngredientItem 
                                 ingredient={ingredient} 
@@ -112,7 +112,9 @@ const IngredientList  : React.FC<IngredientListProps> = (props) => {
                                 revalidate={mutate}
                                 />
                         </li>
-                    ))}
+                    ))) : (
+                        "No ingredients yet."
+                    )}
                 </UL>
             )} 
         </div>

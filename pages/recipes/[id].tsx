@@ -37,7 +37,7 @@ const RecipePage: React.FC = () => {
     <Layout recipeId={Number(id)}>
         {data ? (
         <>
-          <H1>{data.name}</H1>
+          <H1>{data.name || "Untitled Recipe"}</H1>
           {data.summary && 
            <Summary>{data.summary}</Summary>
           }
@@ -54,7 +54,7 @@ const RecipePage: React.FC = () => {
             <IngredientList recipeId={Number(id)} editable={false}/>
           <SectionHeader>Instructions</SectionHeader>
           <P>
-            {data.instructions}
+            {data.instructions || "No instructions yet."}
           </P>
         </>
         ) : (
