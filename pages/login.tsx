@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Router from 'next/router'
 import { useUser } from '../lib/hooks'
-import Layout from '../components/Layout'
+import AuthLayout from '../components/layout/AuthLayout'
 import Form from '../components/Form'
 
 const Login = () => {
@@ -20,7 +20,7 @@ const Login = () => {
     }
 
     try {
-      const res = await fetch('/api/login', {
+      const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
@@ -37,7 +37,7 @@ const Login = () => {
   }
 
   return (
-    <Layout>
+    <AuthLayout>
       <div className="login">
         <Form isLogin errorMessage={errorMsg} onSubmit={handleSubmit} />
       </div>
@@ -50,7 +50,7 @@ const Login = () => {
           border-radius: 4px;
         }
       `}</style>
-    </Layout>
+    </AuthLayout>
   )
 }
 

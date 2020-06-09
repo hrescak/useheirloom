@@ -1,0 +1,35 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "UpdateField",
+      "model": "RecipeIngredient",
+      "field": "ingredient",
+      "arity": "Optional"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "RecipeIngredient",
+      "field": "ingredientId",
+      "arity": "Optional"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "RecipeIngredient",
+      "field": "quantity",
+      "arity": "Optional"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "RecipeIngredient",
+      "field": "unit",
+      "arity": "Optional"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "RecipeIngredient",
+      "field": "section",
+      "arity": "Optional"
+    }
+  ]
+}

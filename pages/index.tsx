@@ -1,42 +1,27 @@
 import React from 'react'
-import { GetServerSideProps } from 'next'
-import Layout from '../components/Layout'
-import { useUser } from '../lib/hooks'
-import fetch from 'isomorphic-unfetch'
-import Post, { PostProps } from '../components/Post'
+import Layout from '../components/layout/Layout'
+import { getSession } from '../lib/iron'
+import RecipeList from '../components/RecipeList'
 
 type Props = {
-  feed: PostProps[]
+  hasSession: boolean
 }
 
-const Blog : React.FC<Props> = () => {
-  const user = useUser();
+const Index : React.FC<Props> = props => {
+  if(!props.hasSession) {
+    return <span>oops</span>
+  }
   return (
     <Layout>
-      <div className="page">
-        <h1>My Blog</h1>
-        <main>
-        {user && <p>Currently logged in as: {JSON.stringify(user)}</p>}
-          
-        </main>
-      </div>
-      <style jsx>{`
-        .post {
-          background: white;
-          transition: box-shadow 0.1s ease-in;
-        }
-
-        .post:hover {
-          box-shadow: 1px 1px 3px #aaa;
-        }
-
-        .post + .post {
-          margin-top: 2rem;
-        }
-      `}</style>
+      <RecipeList />
     </Layout>
   )
 }
-
-
-export default Blog
+// Making sure we don't have flash of logged in / out content on homepage
+export async function getServerSideProps(context) {
+  const session = await getSession(context.req)
+  return {
+    props: {hasSession:Boolean(session)},
+  }
+}
+export default Index

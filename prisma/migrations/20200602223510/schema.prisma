@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 enum Unit {
@@ -86,14 +86,14 @@ model Ingredient {
 model RecipeIngredient {
   id           Int        @default(autoincrement()) @id
   freeform     String
-  ingredient   Ingredient? @relation(references: [id], fields: [ingredientId])
-  ingredientId Int?
+  ingredient   Ingredient @relation(references: [id], fields: [ingredientId])
+  ingredientId Int
   recipe       Recipe     @relation(references: [id], fields: [recipeId])
   recipeId     Int
   priority     Float
-  quantity     Float?
-  unit         Unit?
-  section      Int?
+  quantity     Float
+  unit         Unit
+  section      Int
 }
 
 model Category {

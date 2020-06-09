@@ -1,0 +1,24 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateField",
+      "model": "Recipe",
+      "field": "ingredients",
+      "type": "RecipeIngredient",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Recipe",
+      "field": "categories",
+      "type": "Category",
+      "arity": "List"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Recipe",
+      "field": "RecipeIngredient"
+    }
+  ]
+}

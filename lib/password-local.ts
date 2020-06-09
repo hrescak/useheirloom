@@ -1,18 +1,14 @@
 import Local from 'passport-local'
 import { findUser } from './user'
 
-export const localStrategy = new Local.Strategy(function (
+export const localStrategy = new Local.Strategy({usernameField:'email'},function (
   email,
   password,
   done
 ) {
-  findUser({ email, password })
+    findUser({ email, password })
     .then((user) => {
-        if(user && user.email){
-      done(null, user)}
-      else {
-          done(null, null)
-      }
+      done(null, user)
     })
     .catch((error) => {
       done(error)

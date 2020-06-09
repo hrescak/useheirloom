@@ -1,0 +1,3 @@
+- [ ] Ingredient editing edit and delete no reordering
+- [ ] Coat of paint + styled components
+- [ ] Deployment

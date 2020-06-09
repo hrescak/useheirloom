@@ -1,16 +1,17 @@
 import { useEffect } from 'react'
-import Router from 'next/router'
+import Router, { useRouter } from 'next/router'
 import useSWR from 'swr'
+import { RecipeIngredient } from '@prisma/client'
 
 const fetcher = (url:string) =>
   fetch(url)
     .then((r) => r.json())
     .then((data) => {
-      return { user: data?.user || null }
+      return data || null
     })
 
 export function useUser({ redirectTo, redirectIfFound}:{redirectTo?:string,redirectIfFound?:boolean} = {}) {
-  const { data, error } = useSWR('/api/user', fetcher)
+  const { data, error }: {data?:{user?:any},error?:any} = useSWR('/api/user', fetcher)
   const user = data?.user
   const finished = Boolean(data)
   const hasUser = Boolean(user)
@@ -29,3 +30,98 @@ export function useUser({ redirectTo, redirectIfFound}:{redirectTo?:string,redir
 
   return error ? null : user
 }
+
+export const useRecipes = () => {
+  const {data,error} = useSWR('/api/recipes', fetcher)
+  const recipes = data
+  return error ? null : recipes
+}
+
+export const useCreateRecipe = () => {
+  const router = useRouter()
+  const createRecipe = () =>{ 
+    fetch('/api/recipes', {
+      method: 'POST'
+    })
+    .then((r) => r.json())
+    .then((data) => {
+      router.push(`/recipes/edit/${data.id}`)
+      return data || null
+    })
+  }
+  return createRecipe
+}
+
+export const useMoveRecipeIngredient = (
+  ingredients?: RecipeIngredient[] | null,
+  updateIngredient? : (ingredient: Partial<RecipeIngredient>) => any
+) => {
+
+  const highestPriority = () => {
+    if (ingredients && ingredients.length > 0) {
+      return Math.max.apply(
+        Math,
+        ingredients.map((o: Partial<RecipeIngredient>) =>
+          o.priority ? o.priority : 0
+        )
+      );
+    }
+    return 0; // if no todos
+  };
+  const lowestPriority = () => {
+    if (ingredients && ingredients.length > 0) {
+      return Math.min.apply(
+        Math,
+        ingredients.map((o: Partial<RecipeIngredient>) =>
+          o.priority ? o.priority : 0
+        )
+      );
+    }
+    return 0; // if no todos
+  };
+
+  const moveIngredient = (result: DropResult) => {
+    if (
+      result.destination &&
+      result.destination.index !== result.source.index &&
+      ingredients
+    ) {
+      let targetPriority = 0;
+      switch (result.destination.index) {
+        case 0: {
+          // top most position, conjure a new lowest pri
+          targetPriority = lowestPriority() - 1;
+          break;
+        }
+        case ingredients.length - 1: {
+          // bottommost position, conjure a new highest pri
+          targetPriority = highestPriority() + 1;
+          break;
+        }
+        default: {
+          // everywhere in between
+          let toPriorityAbove =
+            ingredients[result.destination.index + 1].priority || 0;
+          let toPriorityBelow =
+            ingredients[result.destination.index].priority || 0;
+          if (result.source.index > result.destination.index) {
+            toPriorityBelow =
+              ingredients[result.destination.index - 1].priority || 0;
+            toPriorityAbove =
+              ingredients[result.destination.index].priority || 0;
+          }
+          targetPriority = (toPriorityBelow + toPriorityAbove) / 2;
+        }
+      }
+
+      const ingredientToUpdate = ingredients[result.source.index];
+      updateIngredient(
+        {
+          id: ingredientToUpdate.id,
+          freeform: ingredientToUpdate.freeform,
+          priority: targetPriority
+        });
+    }
+  };
+  return { moveIngredient, highestPriority };
+};
