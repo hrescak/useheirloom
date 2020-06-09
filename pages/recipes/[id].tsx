@@ -44,7 +44,7 @@ const RecipePage: React.FC = () => {
           {data.sourceName && (
               <SourceSection> Source:&nbsp;
             {data.sourceURL ? (
-              <a href={data.sourceURL} target="_blank">{data.sourceName}</a>
+              <a href={data.sourceURL} target="_blank" rel="noreferrer">{data.sourceName}</a>
             ) : (
               <span>{data.sourceName}</span>
             )}
