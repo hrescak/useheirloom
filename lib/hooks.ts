@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import Router, { useRouter } from 'next/router'
 import useSWR from 'swr'
 import { RecipeIngredient } from '@prisma/client'
+import { DropResult } from 'react-beautiful-dnd'
 
 const fetcher = (url:string) =>
   fetch(url)
