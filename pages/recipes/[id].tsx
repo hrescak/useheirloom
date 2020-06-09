@@ -32,28 +32,37 @@ const Summary = styled.p`
 const RecipePage: React.FC = () => {
   const router = useRouter()
   const {id} = router.query
-  const {data,error, mutate}:{data?:RecipeProps,error?:any,mutate?:any} = useSWR(`/api/recipes/` + id,  url => fetch(url).then(r => r.json()))
+  const {data}:{data?:RecipeProps,error?:any,mutate?:any} = useSWR(`/api/recipes/` + id,  url => fetch(url).then(r => r.json()))
   return (
     <Layout recipeId={Number(id)}>
-        <H1>{data?.name || "Untitled Recipe"}</H1>
-        {data?.summary && 
-         <Summary>{data.summary}</Summary>
-        }
-        {data?.sourceName && (
-            <SourceSection> Source:&nbsp;
-          {data.sourceURL ? (
-            <a href={data.sourceURL} target="_blank">{data.sourceName}</a>
-          ) : (
-            <span>{data.sourceName}</span>
+        {data ? (
+        <>
+          <H1>{data.name || "Untitled Recipe"}</H1>
+          {data.summary && 
+           <Summary>{data.summary}</Summary>
+          }
+          {data.sourceName && (
+              <SourceSection> Source:&nbsp;
+            {data.sourceURL ? (
+              <a href={data.sourceURL} target="_blank">{data.sourceName}</a>
+            ) : (
+              <span>{data.sourceName}</span>
+            )}
+            </SourceSection>
           )}
-          </SourceSection>
-        )}
-        <SectionHeader>Ingredients</SectionHeader>
-          <IngredientList recipeId={Number(id)} editable={false}/>
-        <SectionHeader>Instructions</SectionHeader>
-        <P>
-          {data?.instructions || 'Instructions unclear'}
-        </P>
+          <SectionHeader>Ingredients</SectionHeader>
+            <IngredientList recipeId={Number(id)} editable={false}/>
+          <SectionHeader>Instructions</SectionHeader>
+          <P>
+            {data.instructions || 'Instructions unclear'}
+          </P>
+        </>
+        ) : (
+          <>{"loading..."}</>
+        )
+
+        }
+        
     </Layout>
   )
 }
