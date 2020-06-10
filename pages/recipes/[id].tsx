@@ -9,6 +9,7 @@ import IngredientList from '../../components/IngredientList'
 import SectionHeader from '../../components/system/SectionHeader'
 import { H1,P } from '../../components/system/Typography'
 import styled from 'styled-components'
+import Loader from '../../components/system/Loader'
 
 const SourceSection = styled.div`
   font-size: 0.875rem;
@@ -58,9 +59,8 @@ const RecipePage: React.FC = () => {
           </P>
         </>
         ) : (
-          <>{"loading..."}</>
+          <Loader/>
         )
-
         }
         
     </Layout>

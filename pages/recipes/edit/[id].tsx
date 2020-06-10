@@ -24,8 +24,7 @@ const EditRecipe : React.FC = () => {
     mutate(await fetch(`/api/recipes/${id}`, {
       method: 'POST',
       body: JSON.stringify(data)
-    }))
-    //.then(p=>router.push(`/recipes/${id}`))
+    })).then(p=>router.push(`/recipes/${id}`))
   }
   async function handleDelete(){
     if(confirm('Are you sure you want to delete this recipe?')){
@@ -37,7 +36,6 @@ const EditRecipe : React.FC = () => {
   }
   return (
     <Layout recipeId={Number(id)} saveClicked={handleSubmit(onSubmit)} deleteClicked={()=>handleDelete()}>
-      <form onSubmit={handleSubmit(onSubmit)}>
         <Label>Recipe Title</Label>
         <Input type="text" placeholder="Something super tasty" name="name" defaultValue={data?.name} ref={register} />
         { ((!showSummary && !data?.summary) || (!showSource && !data?.sourceName)) && (
@@ -72,8 +70,6 @@ const EditRecipe : React.FC = () => {
         <IngredientList recipeId={Number(id)} editable={true}/>
         <SectionHeader>Instructions</SectionHeader>
         <Textarea name="instructions" defaultValue={data?.instructions} ref={register} rows={20} />
-        <input type="submit" />
-      </form>
     </Layout>
   )
 }

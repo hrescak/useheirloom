@@ -1,4 +1,4 @@
-- Flash of No Data Content
-- Optimistic editing
+- Flash of No Data Content - do spinner probably
 - Recipe sharing (isPublic)
-- page titles and favicon, mobile homescreen version
+- mobile homescreen PWA version
+- empty slate for recipe list (illustration and so on)

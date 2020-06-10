@@ -6,6 +6,7 @@ import React,{ ReactNode }  from 'react'
 export const StyledOutlineButton = styled.a`
     ${baseStyle};
     border: 2px solid ${theme.colors.text};
+    color: ${theme.colors.text};
 `
 export const OutlineButton = React.forwardRef((props:ButtonProps, ref?: React.Ref<HTMLAnchorElement>) =>{
     return(
