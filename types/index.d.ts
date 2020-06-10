@@ -1,4 +1,4 @@
-import { RecipeIngredient } from "@prisma/client"
+import { RecipeIngredient, Recipe } from "@prisma/client"
 
 export type UserSession = {
     id: number
@@ -20,7 +20,7 @@ export type RecipeProps = {
     // kitchen:             Kitchen
     kitchenId: number
     imageURL?: string
-    //ingredients  RecipeIngredient[]
+    ingredients:  RecipeIngredient[]
     ingredientSections: string[]
     instructions? : string
     isDeleted: boolean
@@ -31,6 +31,7 @@ export type RecipeProps = {
 export type IngredientListProps = {
     recipeId: number,
     editable: boolean
+    initialData?: RecipeIngredient[]
 }
 
 export type IngredientItemProps = {

@@ -1,4 +1,5 @@
-- Flash of No Data Content - do spinner probably
-- Recipe sharing (isPublic)
+- Recipe sharing (publicHandle)
 - mobile homescreen PWA version
 - empty slate for recipe list (illustration and so on)
+- user account editing
+- images for recipes

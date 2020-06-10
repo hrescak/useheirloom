@@ -9,6 +9,7 @@ const baseStyle = css`
     border-radius:8px;
     border:0;
     padding:16px;
+    color: ${theme.colors.wash};
     background: ${theme.colors.wash};
     margin: 0.5rem 0;
 `

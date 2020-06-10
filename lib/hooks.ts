@@ -11,6 +11,25 @@ const fetcher = (url:string) =>
       return data || null
     })
 
+export function useFetcher(URL:string) {
+  const router = useRouter()
+  const dataFetcher = (url) =>
+  fetch(url).then(async (res) => {
+    const result = await res.json();
+
+    if (res.status !== 200) {
+      if(res.status ===302) {
+        // redirect on api redirect response
+        router.push(result.location)
+      }
+      return Promise.reject(result);
+    } else {
+      return result;
+    }
+  });
+  return useSWR(URL, dataFetcher)
+}
+
 export function useUser({ redirectTo, redirectIfFound}:{redirectTo?:string,redirectIfFound?:boolean} = {}) {
   const { data, error }: {data?:{user?:any},error?:any} = useSWR('/api/user', fetcher)
   const user = data?.user
