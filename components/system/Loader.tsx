@@ -1,5 +1,5 @@
 
-import styled, { ThemeContext } from 'styled-components'
+import styled from 'styled-components'
 import {BarLoader} from 'react-spinners'
 import theme from './theme'
 

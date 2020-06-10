@@ -16,7 +16,7 @@ const RecipePage: React.FC = () => {
       {error?(
         {error}
       ): (
-        <Recipe {...data} />
+        <Recipe data={data} />
       )}
     </Layout>
   )

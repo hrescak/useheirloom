@@ -12,8 +12,12 @@ const RecipePage: React.FC = () => {
   return (
     <Wrapper>
         <div style={{height:'92px'}}/>
-        {error && <p>{error.message}</p>}
-        {data && !error && <Recipe {...data} />}
+        {error ? (
+          <p>{error.message}</p>
+        ): (
+          <Recipe data={data} />
+        ) 
+        }
     </Wrapper>
   )
 }

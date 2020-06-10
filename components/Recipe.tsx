@@ -1,4 +1,4 @@
-import { Loader } from "react-feather"
+import Loader from "./system/Loader"
 import { P, H1 } from "./system/Typography"
 import SectionHeader from "./system/SectionHeader"
 import IngredientList from "./IngredientList"
@@ -24,7 +24,7 @@ const Summary = styled.p`
   }
 `
 
-const Recipe: React.FC<RecipeProps> = (data) => (
+const Recipe: React.FC<{data:RecipeProps}> = ({data}) => (
     data ? (
         <>
           <H1>{data.name || "Untitled Recipe"}</H1>
