@@ -34,7 +34,8 @@ export async function findUser({ email, password }) {
       include: {
         ownKitchen : {
           select: {
-            id: true
+            id: true,
+            name: true
           }
         }
       }

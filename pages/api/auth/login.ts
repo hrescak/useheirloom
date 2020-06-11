@@ -8,12 +8,9 @@ import { UserSession } from '../../../types'
 const authenticate = (method, req, res) =>
   new Promise((resolve, reject) => {
     passport.authenticate(method, { session: false }, (error, token) => {
-      console.log("authenticating")
       if (error) {
-        console.log("authenticating error")
         reject(error)
       } else {
-        console.log("authenticating yass " + token)
         resolve(token)
       }
     })(req, res)
@@ -29,7 +26,13 @@ export default nextConnect()
       const user:any = await authenticate('local', req, res)
       if (!user) throw new Error('No user found')
       // session is the payload to save in the token, it may contain basic info about the user
-      const session: UserSession = { id:user.id,name:user.name, kitchenId: user.ownKitchen.id }
+      const session: UserSession = {
+        id:user.id,
+        name: user.name,
+        email: user.email,
+        kitchenId: user.ownKitchen.id,
+        kitchenName: user.ownKitchen.name
+      }
       // The token is a string with the encrypted session
       const token = await encryptSession(session)
 

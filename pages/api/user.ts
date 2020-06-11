@@ -19,7 +19,7 @@ export default async function handle(req, res) {
 // GET /api/settings
 async function handleGET(req, res) {
   const session = await getSession(req)
-  if (!session) throw new Error('Not Authenticated')
+  if (!session) res.json({message:'Not Authenticated'})
 
   const user = await prisma.user.findOne({
       where: {
@@ -29,6 +29,9 @@ async function handleGET(req, res) {
           ownKitchen: true
       }
   })
+  if (!user){
+    res.status(401).json({message:'Not Found'})
+  }
   const responseUser={
       id:user.id,
       name:user.name,
