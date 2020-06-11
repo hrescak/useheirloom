@@ -3,3 +3,4 @@
 - - passwords editing
 - Recipe list (illustration and so on)
 - images for recipes
+- public link as logged in user not doing great now

@@ -3,7 +3,9 @@ import { RecipeIngredient, Recipe } from "@prisma/client"
 export type UserSession = {
     id: number
     name: string
+    email: string
     kitchenId: number
+    kitchenName: string
 }
 
 export type RecipeProps = {

@@ -22,12 +22,15 @@ const Half = styled.div`
     width:50%;
 `
 const SettingsPage: React.FC = (props) =>{
-    const {data,error, mutate} = useFetcher('/api/settings')
+    const {data,error, mutate} = useFetcher('/api/user')
     const router = useRouter()
     const {handleSubmit,register} = useForm()
     async function onSubmit(formData){
-        mutate(formData,false)
-        mutate(await fetch(`/api/settings`, {
+        const newUser= {...data.user,...formData}
+        console.log(data)
+        console.log({user:newUser})
+        mutate({user:formData},false)
+        mutate(await fetch(`/api/user`, {
             method: 'POST',
             body: JSON.stringify(formData)
         })).then(p=>router.push(`/`))
@@ -37,13 +40,13 @@ const SettingsPage: React.FC = (props) =>{
         <Layout title="User Settings" saveClicked={handleSubmit(onSubmit)}>
             <H1>Account Settings</H1>
             {error && error.message}
-            {data &&
+            {data && data.user &&
             
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Label>Email</Label>
                 <InputRow>
                     <Half>
-                        <Input name="email" placeholder="your@email.com" defaultValue={data.email} ref={register}/>
+                        <Input name="email" placeholder="your@email.com" defaultValue={data.user.email} ref={register}/>
                     </Half>
                     <RowDetail>
                         How we get in touch with you, and how you log in to Heirloom.
@@ -52,7 +55,7 @@ const SettingsPage: React.FC = (props) =>{
                 <Label>Name</Label>
                 <InputRow>
                     <Half>
-                        <Input name="name" placeholder="First Last" defaultValue={data.name} ref={register}/>
+                        <Input name="name" placeholder="First Last" defaultValue={data.user.name} ref={register}/>
                     </Half>
                     <RowDetail>
                         Your name, to use in all the places where people would call you young lady, or dude.
@@ -61,7 +64,7 @@ const SettingsPage: React.FC = (props) =>{
                 <Label>Kitchen name</Label>
                 <InputRow>
                     <Half>
-                        <Input name="kitchenName" placeholder="Joe's Kitchen" defaultValue={data.kitchenName} ref={register}/>
+                        <Input name="kitchenName" placeholder="Joe's Kitchen" defaultValue={data.user.kitchenName} ref={register}/>
                     </Half>
                     <RowDetail>
                         This will be the title of all the recipes when you share them with your friends (and enemies).
