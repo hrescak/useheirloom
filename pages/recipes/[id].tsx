@@ -5,18 +5,18 @@ import { useRouter } from 'next/router'
 import useSWR from 'swr'
 import { WithUser } from '../../components/hoc/withUser'
 import { RecipeProps } from '../../types'
-import Recipe from '../../components/Recipe'
+import RecipeView from '../../components/RecipeView'
 
 const RecipePage: React.FC = () => {
   const router = useRouter()
   const {id} = router.query
   const {data, error}:{data?:RecipeProps,error?:any,mutate?:any} = useSWR(`/api/recipes/` + id,  url => fetch(url).then(r => r.json()))
   return (
-    <Layout recipeId={Number(data?.id)} title={data?.name}>
-      {error?(
-        {error}
+    <Layout recipe={data} title={data?.name}>
+      {error ? (
+        <p>{error.message}</p>
       ): (
-        <Recipe data={data} />
+        <RecipeView data={data} />
       )}
     </Layout>
   )

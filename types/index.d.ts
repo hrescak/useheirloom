@@ -10,6 +10,7 @@ export type RecipeProps = {
     id: number
     name? : string
     summary? : string
+    isPublic: boolean
     publicID? : string
     sourceName?: string
     sourceURL?: string

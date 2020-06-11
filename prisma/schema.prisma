@@ -58,7 +58,7 @@ model Recipe {
   name               String?
   summary            String?
   publicID           String?   @unique
-  isPublic           Boolean   @default(false)
+  isPublic           Boolean   @default(value:false)
   sourceName         String?
   sourceURL          String?
   servings           Int?

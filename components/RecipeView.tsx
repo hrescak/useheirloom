@@ -24,7 +24,7 @@ const Summary = styled.p`
   }
 `
 
-const Recipe: React.FC<{data:RecipeProps}> = ({data}) => (
+const RecipeView: React.FC<{data:RecipeProps}> = ({data}) => (
     data ? (
         <>
           <H1>{data.name || "Untitled Recipe"}</H1>
@@ -53,4 +53,4 @@ const Recipe: React.FC<{data:RecipeProps}> = ({data}) => (
     
 )
 
-export default Recipe
+export default RecipeView

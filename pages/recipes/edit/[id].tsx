@@ -3,21 +3,20 @@ import Layout from '../../../components/layout/EditRecipeLayout'
 import {WithUser} from '../../../components/hoc/withUser'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
-import useSWR from 'swr'
-import fetch from 'isomorphic-unfetch'
 import { RecipeProps } from '../../../types'
 import IngredientList from '../../../components/IngredientList'
 import SectionHeader from '../../../components/system/SectionHeader'
 import { Input, Textarea, Label } from '../../../components/system/Form'
 import { InlineButton } from '../../../components/system/Button'
 import { Plus } from 'react-feather'
+import { useFetcher } from '../../../lib/hooks'
 
 const EditRecipe : React.FC = () => {
   const router = useRouter()
   const [showSummary, setShowSummary] = useState(false);
   const [showSource, setShowSource] = useState(false);
   const {id} = router.query
-  const {data,error, mutate}:{data?:RecipeProps,error?:any,mutate?:any} = useSWR(`/api/recipes/${id}`, url => fetch(url).then(r => r.json()))
+  const {data,error, mutate}:{data?:RecipeProps,error?:any,mutate?:any} = useFetcher(`/api/recipes/${id}`)
   const { register, handleSubmit, errors } = useForm();
   async function onSubmit(data){
     mutate(data,false)
