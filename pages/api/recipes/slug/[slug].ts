@@ -7,7 +7,7 @@ const prisma = new PrismaClient()
 export default async function handle(req, res) {
     const recipe = await prisma.recipe.findOne({
         where: { publicID: req.query.slug},
-        include: { ingredients: true },
+        include: { ingredients: true, kitchen:true},
     })
     if (!recipe){
         res.status(404).json({message:"Recipe not found"})

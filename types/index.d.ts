@@ -18,7 +18,7 @@ export type RecipeProps = {
     prepDuration? : number
     cookDuration? : number
     totalDuration? : number
-    // kitchen:             Kitchen
+    kitchen:   Kitchen
     kitchenId: number
     imageURL?: string
     ingredients:  RecipeIngredient[]

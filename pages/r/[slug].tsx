@@ -10,7 +10,7 @@ const RecipePage: React.FC = () => {
   const {slug} = router.query
   const {data, error}:{data?:RecipeProps,error?:any} = useFetcher(`/api/recipes/slug/` + slug)
   return (
-    <Layout title={data?.name}>
+    <Layout title={data?.name} kitchenName={data?.kitchen.name}>
         {error ? (
           <p>{error.message}</p>
         ): (
