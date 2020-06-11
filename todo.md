@@ -1,6 +1,5 @@
-- Recipe sharing (publicHandle)
-- - copy link 
 - mobile homescreen PWA version
-- empty slate for recipe list (illustration and so on)
 - user account editing
+- - passwords editing
+- Recipe list (illustration and so on)
 - images for recipes

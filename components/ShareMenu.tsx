@@ -1,26 +1,13 @@
 import {Share, Globe} from 'react-feather'
 import styled from "styled-components";
 import { InlineButton } from "./system/Button";
-import Tippy from "@tippyjs/react";
+import Popover from "./system/Popover";
 import { RecipeProps } from "../types";
 import Switch from 'react-switch'
 import { useState } from 'react';
 import {mutate} from 'swr';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 
-
-const Popover = styled(Tippy)`
-  background: ${p=>p.theme.colors.background};
-  border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(0,0,0,.15), 0 1px 3px rgba(0,0,0,.2);
-  overflow: hidden;
-  outline: none;
-
-  /* Styling the arrow for different placements */
-  &[data-placement^='top'] > .tippy-arrow::before {
-    border-top-color: purple;
-  }
-`;
 
 const SwitchRow = styled.div`
     display: flex;

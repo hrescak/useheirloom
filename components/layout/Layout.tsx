@@ -4,9 +4,10 @@ import {useUser, useCreateRecipe} from '../../lib/hooks'
 import HeaderWrapper from './HeaderWrapper'
 import Wrapper from '../system/Wrapper'
 import Link from 'next/link'
-import {LogOut,LogIn, PlusCircle} from 'react-feather'
+import {LogIn, PlusCircle} from 'react-feather'
 import { OutlineButton } from '../system/Button'
 import Meta from './Meta'
+import UserMenu from '../UserMenu'
 
 type Props = {
   children: ReactNode
@@ -28,7 +29,7 @@ const Layout: React.FC<Props> = ( props ) => {
           { user ? (
             <>
             <OutlineButton onClick={()=> createRecipe()} icon={<PlusCircle/>} style={{marginRight:"8px"}}>New Recipe</OutlineButton>
-            <OutlineButton href="/api/auth/logout" data-active={isActive('/signup')} icon={<LogOut/>}/>
+            <UserMenu/>
             </>
           ) : (
             <Link href="/login">
