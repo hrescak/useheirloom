@@ -14,6 +14,7 @@ const Base = styled.a`
     color:${theme.colors.text};
     background:${theme.colors.background};
     transition: ${theme.transition};
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
     &:hover{
         background:${theme.colors.wash};
     }
