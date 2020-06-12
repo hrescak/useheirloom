@@ -13,17 +13,14 @@ interface Props {
 
 const Description = styled.div`
     color:${p=>p.theme.colors.textSecondary};
+    @media(max-width: ${p=>p.theme.breakpoints.medium}) {
+        font-size:0.875rem;
+    }
 `
 const Meta = styled.div`
     font-size: 0.75rem;
     margin-top: 0.5rem;
     color:${p=>p.theme.colors.textSecondary};
-`
-const RecipeWrapper = styled.div`
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 2rem;
-    align-items: center;
 `
 const RecipePreview = styled.div`
     width:3.5rem;
@@ -36,18 +33,32 @@ const RecipePreview = styled.div`
     border: 2px solid ${p=>p.theme.colors.wash};
     border-radius: 8px;
     align-self: flex-start;
+    @media(max-width: ${p=>p.theme.breakpoints.medium}) {
+       width:3rem;
+       height:3rem;
+    }
 `
-
 const RecipeContent = styled.div`
     display:block;
     flex:2;
     text-decoration: none;
     color:${p=>p.theme.colors.text};
+`
+
+const RecipeWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 2rem;
+    align-items: center;
     cursor:pointer;
     &:hover ${Description}{
         color:${p=>p.theme.colors.text};
     }
+    &:hover ${RecipePreview}{
+        background:${p=>p.theme.colors.wash};
+    }
 `
+
 const RecipeListItem: React.FC<Props> = ({recipe}) =>{
     return (
         <div>

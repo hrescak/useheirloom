@@ -11,6 +11,22 @@ import { InlineButton, PrimaryButton, AccentButton } from '../../../components/s
 import { Plus, ChevronLeft, Trash2, CheckCircle } from 'react-feather'
 import { useFetcher } from '../../../lib/hooks'
 import Link from 'next/link'
+import styled from 'styled-components'
+
+const FullRow = styled.div`
+  display: flex;
+  flex-direction:row;
+  @media(max-width: ${p=>p.theme.breakpoints.medium}) {
+        flex-direction:column;
+    }
+`
+const Half = styled.div`
+  width:50%;
+  @media(max-width: ${p=>p.theme.breakpoints.medium}) {
+        width:100%;
+        padding:0 !important;
+    }
+`
 
 const EditRecipe : React.FC = () => {
   const router = useRouter()
@@ -64,16 +80,16 @@ const EditRecipe : React.FC = () => {
           </>
         )}
         { (showSource || data?.sourceName ) && (
-          <div style={{display:'flex',flexDirection:'row'}}>
-            <div style={{paddingRight:'1rem',width:'50%'}}>
+          <FullRow>
+            <Half style={{paddingRight:'1rem'}}>
               <Label>Source Title</Label>
               <Input type="text" placeholder="Food blog name, or 'Grandma'" name="sourceName" defaultValue={data?.sourceName} ref={register} />
-            </div>
-            <div style={{paddingLeft:'1rem',width:'50%'}}>
+            </Half>
+            <Half style={{paddingLeft:'1rem'}}>
               <Label>Optional Source URL</Label>
               <Input type="url" placeholder="http://" name="sourceURL" defaultValue={data?.sourceURL} ref={register} />
-            </div>
-          </div>
+            </Half>
+          </FullRow>
         )}
         <SectionHeader>Ingredients</SectionHeader>
         <IngredientList recipeId={Number(id)} editable={true}/>

@@ -14,15 +14,25 @@ import { ChevronLeft, CheckCircle } from 'react-feather'
 const InputRow = styled.div`
     display: flex;
     flex-direction: row;
+    @media(max-width: ${p=>p.theme.breakpoints.medium}) {
+        flex-direction: column;
+    }
 `
 const RowDetail = styled.div`
     width:50%;
     padding:0.75rem 0 0 1rem;
     font-size:0.875rem;
     color:${p=>p.theme.colors.textSecondary};
+    @media(max-width: ${p=>p.theme.breakpoints.medium}) {
+        width:100%;
+        padding: 0.5rem 0 0 0;
+    }
 `
 const Half = styled.div`
     width:50%;
+    @media(max-width: ${p=>p.theme.breakpoints.medium}) {
+        width:100%;
+    }
 `
 const SettingsPage: React.FC = (props) =>{
     const {data,error, mutate} = useFetcher('/api/user')
