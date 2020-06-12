@@ -3,11 +3,11 @@ import theme from './theme'
 
 const SectionHeader = styled.h2`
     text-transform: uppercase;
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     font-weight: 500;
     color: ${theme.colors.textSecondary};
-    letter-spacing:2px;
-    margin-top:2rem;
+    letter-spacing:1px;
+    margin-top:2.5rem;
     margin-bottom:0;
 `
 

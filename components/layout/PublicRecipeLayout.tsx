@@ -1,9 +1,7 @@
 import React,{ ReactNode } from 'react'
 import Wrapper from '../system/Wrapper'
-import styled from 'styled-components'
 import {User} from 'react-feather'
 import {InlineButton} from '../system/Button'
-import Link from 'next/link'
 import HeaderWrapper from './HeaderWrapper'
 import Meta from './Meta'
 

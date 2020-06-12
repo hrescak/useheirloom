@@ -15,6 +15,7 @@ const Meta : React.FC<{title?:string}> = (props) => (
         <link rel="apple-touch-icon" sizes="256x256" href="/images/icons/icon-256x256.png"/>
         <link rel="apple-touch-icon" sizes="384x384" href="/images/icons/icon-384x384.png"/>
         <link rel="apple-touch-icon" sizes="512x512" href="/images/icons/icon-512x512.png"/>
+        <link href="https://rsms.me/inter/inter.css" rel="stylesheet"/>
     </Head>
 )
 
