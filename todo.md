@@ -1,7 +1,6 @@
 - mobile homescreen PWA version
 - user account editing
 - - passwords editing
-- refactor layout
 - Recipe list (illustration and so on)
 - images for recipes
 - public link as logged in user not doing great now

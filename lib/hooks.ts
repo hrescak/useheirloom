@@ -30,8 +30,8 @@ export function useFetcher(URL:string) {
   return useSWR(URL, dataFetcher)
 }
 
-export function useUser({ redirectTo, redirectIfFound}:{redirectTo?:string,redirectIfFound?:boolean} = {}) {
-  const { data, error }: {data?:{user?:any},error?:any} = useSWR('/api/user', fetcher)
+export function useUser({ redirectTo, redirectIfFound}:{redirectTo?:string,redirectIfFound?:boolean} = {}, initialData = undefined) {
+  const { data, error }: {data?:{user?:any},error?:any} = useSWR('/api/user', fetcher, {initialData:initialData})
   const user = data?.user
   const finished = Boolean(data)
   const hasUser = Boolean(user)

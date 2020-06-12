@@ -48,9 +48,9 @@ const RecipeContent = styled.div`
         color:${p=>p.theme.colors.text};
     }
 `
-const RecipeListItem: React.FC<Props> = ({recipe, key}) =>{
+const RecipeListItem: React.FC<Props> = ({recipe}) =>{
     return (
-        <div key={key}>
+        <div>
             <Link href={`/recipes/[id]`} as={`/recipes/${recipe.id}`}>
                 <RecipeWrapper>
                     <RecipePreview>

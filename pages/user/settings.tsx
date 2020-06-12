@@ -1,12 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
-import Layout from '../../components/layout/SettingsLayout'
+import Layout from '../../components/layout/Layout'
 import { H1 } from '../../components/system/Typography'
 import { Label, Input } from '../../components/system/Form'
 import { useFetcher } from '../../lib/hooks'
 import { useForm } from 'react-hook-form'
 import { WithUser } from '../../components/hoc/withUser'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
+import { PrimaryButton, AccentButton } from '../../components/system/Button'
+import { ChevronLeft, CheckCircle } from 'react-feather'
 
 const InputRow = styled.div`
     display: flex;
@@ -37,7 +40,13 @@ const SettingsPage: React.FC = (props) =>{
         
     }
     return (
-        <Layout title="User Settings" saveClicked={handleSubmit(onSubmit)}>
+        <Layout title="User Settings" invertHeader leftControl={
+            <Link href={`/`}>
+                <PrimaryButton icon={<ChevronLeft/>}>Back</PrimaryButton>
+            </Link>
+        } rightControl={
+            <AccentButton icon={<CheckCircle/>} onClick = {handleSubmit(onSubmit)}>Save</AccentButton>
+        }>
             <H1>Account Settings</H1>
             {error && error.message}
             {data && data.user &&

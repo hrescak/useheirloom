@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Layout from '../../../components/layout/EditRecipeLayout'
+import Layout from '../../../components/layout/Layout'
 import {WithUser} from '../../../components/hoc/withUser'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
@@ -7,9 +7,10 @@ import { RecipeProps } from '../../../types'
 import IngredientList from '../../../components/IngredientList'
 import SectionHeader from '../../../components/system/SectionHeader'
 import { Input, Textarea, Label } from '../../../components/system/Form'
-import { InlineButton } from '../../../components/system/Button'
-import { Plus } from 'react-feather'
+import { InlineButton, PrimaryButton, AccentButton } from '../../../components/system/Button'
+import { Plus, ChevronLeft, Trash2, CheckCircle } from 'react-feather'
 import { useFetcher } from '../../../lib/hooks'
+import Link from 'next/link'
 
 const EditRecipe : React.FC = () => {
   const router = useRouter()
@@ -34,7 +35,16 @@ const EditRecipe : React.FC = () => {
     }
   }
   return (
-    <Layout recipeId={Number(id)} saveClicked={handleSubmit(onSubmit)} deleteClicked={()=>handleDelete()}>
+    <Layout invertHeader title='Edit Recipe' leftControl= {
+      <Link href={`/recipes/[id]`} as={`/recipes/${id}`}>
+          <PrimaryButton icon={<ChevronLeft/>}>Back</PrimaryButton>
+      </Link> 
+    } rightControl={
+      <>
+        <PrimaryButton icon={<Trash2/>} style={{marginRight:'0.5rem'}} onClick = {()=>handleDelete()}>Delete</PrimaryButton>
+        <AccentButton icon={<CheckCircle/>} onClick = {handleSubmit(onSubmit)}>Save</AccentButton>
+      </>
+    }>
         <Label>Recipe Title</Label>
         <Input type="text" placeholder="Something super tasty" name="name" defaultValue={data?.name} ref={register} />
         { ((!showSummary && !data?.summary) || (!showSource && !data?.sourceName)) && (
