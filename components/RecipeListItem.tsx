@@ -4,6 +4,7 @@ import { Recipe } from '@prisma/client'
 import Link from 'next/link'
 import { H2 } from './system/Typography'
 import { FileText, Globe, Lock, AlignJustify, Link2 } from 'react-feather'
+import Truncate from 'react-truncate'
 
 interface Props {
     recipe:Recipe
@@ -33,7 +34,7 @@ const RecipePreview = styled.div`
     margin-right:1rem;
     box-sizing: border-box;
     border: 2px solid ${p=>p.theme.colors.wash};
-    border-radius:4px;
+    border-radius: 8px;
     align-self: flex-start;
 `
 
@@ -53,12 +54,16 @@ const RecipeListItem: React.FC<Props> = ({recipe, key}) =>{
             <Link href={`/recipes/[id]`} as={`/recipes/${recipe.id}`}>
                 <RecipeWrapper>
                     <RecipePreview>
-                        <FileText/>
+                        <FileText style={{opacity: recipe.name?'1':'0.2'}}/>
                     </RecipePreview>
-                <RecipeContent>
-                    <H2 style={{marginTop:'0.25rem'}}>{recipe.name ? recipe.name : "Untitled Recipe"}</H2>
+                <RecipeContent style={{opacity: recipe.name?'1':'0.2'}}>
+                    <H2 style={{marginTop:'0'}}>{recipe.name ? recipe.name : "Draft Recipe"}</H2>
                     {recipe.summary && 
-                        <Description> {recipe.summary.slice(0,200)} </Description>
+                        <Description>
+                            <Truncate lines={2} elipsis={'...'}>
+                                {recipe.summary}
+                            </Truncate>   
+                        </Description>
                     }
                     <Meta>
                         {recipe.isPublic? (

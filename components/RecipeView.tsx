@@ -27,7 +27,7 @@ const Summary = styled.p`
 const RecipeView: React.FC<{data:RecipeProps}> = ({data}) => (
     data ? (
         <>
-          <H1>{data.name || "Untitled Recipe"}</H1>
+          <H1>{data.name || "Draft Recipe"}</H1>
           {data.summary && 
            <Summary>{data.summary}</Summary>
           }

@@ -1,5 +1,4 @@
 import React,{ ReactNode } from 'react'
-import { useRouter } from 'next/router'
 import {useUser, useCreateRecipe} from '../../lib/hooks'
 import HeaderWrapper from './HeaderWrapper'
 import Wrapper from '../system/Wrapper'
@@ -16,10 +15,7 @@ type Props = {
 
 const Layout: React.FC<Props> = ( props ) => {
   const user = useUser()
-  const router = useRouter()
   const createRecipe = useCreateRecipe();
-  const isActive: (pathname: string) => boolean =
-    pathname => router.pathname === pathname
   return(
   <>
     <Meta title={props.title}/>
@@ -33,7 +29,7 @@ const Layout: React.FC<Props> = ( props ) => {
             </>
           ) : (
             <Link href="/login">
-              <OutlineButton data-active={isActive('/login')} icon={<LogIn/>}>Log In</OutlineButton>
+              <OutlineButton icon={<LogIn/>}>Log In</OutlineButton>
             </Link>
           )
         }

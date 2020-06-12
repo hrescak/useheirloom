@@ -4,7 +4,7 @@ const theme = {
     textSecondary: '#757575',
     accent: '#DBFF00',
     background: 'white',
-    wash: '#f3f3f3',
+    wash: '#f6f6f6',
     control: '#5a5a5a',
     controlText:'white'
   },
