@@ -6,12 +6,14 @@ const theme = {
     background: 'white',
     wash: '#f6f6f6',
     control: '#5a5a5a',
-    controlText:'white'
+    controlText:'white',
+    controlActive: '#777'
   },
     breakpoints: {
         small: '28rem', //448px
         medium: '46rem', //736px
-    }
+    }, 
+    transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
   }
 
   export default theme

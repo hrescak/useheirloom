@@ -64,7 +64,7 @@ const EditRecipe : React.FC = () => {
         <Label>Recipe Title</Label>
         <Input type="text" placeholder="Something super tasty" name="name" defaultValue={data?.name} ref={register} />
         { ((!showSummary && !data?.summary) || (!showSource && !data?.sourceName)) && (
-          <div style={{marginLeft:"-12px"}}>
+          <div>
              {!showSummary && !data?.summary && (
               <InlineButton onClick={()=>setShowSummary(true)} icon={<Plus/>}>Add a Summary</InlineButton>
             )}

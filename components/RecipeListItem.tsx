@@ -13,6 +13,7 @@ interface Props {
 
 const Description = styled.div`
     color:${p=>p.theme.colors.textSecondary};
+    transition: ${p=>p.theme.transition};;
     @media(max-width: ${p=>p.theme.breakpoints.medium}) {
         font-size:0.875rem;
     }
@@ -33,6 +34,7 @@ const RecipePreview = styled.div`
     border: 2px solid ${p=>p.theme.colors.wash};
     border-radius: 8px;
     align-self: flex-start;
+    transition: ${p=>p.theme.transition};;
     @media(max-width: ${p=>p.theme.breakpoints.medium}) {
        width:3rem;
        height:3rem;
@@ -51,11 +53,15 @@ const RecipeWrapper = styled.div`
     margin-bottom: 2rem;
     align-items: center;
     cursor:pointer;
+    transition: ${p=>p.theme.transition};;
     &:hover ${Description}{
         color:${p=>p.theme.colors.text};
     }
     &:hover ${RecipePreview}{
         background:${p=>p.theme.colors.wash};
+    }
+    &:active {
+        transform:scale(0.99);
     }
 `
 

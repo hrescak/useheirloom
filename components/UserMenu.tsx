@@ -8,6 +8,10 @@ import Link from 'next/link'
 const Row = styled.div`
     border-top: 1px solid ${p=>p.theme.colors.wash};
     padding:4px;
+    & ${InlineButton} {
+        width:100%;
+        box-sizing:border-box;
+    }
 `
 
 const UserMenu: React.FC = () =>{

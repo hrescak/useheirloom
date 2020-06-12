@@ -12,6 +12,15 @@ const Base = styled.a`
     line-height:1.5rem;
     cursor:pointer;
     color:${theme.colors.text};
+    background:${theme.colors.background};
+    transition: ${theme.transition};
+    &:hover{
+        background:${theme.colors.wash};
+    }
+    &:active{
+        transform: scale(0.95)
+        
+    }
 `
 export interface ButtonProps extends AnchorHTMLAttributes<HTMLAnchorElement>{
     children?: ReactNode
