@@ -25,7 +25,7 @@ const RowDetail = styled.div`
     color:${p=>p.theme.colors.textSecondary};
     @media(max-width: ${p=>p.theme.breakpoints.medium}) {
         width:100%;
-        padding: 0.5rem 0 0 0;
+        padding: 0.25rem 0 1rem 0;
     }
 `
 const Half = styled.div`

@@ -2,6 +2,7 @@ import React,{ ReactNode } from 'react'
 import Wrapper from '../system/Wrapper'
 import Meta from './Meta'
 import styled from 'styled-components'
+import Footer from './Footer'
 
 type Props = {
   children: ReactNode
@@ -20,18 +21,6 @@ const PageWrap = styled.div`
     content:"";
     display:block;
   }
-`
-const Footer = styled.div`
-  height:44px;
-  /* text-align: center; */
-  font-size: 0.875rem;
-  color:${p=>p.theme.colors.textSecondary};
-  & a{
-    color:${p=>p.theme.colors.textSecondary};
-  }
-  @media(max-width: ${p=>p.theme.breakpoints.medium}) {
-        font-size:0.75rem;
-    }
 `
 
 const HeaderWrapper = styled.div<{reverse?:boolean}>`
@@ -64,12 +53,7 @@ const Layout: React.FC<Props> = ( props ) => {
       <div>{props.children}</div>
     </Wrapper>
   </PageWrap>
-  <Footer>
-    <Wrapper>
-
-      Heirloom · Made by <a href="http://hrescak.com" target="_blank" rel="noreferrer">Matej</a> · <a href="/"> Send Feedback</a>
-    </Wrapper>
-  </Footer>
+  <Footer />
   </>
 )}
 

@@ -7,7 +7,9 @@ const theme = {
     wash: '#f6f6f6',
     control: '#5a5a5a',
     controlText:'white',
-    controlActive: '#777'
+    controlActive: '#777',
+    error:'#C23329',
+    errorWash: '#F8D5D2'
   },
     breakpoints: {
         small: '28rem', //448px
