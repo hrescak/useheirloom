@@ -20,4 +20,7 @@ export const BaseStyles = createGlobalStyle`
   #__next {
     height: 100%;
   }
+  body{
+    background-color: ${theme.colors.background};
+  }
 `;
