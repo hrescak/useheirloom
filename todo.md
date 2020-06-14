@@ -1,6 +1,7 @@
 - user account editing
 - - passwords editing
-- mobile homescreen PWA version
+- 
+- login to lowercase
 - public link as logged in user not doing great now
 - pagination?
 - search?

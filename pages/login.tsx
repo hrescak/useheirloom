@@ -38,12 +38,12 @@ const Login = () => {
             <FormError separateRow title={errors?.request?.message}/>
             <Label>Email</Label>
             <Input placeholder="your@email.com" name="email" type="text" ref={register({
-      required: 'Email is required' 
+      required: 'Your email can\'t be blank' 
     })}/>
             <FormError title={errors?.email?.message}/>
             <Label>Password</Label>
             <Input placeholder="password" name="password" type="password" ref={register({
-      required: 'Password is required' // <p>error message</p>
+      required: 'Your password can\'t be blank' // <p>error message</p>
     })}/> 
             <FormError title={errors?.password?.message}/>
             <PrimaryButton style={{marginTop:'1rem'}} icon={<LogIn/>} onClick={handleSubmit(onSubmit)}>Log in</PrimaryButton>

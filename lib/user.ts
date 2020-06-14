@@ -29,7 +29,7 @@ export async function createUser({ email,name, password }) {
 export async function findUser({ email, password }) {
   const user = await prisma.user.findOne({
       where: {
-          email: email
+          email: email.toLowerCase()
       },
       include: {
         ownKitchen : {
