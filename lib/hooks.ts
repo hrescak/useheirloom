@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import Router, { useRouter } from 'next/router'
 import useSWR from 'swr'
 import { RecipeIngredient } from '@prisma/client'
@@ -28,6 +28,20 @@ export function useFetcher(URL:string) {
     }
   });
   return useSWR(URL, dataFetcher)
+}
+
+export function usePrevious(value) {
+  // The ref object is a generic container whose current property is mutable ...
+  // ... and can hold any value, similar to an instance property on a class
+  const ref = useRef();
+  
+  // Store current value in ref
+  useEffect(() => {
+    ref.current = value;
+  }, [value]); // Only re-run if value changes
+  
+  // Return previous value (happens before update in useEffect above)
+  return ref.current;
 }
 
 export function useUser({ redirectTo, redirectIfFound}:{redirectTo?:string,redirectIfFound?:boolean} = {}, initialData = undefined) {

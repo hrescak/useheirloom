@@ -36,6 +36,7 @@
     "react-spinners": "^0.8.3",
     "react-switch": "^5.0.1",
     "react-truncate": "^2.4.0",
+    "reshake": "^1.2.1",
     "slugify": "^1.4.0",
     "styled-components": "^5.1.1",
     "styled-normalize": "^8.0.7",

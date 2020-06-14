@@ -11,7 +11,7 @@ import { LogIn } from 'react-feather'
 
 const Login = () => {
   useUser({ redirectTo: '/', redirectIfFound: true })
-  const {register, handleSubmit, errors} = useForm()
+  const {register, handleSubmit, errors, setError} = useForm()
 
   async function onSubmit(data) {
     try {
@@ -26,7 +26,8 @@ const Login = () => {
         throw new Error(await res.text())
       }
     } catch (error) {
-      console.error('An unexpected error happened occurred:', error)
+      console.log(error.message)
+      setError('request',"",error.message)
     }
   }
  
@@ -34,6 +35,7 @@ const Login = () => {
     <PublicLayout>
         <form onSubmit={handleSubmit(onSubmit)}>
             <H1>Log in</H1>
+            <FormError separateRow title={errors?.request?.message}/>
             <Label>Email</Label>
             <Input placeholder="your@email.com" name="email" type="text" ref={register({
       required: 'Email is required' 

@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Layout from '../../components/layout/Layout'
 import { H1 } from '../../components/system/Typography'
-import { Label, Input } from '../../components/system/Form'
+import { Label, Input, FormError } from '../../components/system/Form'
 import { useFetcher } from '../../lib/hooks'
 import { useForm } from 'react-hook-form'
 import { WithUser } from '../../components/hoc/withUser'
@@ -37,7 +37,7 @@ const Half = styled.div`
 const SettingsPage: React.FC = (props) =>{
     const {data,error, mutate} = useFetcher('/api/user')
     const router = useRouter()
-    const {handleSubmit,register} = useForm()
+    const {handleSubmit,register, errors} = useForm()
     async function onSubmit(formData){
         const newUser= {...data.user,...formData}
         console.log(data)
@@ -65,7 +65,10 @@ const SettingsPage: React.FC = (props) =>{
                 <Label>Email</Label>
                 <InputRow>
                     <Half>
-                        <Input name="email" placeholder="your@email.com" defaultValue={data.user.email} ref={register}/>
+                        <Input name="email" placeholder="your@email.com" defaultValue={data.user.email} ref={register({
+      required: 'Your email can\'t be blank' 
+    })}/>
+                        <FormError title={errors?.email?.message}/>
                     </Half>
                     <RowDetail>
                         How we get in touch with you, and how you log in to Heirloom.
@@ -74,16 +77,22 @@ const SettingsPage: React.FC = (props) =>{
                 <Label>Name</Label>
                 <InputRow>
                     <Half>
-                        <Input name="name" placeholder="First Last" defaultValue={data.user.name} ref={register}/>
+                        <Input name="name" placeholder="First Last" defaultValue={data.user.name} ref={register({
+      required: 'Your name can\'t be blank' 
+    })}/>
+                        <FormError title={errors?.name?.message}/>
                     </Half>
                     <RowDetail>
-                        Your name, to use in all the places where people would call you young lady, or dude.
+                        Your name, to use in all the places where you need to be called by name. Can be anything.
                     </RowDetail>
                 </InputRow>
                 <Label>Kitchen name</Label>
                 <InputRow>
                     <Half>
-                        <Input name="kitchenName" placeholder="Joe's Kitchen" defaultValue={data.user.kitchenName} ref={register}/>
+                        <Input name="kitchenName" placeholder="Joe's Kitchen" defaultValue={data.user.kitchenName} ref={register({
+      required: 'Kitchen name can\'t be blank' 
+    })}/>               
+                        <FormError title={errors?.kitchenName?.message}/>
                     </Half>
                     <RowDetail>
                         This will be the title of all the recipes when you share them with your friends (and enemies).
