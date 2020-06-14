@@ -1,6 +1,7 @@
 - user account editing
 - - passwords editing
-- images for recipes
+- mobile homescreen PWA version
 - public link as logged in user not doing great now
 - pagination?
-- mobile homescreen PWA version
+- search?
+- images for recipes

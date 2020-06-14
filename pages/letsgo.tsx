@@ -48,7 +48,7 @@ const Signup:React.FC = () => {
               required: 'Password is required'// <p>error message</p>
             })}/> 
             <FormError title={errors?.password?.message}/>
-            <Label>Password</Label>
+            <Label>Repeat Password</Label>
             <Input placeholder="Repeat password" name="rpassword" type="password" ref={register({
       required: 'Retype password from above',
       validate: value=>value === pwd || "The passwords don't match"  // <p>error message</p>
