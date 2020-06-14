@@ -54,7 +54,7 @@ const Signup:React.FC = () => {
       validate: value=>value === pwd || "The passwords don't match"  // <p>error message</p>
     })}/> 
             <FormError title={errors?.rpassword?.message}/>
-            <PrimaryButton style={{marginTop:'1rem'}} icon={<LogIn/>} onClick={handleSubmit(onSubmit)}>Create an</PrimaryButton>
+            <PrimaryButton style={{marginTop:'1rem'}} icon={<LogIn/>} onClick={handleSubmit(onSubmit)}>Create an account</PrimaryButton>
         </form>
     </PublicLayout>
   )
