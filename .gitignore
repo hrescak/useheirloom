@@ -86,4 +86,5 @@ typings/
 *.DS_Store
 
 # PWA service workers
-public/sw.js*
+public/sw.js
+public/sw.js.map

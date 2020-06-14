@@ -3,6 +3,7 @@ import Wrapper from '../system/Wrapper'
 import Meta from './Meta'
 import styled from 'styled-components'
 import Footer from './Footer'
+import Head from 'next/head'
 
 type Props = {
   children: ReactNode
@@ -40,6 +41,9 @@ const Layout: React.FC<Props> = ( props ) => {
   <>
   <PageWrap>
     <Meta title={props.title}/>
+    <Head>
+      <meta name="apple-mobile-web-app-status-bar-style" content={props.invertHeader ? "black" :"default"} />
+    </Head>
     <HeaderWrapper reverse={props.invertHeader}>
       <Wrapper>
         <InnerWrapper>
