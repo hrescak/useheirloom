@@ -1,7 +1,7 @@
 - user account editing
 - - passwords editing
-- 
-- login to lowercase
+- open source readme
+- feedback page in notion
 - public link as logged in user not doing great now
 - pagination?
 - search?

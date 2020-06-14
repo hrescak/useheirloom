@@ -31,7 +31,7 @@ const Index : React.FC<Props> = props => {
     return (
       <PublicLayout>
           <Hello>
-          <Logo src="/images/logobig.png" alt="Heirloom in script typeface"/>
+          <Logo src="/images/heirloom.svg" width="400" alt="Heirloom in script typeface"/>
           <p>
             Heirloom is your personal recipe book. It’s a simple, small and fast web-based recipe manager I’m building mostly for myself. <Link href="/login"><a>Get in</a></Link> if you already have an account or&nbsp; 
           <Obfuscate  email="matej@useheirloom.com" 
@@ -46,7 +46,7 @@ const Index : React.FC<Props> = props => {
   }
   return (
     <Layout leftControl={
-      <img src="/images/logo.png" height="42" alt="Heirloom in script typeface"/>
+      <img src="/images/heirloom.svg" height="42" alt="Heirloom in script typeface"/>
     } rightControl={
       props.session ? (
         <>
