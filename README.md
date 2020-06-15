@@ -1,7 +1,6 @@
 # Heirloom
 
-
-This example shows how to implement a **fullstack app in TypeScript with [Next.js](https://nextjs.org/)** using [React](https://reactjs.org/) (frontend), [Express](https://expressjs.com/) and [Prisma Client](https://github.com/prisma/prisma2/blob/master/docs/prisma-client-js/api.md) (backend). It uses a SQLite database file with some initial dummy data which you can find at [`./prisma/dev.db`](./prisma/dev.db).
+Heirloom is a small but might recipe manager. I've always wanted to build one for myself and now that I'm at [Prisma](https://prisma.io), wanting to try out Prisma 2 in real world was the final push. I hope you enjoy it! The code is probably clowny but hey, you live you learn.
 
 ## How is it built
 
