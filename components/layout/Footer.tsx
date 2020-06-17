@@ -23,11 +23,12 @@ const Footer: React.FC<{isPublic?:boolean}> = ({isPublic}) =>{
   return (
     <FooterWrapper centered={isPublic}>
     <Wrapper>
-      Heirloom · Made by <a href="http://hrescak.com" target="_blank" rel="noreferrer">Matej</a> {!isPublic && <span>· <Obfuscate  email="matej@useheirloom.com" 
+      Heirloom · Made by <a href="https://hrescak.com" target="_blank" rel="noreferrer">Matej</a> {!isPublic && <span>· <Obfuscate  email="matej@useheirloom.com" 
             headers={{
               subject: 'I have thoughts',
               body: `Hi, My name is ${user?.name} and i have following thoughts about :\n\n-\n-\n\n Thanks!\n ${user?.name} - ${user?.email}`
             }}>Send Feedback</Obfuscate></span>}
+            &nbsp;· <a href="https://github.com/hrescak/useheirloom" target="_blank" rel="noreferrer">Source</a>
     </Wrapper>
   </FooterWrapper>
   )
