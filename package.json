@@ -40,7 +40,7 @@
     "react-truncate": "^2.4.0",
     "reshake": "^1.2.1",
     "slugify": "^1.4.0",
-    "styled-components": "^5.1.1",
+    "styled-components": "^4.4.1",
     "styled-normalize": "^8.0.7",
     "swr": "^0.2.2"
   },
