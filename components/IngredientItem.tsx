@@ -59,6 +59,7 @@ const IngredientItem: React.FC<IngredientItemProps> = (props) => {
                 margin: " 0.5rem 0",
                 alignItems: "center",
               }}
+              aria-label="Editable Ingredient Item"
             >
               <ItemWrapper>
                 <div style={{ height: "24px" }} {...provided.dragHandleProps}>
@@ -79,7 +80,13 @@ const IngredientItem: React.FC<IngredientItemProps> = (props) => {
                   </span>
                 )}
               </ItemWrapper>
-              <InlineButton onClick={() => onDelete()} icon={<Trash2 />} />
+              <InlineButton
+                onClick={() => onDelete()}
+                icon={<Trash2 />}
+                hiddenLabel
+              >
+                Delete Ingredient
+              </InlineButton>
             </div>
           </div>
         )}

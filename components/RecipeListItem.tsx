@@ -47,8 +47,9 @@ const RecipeContent = styled.div`
   color: ${(p) => p.theme.colors.text};
 `
 
-const RecipeWrapper = styled.div`
+const RecipeWrapper = styled.a`
   display: flex;
+  text-decoration: none;
   flex-direction: row;
   margin-bottom: 2rem;
   align-items: center;
@@ -68,7 +69,7 @@ const RecipeWrapper = styled.div`
 const RecipeListItem: React.FC<Props> = ({ recipe }) => {
   return (
     <div>
-      <Link href={`/recipes/[id]`} as={`/recipes/${recipe.id}`}>
+      <Link href={`/recipes/[id]`} as={`/recipes/${recipe.id}`} passHref>
         <RecipeWrapper>
           <RecipePreview>
             <FileText style={{ opacity: recipe.name ? "1" : "0.2" }} />

@@ -4,7 +4,7 @@ import styled from "styled-components"
 import { useUser } from "../../lib/hooks"
 import Obfuscate from "react-obfuscate"
 
-const FooterWrapper = styled.div<{ centered?: boolean }>`
+const FooterWrapper = styled.footer<{ centered?: boolean }>`
   height: 44px;
   /* text-align: center; */
   font-size: 0.875rem;

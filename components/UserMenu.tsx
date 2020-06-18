@@ -34,7 +34,10 @@ const UserMenu: React.FC = () => {
       trigger="click"
       interactive={true}
     >
-      <OutlineButton icon={<User />} />
+      <OutlineButton icon={<User />} hiddenLabel>
+        {" "}
+        Profile
+      </OutlineButton>
     </Popover>
   )
 }

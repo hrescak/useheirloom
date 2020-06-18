@@ -1,13 +1,15 @@
 import styled from "styled-components"
-import { AnchorHTMLAttributes, ReactNode } from "react"
+import { ReactNode, ButtonHTMLAttributes } from "react"
 import React from "react"
 import theme from "../theme"
 
-const Base = styled.a`
+const Base = styled.button`
   font-size: 1rem;
   font-weight: 500;
   padding: 8px 12px;
   display: inline-block;
+  border: none;
+  text-align: left;
   border-radius: 8px;
   line-height: 1.5rem;
   cursor: pointer;
@@ -22,9 +24,20 @@ const Base = styled.a`
     transform: scale(0.95);
   }
 `
-export interface ButtonProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+const VisuallyHidden = styled.span`
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+`
+
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: ReactNode
   icon?: ReactNode
+  hiddenLabel?: boolean
 }
 
 export const IconWrapper = styled.span`
@@ -35,7 +48,7 @@ export const IconWrapper = styled.span`
   margin-right: 4px;
 `
 const Button = React.forwardRef(
-  (props: ButtonProps, ref?: React.Ref<HTMLAnchorElement>) => {
+  (props: ButtonProps, ref?: React.Ref<HTMLButtonElement>) => {
     return (
       <Base ref={ref} {...props}>
         {props.icon && (
@@ -43,7 +56,11 @@ const Button = React.forwardRef(
             {props.icon}
           </IconWrapper>
         )}
-        {props.children}
+        {props.hiddenLabel ? (
+          <VisuallyHidden>{props.children}</VisuallyHidden>
+        ) : (
+          props.children
+        )}
       </Base>
     )
   }

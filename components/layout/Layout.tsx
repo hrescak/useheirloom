@@ -25,7 +25,7 @@ const PageWrap = styled.div`
   }
 `
 
-const HeaderWrapper = styled.div<{ reverse?: boolean; shadow?: boolean }>`
+const HeaderWrapper = styled.header<{ reverse?: boolean; shadow?: boolean }>`
   padding: 1rem 0;
   position: fixed;
   top: 0;

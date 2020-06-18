@@ -131,7 +131,11 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
               <PrimaryButton
                 onClick={handleSubmit(onSubmit)}
                 icon={<PlusCircle />}
-              ></PrimaryButton>
+                hiddenLabel
+              >
+                {" "}
+                Add an ingredient
+              </PrimaryButton>
             </div>
           </form>
         </>

@@ -31,12 +31,15 @@ const URLRow = styled.div`
     overflow: scroll;
     border-radius: 4px;
   }
-  a {
+  a,
+  button {
     font-size: 0.875rem;
     color: ${(p) => p.theme.colors.textSecondary};
     text-decoration: underline;
     cursor: pointer;
     display: inline-block;
+    border: 0;
+    background: none;
   }
 `
 const FlexRow = styled.div`
@@ -101,7 +104,7 @@ const ShareMenu: React.FC<ShareMenuProps> = (props) => {
                     text={`https://useheirloom.com/r/${props.recipe.publicID}`}
                     onCopy={copyLink}
                   >
-                    <a>{copied ? "Copied!" : "Copy Link"}</a>
+                    <button>{copied ? "Copied!" : "Copy Link"}</button>
                   </CopyToClipboard>
                 </FlexRow>
               </URLRow>

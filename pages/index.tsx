@@ -70,7 +70,7 @@ const Index: React.FC<Props> = (props) => {
         />
       }
       rightControl={
-        props.session ? (
+        props.session && (
           <>
             <OutlineButton
               onClick={() => createRecipe()}
@@ -81,10 +81,6 @@ const Index: React.FC<Props> = (props) => {
             </OutlineButton>
             <UserMenu />
           </>
-        ) : (
-          <Link href="/login">
-            <OutlineButton icon={<LogIn />}>Log In</OutlineButton>
-          </Link>
         )
       }
     >
