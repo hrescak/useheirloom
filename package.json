@@ -48,6 +48,28 @@
     "@prisma/cli": "2.0.0",
     "@types/node": "13.13.9",
     "@types/react": "16.9.35",
+    "husky": ">=4",
+    "lint-staged": ">=10",
+    "prettier": "2.0.5",
     "typescript": "3.9.3"
+  },
+  "prettier": {
+    "semi": false
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.{css,json,md,mdx}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.{js,css,md}": "prettier --write"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }

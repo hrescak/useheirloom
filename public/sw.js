@@ -13,116 +13,124 @@
 
 // If the loader is already loaded, just stop.
 if (!self.define) {
-  const singleRequire = name => {
-    if (name !== 'require') {
-      name = name + '.js';
+  const singleRequire = (name) => {
+    if (name !== "require") {
+      name = name + ".js"
     }
-    let promise = Promise.resolve();
+    let promise = Promise.resolve()
     if (!registry[name]) {
-      
-        promise = new Promise(async resolve => {
-          if ("document" in self) {
-            const script = document.createElement("script");
-            script.src = name;
-            document.head.appendChild(script);
-            script.onload = resolve;
-          } else {
-            importScripts(name);
-            resolve();
-          }
-        });
-      
+      promise = new Promise(async (resolve) => {
+        if ("document" in self) {
+          const script = document.createElement("script")
+          script.src = name
+          document.head.appendChild(script)
+          script.onload = resolve
+        } else {
+          importScripts(name)
+          resolve()
+        }
+      })
     }
     return promise.then(() => {
       if (!registry[name]) {
-        throw new Error(`Module ${name} didn’t register its module`);
+        throw new Error(`Module ${name} didn’t register its module`)
       }
-      return registry[name];
-    });
-  };
+      return registry[name]
+    })
+  }
 
   const require = (names, resolve) => {
-    Promise.all(names.map(singleRequire))
-      .then(modules => resolve(modules.length === 1 ? modules[0] : modules));
-  };
-  
+    Promise.all(names.map(singleRequire)).then((modules) =>
+      resolve(modules.length === 1 ? modules[0] : modules)
+    )
+  }
+
   const registry = {
-    require: Promise.resolve(require)
-  };
+    require: Promise.resolve(require),
+  }
 
   self.define = (moduleName, depsNames, factory) => {
     if (registry[moduleName]) {
       // Module is already loading or loaded.
-      return;
+      return
     }
     registry[moduleName] = Promise.resolve().then(() => {
-      let exports = {};
+      let exports = {}
       const module = {
-        uri: location.origin + moduleName.slice(1)
-      };
+        uri: location.origin + moduleName.slice(1),
+      }
       return Promise.all(
-        depsNames.map(depName => {
-          switch(depName) {
+        depsNames.map((depName) => {
+          switch (depName) {
             case "exports":
-              return exports;
+              return exports
             case "module":
-              return module;
+              return module
             default:
-              return singleRequire(depName);
+              return singleRequire(depName)
           }
         })
-      ).then(deps => {
-        const facValue = factory(...deps);
-        if(!exports.default) {
-          exports.default = facValue;
+      ).then((deps) => {
+        const facValue = factory(...deps)
+        if (!exports.default) {
+          exports.default = facValue
         }
-        return exports;
-      });
-    });
-  };
+        return exports
+      })
+    })
+  }
 }
-define("./sw.js",['./workbox-b90066a8'], function (workbox) { 'use strict';
+define("./sw.js", ["./workbox-b90066a8"], function (workbox) {
+  "use strict"
 
   /**
-  * Welcome to your Workbox-powered service worker!
-  *
-  * You'll need to register this file in your web app.
-  * See https://goo.gl/nhQhGp
-  *
-  * The rest of the code is auto-generated. Please don't update this file
-  * directly; instead, make changes to your Workbox build configuration
-  * and re-run your build process.
-  * See https://goo.gl/2aRDsh
-  */
+   * Welcome to your Workbox-powered service worker!
+   *
+   * You'll need to register this file in your web app.
+   * See https://goo.gl/nhQhGp
+   *
+   * The rest of the code is auto-generated. Please don't update this file
+   * directly; instead, make changes to your Workbox build configuration
+   * and re-run your build process.
+   * See https://goo.gl/2aRDsh
+   */
 
-  importScripts();
-  workbox.skipWaiting();
-  workbox.clientsClaim();
+  importScripts()
+  workbox.skipWaiting()
+  workbox.clientsClaim()
   /**
    * The precacheAndRoute() method efficiently caches and responds to
    * requests for URLs in the manifest.
    * See https://goo.gl/S9QRab
    */
 
-  workbox.precacheAndRoute([{
-    "url": "/_next/static/runtime/amp.js",
-    "revision": "2fdd189ea17faa56a4f44a2fdd88b84f"
-  }, {
-    "url": "/_next/static/runtime/main.js",
-    "revision": "c71c6e79766506790f5cc4015715d027"
-  }, {
-    "url": "/_next/static/runtime/polyfills.js",
-    "revision": "516c3d4deeff70783126396a5a14d34e"
-  }, {
-    "url": "/_next/static/runtime/react-refresh.js",
-    "revision": "9d11ea7095b60a828f2db49ed1004ade"
-  }, {
-    "url": "/_next/static/runtime/webpack.js",
-    "revision": "f77a66b71f7dea12b3c52cb1ef385ab8"
-  }], {
-    "ignoreURLParametersMatching": [/ts/]
-  });
-  workbox.cleanupOutdatedCaches();
-
-});
+  workbox.precacheAndRoute(
+    [
+      {
+        url: "/_next/static/runtime/amp.js",
+        revision: "2fdd189ea17faa56a4f44a2fdd88b84f",
+      },
+      {
+        url: "/_next/static/runtime/main.js",
+        revision: "c71c6e79766506790f5cc4015715d027",
+      },
+      {
+        url: "/_next/static/runtime/polyfills.js",
+        revision: "516c3d4deeff70783126396a5a14d34e",
+      },
+      {
+        url: "/_next/static/runtime/react-refresh.js",
+        revision: "9d11ea7095b60a828f2db49ed1004ade",
+      },
+      {
+        url: "/_next/static/runtime/webpack.js",
+        revision: "2224601546666b4f7a9e462c274cdcf1",
+      },
+    ],
+    {
+      ignoreURLParametersMatching: [/ts/],
+    }
+  )
+  workbox.cleanupOutdatedCaches()
+})
 //# sourceMappingURL=sw.js.map
