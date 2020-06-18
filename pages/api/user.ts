@@ -1,14 +1,13 @@
-import { getSession } from '../../lib/iron'
-import { PrismaClient } from '@prisma/client'
-import crypto from 'crypto'
+import { getSession } from "../../lib/iron"
+import { PrismaClient } from "@prisma/client"
+import crypto from "crypto"
 
 const prisma = new PrismaClient()
 
 export default async function handle(req, res) {
-
-  if (req.method === 'GET') {
+  if (req.method === "GET") {
     handleGET(req, res)
-  } else if (req.method === 'POST') {
+  } else if (req.method === "POST") {
     handlePOST(req, res)
   } else {
     throw new Error(
@@ -20,58 +19,64 @@ export default async function handle(req, res) {
 // GET /api/settings
 async function handleGET(req, res) {
   const session = await getSession(req)
-  if (!session) res.json({message:'Not Authenticated'})
+  if (!session) res.json({ message: "Not Authenticated" })
 
   const user = await prisma.user.findOne({
-      where: {
-          id: session.id
-      },
-      include: {
-          ownKitchen: true
-      }
+    where: {
+      id: session.id,
+    },
+    include: {
+      ownKitchen: true,
+    },
   })
-  if (!user){
-    res.status(401).json({message:'Not Found'})
+  if (!user) {
+    res.status(401).json({ message: "Not Found" })
   }
-  const responseUser={
-      id:user.id,
-      name:user.name,
-      email:user.email,
-      kitchenId:user.ownKitchen.id,
-      kitchenName:user.ownKitchen.name
+  const responseUser = {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    kitchenId: user.ownKitchen.id,
+    kitchenName: user.ownKitchen.name,
   }
-  res.json({user:responseUser})
+  res.json({ user: responseUser })
 }
 
 // POST /api/settings
 async function handlePOST(req, res) {
   const session = await getSession(req)
-  if (!session) res.status(401).json({message:'Not Authenticated'})
+  if (!session) res.status(401).json({ message: "Not Authenticated" })
   // start an update object
   const data = JSON.parse(req.body)
   let dataToWrite = {
-    email:data.email,
+    email: data.email,
     name: data.name,
     ownKitchen: {
-      update :{ name: data.kitchenName}
-    }
+      update: { name: data.kitchenName },
+    },
   }
-  // if we're updating a password, let's make sure it's only included in 
+  // if we're updating a password, let's make sure it's only included in
   // the write if the old one matches the one we have
-  if(data.newPassword) {
+  if (data.newPassword) {
     const confirmedUser = await prisma.user.findOne({
-      where: {id: session.id}
+      where: { id: session.id },
     })
-    if (!confirmedUser)  res.status(401).json({message:'Not Found'})
-    const passwordsMatch = confirmedUser.hash === crypto.pbkdf2Sync(data.oldPassword, confirmedUser.salt, 1000, 64, 'sha512').toString('hex')
-    if (!passwordsMatch) res.status(404).json({message:'Old password doesn\'t match'})
-    dataToWrite['hash'] = crypto.pbkdf2Sync(data.newPassword, confirmedUser.salt, 1000, 64, 'sha512').toString('hex')
+    if (!confirmedUser) res.status(401).json({ message: "Not Found" })
+    const passwordsMatch =
+      confirmedUser.hash ===
+      crypto
+        .pbkdf2Sync(data.oldPassword, confirmedUser.salt, 1000, 64, "sha512")
+        .toString("hex")
+    if (!passwordsMatch)
+      res.status(404).json({ message: "Old password doesn't match" })
+    dataToWrite["hash"] = crypto
+      .pbkdf2Sync(data.newPassword, confirmedUser.salt, 1000, 64, "sha512")
+      .toString("hex")
   }
 
   const user = await prisma.user.update({
     where: { id: session.id },
-    data: dataToWrite
+    data: dataToWrite,
   })
   res.json(user)
-    
 }

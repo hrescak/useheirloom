@@ -1,13 +1,13 @@
-import { getSession } from '../../../lib/iron'
-import { PrismaClient } from '@prisma/client'
-import { UserSession } from '../../../types'
+import { getSession } from "../../../lib/iron"
+import { PrismaClient } from "@prisma/client"
+import { UserSession } from "../../../types"
 
 const prisma = new PrismaClient()
 
 export default async function handle(req, res) {
-  if (req.method === 'GET') {
+  if (req.method === "GET") {
     handleGET(req, res)
-  } else if (req.method === 'POST') {
+  } else if (req.method === "POST") {
     handlePOST(req, res)
   } else {
     throw new Error(
@@ -17,16 +17,16 @@ export default async function handle(req, res) {
 }
 
 // GET /api/recipes
-// Required fields in body: 
-// Optional fields in body: 
+// Required fields in body:
+// Optional fields in body:
 async function handleGET(req, res) {
   const session = await getSession(req)
   if (session) {
     const result = await prisma.recipe.findMany({
-        where: {
-            kitchenId: session.kitchenId,
-            isDeleted: false
-        }
+      where: {
+        kitchenId: session.kitchenId,
+        isDeleted: false,
+      },
     })
     res.json(result)
   } else {
@@ -38,12 +38,11 @@ async function handleGET(req, res) {
 // Required fields in body: title, authorEmail
 // Optional fields in body: content
 async function handlePOST(req, res) {
-  const session = await getSession(req) 
+  const session = await getSession(req)
   const result = await prisma.recipe.create({
     data: {
-      kitchen: { connect: { id: session.kitchenId }}
+      kitchen: { connect: { id: session.kitchenId } },
     },
   })
   res.json(result)
 }
-

@@ -1,15 +1,14 @@
-import { getSession } from '../../../../../lib/iron'
-import { PrismaClient } from '@prisma/client'
+import { getSession } from "../../../../../lib/iron"
+import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient()
 
 export default async function handle(req, res) {
-
-  if (req.method === 'GET') {
+  if (req.method === "GET") {
     handleGET(req, res)
-  } else if (req.method === 'POST') {
+  } else if (req.method === "POST") {
     handlePOST(req, res)
-  } else if (req.method === 'DELETE') {
+  } else if (req.method === "DELETE") {
     handleDELETE(req, res)
   } else {
     throw new Error(
@@ -23,12 +22,11 @@ async function handleGET(req, res) {
   const session = await getSession(req)
   if (session) {
     const recipeIngredient = await prisma.recipeIngredient.findOne({
-      where: { id: Number(req.query.iid) }
+      where: { id: Number(req.query.iid) },
     })
     res.json(recipeIngredient)
-    }
-  else {
-    throw new Error('Not Authenticated')
+  } else {
+    throw new Error("Not Authenticated")
   }
 }
 
@@ -39,12 +37,11 @@ async function handlePOST(req, res) {
     const data = JSON.parse(req.body)
     const recipeIngredient = await prisma.recipeIngredient.update({
       where: { id: Number(req.query.iid) },
-      data: data
+      data: data,
     })
     res.json(recipeIngredient)
-    }
-  else {
-    throw new Error('Not Authenticated')
+  } else {
+    throw new Error("Not Authenticated")
   }
 }
 
@@ -56,8 +53,7 @@ async function handleDELETE(req, res) {
       where: { id: Number(req.query.iid) },
     })
     res.json(recipeIngredient)
-  }
-  else {
-    throw new Error('Not Authenticated')
+  } else {
+    throw new Error("Not Authenticated")
   }
 }

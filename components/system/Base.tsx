@@ -1,6 +1,6 @@
-import { createGlobalStyle } from "styled-components";
-import normalize from "styled-normalize";
-import theme from "./theme";
+import { createGlobalStyle } from "styled-components"
+import normalize from "styled-normalize"
+import theme from "./theme"
 
 export const BaseStyles = createGlobalStyle`
   ${normalize}
@@ -23,4 +23,4 @@ export const BaseStyles = createGlobalStyle`
   body{
     background-color: ${theme.colors.background};
   }
-`;
+`
