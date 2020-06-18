@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Layout from '../../components/layout/Layout'
-import { H1 } from '../../components/system/Typography'
+import { H1, H2 } from '../../components/system/Typography'
 import { Label, Input, FormError } from '../../components/system/Form'
 import { useFetcher } from '../../lib/hooks'
 import { useForm } from 'react-hook-form'
@@ -35,19 +35,26 @@ const Half = styled.div`
     }
 `
 const SettingsPage: React.FC = (props) =>{
-    const {data,error, mutate} = useFetcher('/api/user')
+    const {data} = useFetcher('/api/user')
     const router = useRouter()
-    const {handleSubmit,register, errors} = useForm()
+    const {handleSubmit,register, errors, setError, watch} = useForm()
+    const newPassword = watch("newPassword")
     async function onSubmit(formData){
-        const newUser= {...data.user,...formData}
-        console.log(data)
-        console.log({user:newUser})
-        mutate({user:formData},false)
-        mutate(await fetch(`/api/user`, {
-            method: 'POST',
-            body: JSON.stringify(formData)
-        })).then(p=>router.push(`/`))
-        
+        try {
+            const res = await fetch(`/api/user`, {
+                method: 'POST',
+                body: JSON.stringify(formData)
+            })
+            if(res.status === 200){
+                router.push('/')
+            } else {
+                throw new Error(await res.text())
+            }
+        } catch (error) {
+            // dude you jank
+            const parsedError= JSON.parse(error.message)
+            setError("request", "", parsedError.message)
+        }
     }
     return (
         <Layout title="User Settings" invertHeader leftControl={
@@ -58,7 +65,7 @@ const SettingsPage: React.FC = (props) =>{
             <AccentButton icon={<CheckCircle/>} onClick = {handleSubmit(onSubmit)}>Save</AccentButton>
         }>
             <H1>Account Settings</H1>
-            {error && error.message}
+            <FormError separateRow title={errors?.request?.message}/>
             {data && data.user &&
             
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -98,6 +105,43 @@ const SettingsPage: React.FC = (props) =>{
                         This will be the title of all the recipes when you share them with your friends (and enemies).
                     </RowDetail>
                 </InputRow>
+                <H2 style={{marginTop:'3rem'}}>Change Your Password</H2>
+                <Label>New Password</Label>
+                <InputRow>
+                    <Half>
+                        <Input name="newPassword" placeholder="New Password" type="password" ref={register}/>               
+                        <FormError title={errors?.newPassword?.message}/>
+                    </Half>
+                    <RowDetail>
+                        I recommend a combination of letters and numbers at least 8 characters long. Leave blank for no change.
+                    </RowDetail>
+                </InputRow>
+                {newPassword &&
+                    <>
+                        <Label>Enter New Password</Label>
+                        <InputRow>
+                            <Half>
+                                <Input name="confirmNewPassword" type="password" placeholder="New Password Again" ref={register({
+      validate: value=>value === newPassword || "The passwords don't match"  // <p>error message</p>
+    })}/>               
+                                <FormError title={errors?.confirmNewPassword?.message}/>
+                            </Half>
+                            <RowDetail>
+                                Re-type the new password
+                            </RowDetail>
+                        </InputRow>
+                        <Label>Old Password</Label>
+                        <InputRow>
+                            <Half>
+                                <Input name="oldPassword" type="password" placeholder="Old Password" ref={register}/>               
+                                <FormError title={errors?.oldPassword?.message}/>
+                            </Half>
+                            <RowDetail>
+                                Confirm the change with your old password
+                            </RowDetail>
+                        </InputRow>
+                    </>
+                }
             </form>}
         </Layout>
     )

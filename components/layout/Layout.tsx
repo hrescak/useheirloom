@@ -35,7 +35,7 @@ const HeaderWrapper = styled.div<{reverse?:boolean, shadow?:boolean}>`
     background: ${p=>p.reverse?'#000' : p.theme.colors.background};
     margin-bottom: 2rem;
     transition: ${p=>p.theme.transition};
-    box-shadow: ${p=> p.shadow && !p.reverse ? "0px 1px 2px rgba(0,0,0,.2)" : ""}
+    box-shadow: ${p=> p.shadow && !p.reverse ? "0px 1px 2px rgba(0,0,0,.2)" : ""};
 `
 const InnerWrapper = styled.div`
     display: flex;

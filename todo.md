@@ -1,9 +1,0 @@
-- user account editing
-- - passwords editing
-- link to open source and notion
-- open source readme
-- feedback page in notion
-- public link as logged in user not doing great now
-- pagination?
-- search?
-- images for recipes
