@@ -54,7 +54,7 @@ const RecipeWrapper = styled.a`
   margin-bottom: 2rem;
   align-items: center;
   cursor: pointer;
-  color: ${(p) => p.theme.text};
+  color: ${(p) => p.theme.colors.text};
   transition: ${(p) => p.theme.transition};
   &:hover ${Description} {
     color: ${(p) => p.theme.colors.text};

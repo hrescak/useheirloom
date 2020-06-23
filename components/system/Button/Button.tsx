@@ -13,6 +13,7 @@ const Base = styled.button`
   border-radius: 8px;
   line-height: 1.5rem;
   cursor: pointer;
+  outline: none;
   color: ${theme.colors.text};
   background: ${theme.colors.background};
   transition: ${theme.transition};
@@ -52,7 +53,11 @@ const Button = React.forwardRef(
     return (
       <Base ref={ref} {...props}>
         {props.icon && (
-          <IconWrapper style={{ marginRight: props.children ? "4px" : "0" }}>
+          <IconWrapper
+            style={{
+              marginRight: props.children && !props.hiddenLabel ? "4px" : "0",
+            }}
+          >
             {props.icon}
           </IconWrapper>
         )}

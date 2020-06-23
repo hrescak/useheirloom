@@ -29,7 +29,7 @@ const withHighlight = (Component) => {
       <div
         style={{ background: highlighted ? theme.colors.accentWash : "none" }}
         ref={node}
-        onClick={(e) => setHighlighted(true)}
+        onClick={(e) => setHighlighted(!highlighted)}
       >
         <Component {...props} />
       </div>
