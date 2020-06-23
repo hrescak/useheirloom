@@ -30,11 +30,19 @@ export type RecipeProps = {
   // categories   Category[]
   // starredBy          User[]
 }
+export type RecipeIngredientProps = {
+  initialData?: RecipeIngredient[]
+  sections?: string[]
+  recipeId: number
+  editable: boolean
+}
 
 export type IngredientListProps = {
   recipeId: number
+  sectionName?: string
+  sectionId?: string
   editable: boolean
-  initialData?: RecipeIngredient[]
+  ingredients?: RecipeIngredient[]
 }
 
 export type IngredientItemProps = {

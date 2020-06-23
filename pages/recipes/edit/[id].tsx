@@ -4,7 +4,6 @@ import { WithUser } from "../../../components/hoc/withUser"
 import { useRouter } from "next/router"
 import { useForm } from "react-hook-form"
 import { RecipeProps } from "../../../types"
-import IngredientList from "../../../components/IngredientList"
 import SectionHeader from "../../../components/system/SectionHeader"
 import { Input, Textarea, Label } from "../../../components/system/Form"
 import {
@@ -17,6 +16,7 @@ import { useFetcher } from "../../../lib/hooks"
 import Link from "next/link"
 import styled from "styled-components"
 import Stack from "../../../components/system/Stack"
+import RecipeIngredients from "../../../components/RecipeIngredients"
 
 const Aside = styled.span`
   display: flex;
@@ -153,7 +153,12 @@ const EditRecipe: React.FC = () => {
         </Stack>
       )}
       <SectionHeader>Ingredients</SectionHeader>
-      <IngredientList recipeId={Number(id)} editable={true} />
+      <RecipeIngredients
+        recipeId={Number(id)}
+        editable={true}
+        initialData={data?.ingredients}
+        sections={data?.ingredientSections}
+      />
       <Stack row>
         <SectionHeader style={{ flex: 2 }}>Instructions</SectionHeader>
         <Aside>

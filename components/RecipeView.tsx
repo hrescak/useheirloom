@@ -6,6 +6,7 @@ import { RecipeProps } from "../types"
 import styled from "styled-components"
 import ReactMarkdown from "react-markdown"
 import RecipeInstructions from "./RecipeInstructions"
+import RecipeIngredients from "./RecipeIngredients"
 
 const SourceSection = styled.div`
   font-size: 0.875rem;
@@ -45,9 +46,10 @@ const RecipeView: React.FC<{ data: RecipeProps }> = ({ data }) =>
         </SourceSection>
       )}
       <SectionHeader>Ingredients</SectionHeader>
-      <IngredientList
+      <RecipeIngredients
         recipeId={Number(data.id)}
         editable={false}
+        sections={data.ingredientSections}
         initialData={data.ingredients}
       />
       <SectionHeader>Instructions</SectionHeader>
