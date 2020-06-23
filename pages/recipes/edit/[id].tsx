@@ -16,12 +16,18 @@ import { Plus, ChevronLeft, Trash2, CheckCircle } from "react-feather"
 import { useFetcher } from "../../../lib/hooks"
 import Link from "next/link"
 import styled from "styled-components"
+import Stack from "../../../components/system/Stack"
 
-const FullRow = styled.div`
+const Aside = styled.span`
   display: flex;
-  flex-direction: row;
+  margin-top: 2.5rem;
+  font-size: 0.75rem;
+  color: ${(p) => p.theme.colors.textSecondary};
+  & a {
+    color: ${(p) => p.theme.colors.textSecondary};
+  }
   @media (max-width: ${(p) => p.theme.breakpoints.medium}) {
-    flex-direction: column;
+    margin-top: 0.5rem;
   }
 `
 const Half = styled.div`
@@ -123,7 +129,7 @@ const EditRecipe: React.FC = () => {
         </>
       )}
       {(showSource || data?.sourceName) && (
-        <FullRow>
+        <Stack row>
           <Half style={{ paddingRight: "1rem" }}>
             <Label>Source Title</Label>
             <Input
@@ -144,11 +150,23 @@ const EditRecipe: React.FC = () => {
               ref={register}
             />
           </Half>
-        </FullRow>
+        </Stack>
       )}
       <SectionHeader>Ingredients</SectionHeader>
       <IngredientList recipeId={Number(id)} editable={true} />
-      <SectionHeader>Instructions</SectionHeader>
+      <Stack row>
+        <SectionHeader style={{ flex: 2 }}>Instructions</SectionHeader>
+        <Aside>
+          Supports&nbsp;{" "}
+          <a
+            href="https://github.github.com/gfm/#what-is-github-flavored-markdown-"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Github-flavored Markdown
+          </a>
+        </Aside>
+      </Stack>
       <Textarea
         name="instructions"
         defaultValue={data?.instructions}

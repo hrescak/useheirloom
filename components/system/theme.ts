@@ -3,6 +3,7 @@ const theme = {
     text: "black",
     textSecondary: "#757575",
     accent: "#DBFF00",
+    accentWash: "#F2FFA5",
     background: "white",
     wash: "#f6f6f6",
     control: "#5a5a5a",

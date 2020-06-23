@@ -1,9 +1,11 @@
 import Loader from "./system/Loader"
-import { P, H1 } from "./system/Typography"
+import { P, H1, List } from "./system/Typography"
 import SectionHeader from "./system/SectionHeader"
 import IngredientList from "./IngredientList"
 import { RecipeProps } from "../types"
 import styled from "styled-components"
+import ReactMarkdown from "react-markdown"
+import RecipeInstructions from "./RecipeInstructions"
 
 const SourceSection = styled.div`
   font-size: 0.875rem;
@@ -49,7 +51,7 @@ const RecipeView: React.FC<{ data: RecipeProps }> = ({ data }) =>
         initialData={data.ingredients}
       />
       <SectionHeader>Instructions</SectionHeader>
-      <P>{data.instructions || "No instructions yet."}</P>
+      <RecipeInstructions instructions={data.instructions} />
     </>
   ) : (
     <Loader />
