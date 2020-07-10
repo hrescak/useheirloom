@@ -1,8 +1,6 @@
 import styled from "styled-components"
 import { AlertTriangle } from "react-feather"
-import { Shake } from "reshake"
 import { useEffect, useState } from "react"
-import { usePrevious } from "../../../lib/hooks"
 
 const Err = styled.div<{ separateRow?: boolean }>`
   position: ${(p) => (p.separateRow ? "relative" : "absolute")};
