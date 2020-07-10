@@ -34,13 +34,13 @@ const Summary = styled.p`
 const RecipeView: React.FC<{ data: RecipeProps; user: any }> = ({
   data,
   user,
-}) =>
-  data ? (
+}) => {
+  return data ? (
     <>
       <H1>{data.name || "Draft Recipe"}</H1>
       {data.summary && <Summary>{data.summary}</Summary>}
       <SourceSection>
-        {(!user || data.authorId != user.id) && (
+        {(!user || (user && data.authorId != user.id)) && (
           <>
             from <KitchenIntro>{data.kitchen.name}</KitchenIntro>
             {data.sourceName && " · "}
@@ -72,5 +72,6 @@ const RecipeView: React.FC<{ data: RecipeProps; user: any }> = ({
   ) : (
     <Loader />
   )
+}
 
 export default RecipeView

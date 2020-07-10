@@ -47,43 +47,72 @@ const ListWrapper = styled.div<{ isSection?: boolean }>`
 const IngredientList: React.FC<IngredientListProps> = (props) => {
   const data = props.ingredients
   const { register, setValue, handleSubmit } = useForm()
+  const { moveIngredient, highestPriority } = useMoveRecipeIngredient(
+    _.sortBy(data, (i) => i.priority),
+    onMove
+  )
   async function onMove(ingredient) {
-    const mutateData = data.map((ing) =>
-      ing.id == ingredient.id ? { priority: ingredient.priority, ...ing } : ing
-    )
+    //save moved ingredient
     await fetch(
       `/api/recipes/${props.recipePublicId}/recipe-ingredients/${ingredient.id}`,
       {
         method: "POST",
         body: JSON.stringify(ingredient),
       }
-    ).then(() =>
-      mutate(`/api/recipes/${props.recipePublicId}/recipe-ingredients`)
+    )
+    //optimistically mutate local state
+    const mutateData = data.map((ing) =>
+      ing.id == ingredient.id ? { priority: ingredient.priority, ...ing } : ing
     )
     mutate(
       `/api/recipes/${props.recipePublicId}/recipe-ingredients`,
-      mutateData,
-      false
+      mutateData
     )
   }
-  const { moveIngredient, highestPriority } = useMoveRecipeIngredient(
-    _.sortBy(data, (i) => i.priority),
-    onMove
-  )
   async function onSubmit(formData) {
-    const mutateData = data ? [...data, formData] : [formData]
+    // save the new ingredient
     await fetch(`/api/recipes/${props.recipePublicId}/recipe-ingredients`, {
       method: "POST",
       body: JSON.stringify(formData),
-    }).then(() =>
-      mutate(`/api/recipes/${props.recipePublicId}/recipe-ingredients`)
+    })
+    // if there's ingredients, add them to the list and mutate optimistically
+    const mutateData = data ? [...data, formData] : [formData]
+    mutate(
+      `/api/recipes/${props.recipePublicId}/recipe-ingredients`,
+      mutateData
+    )
+    setValue("freeform", "")
+  }
+  async function onEdit(id, newName) {
+    await fetch(
+      `/api/recipes/${props.recipePublicId}/recipe-ingredients/${id}`,
+      {
+        method: "POST",
+        body: JSON.stringify({ freeform: newName }),
+      }
+    )
+    //optimistically mutate local state
+    const mutateData = data.map((ing) =>
+      ing.id == id ? { freeform: newName, ...ing } : ing
     )
     mutate(
       `/api/recipes/${props.recipePublicId}/recipe-ingredients`,
-      mutateData,
-      false
+      mutateData
     )
-    setValue("freeform", "")
+  }
+  async function onDelete(id) {
+    await fetch(
+      `/api/recipes/${props.recipePublicId}/recipe-ingredients/${id}`,
+      {
+        method: "DELETE",
+      }
+    )
+    //optimistically mutate local state
+    const mutateData = _.remove(data, (ing) => ing.id != id)
+    mutate(
+      `/api/recipes/${props.recipePublicId}/recipe-ingredients`,
+      mutateData
+    )
   }
   return (
     <div>
@@ -103,11 +132,8 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
                             idx={index}
                             recipePublicId={props.recipePublicId}
                             editable={props.editable}
-                            revalidate={() =>
-                              mutate(
-                                `/api/recipes/${props.recipePublicId}/recipe-ingredients`
-                              )
-                            }
+                            onDelete={onDelete}
+                            onEdit={onEdit}
                           />
                         </div>
                       )
@@ -174,7 +200,6 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
                     idx={index}
                     recipePublicId={props.recipePublicId}
                     editable={props.editable}
-                    revalidate={() => {}}
                   />
                 </li>
               ))}

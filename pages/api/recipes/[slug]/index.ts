@@ -18,7 +18,7 @@ export default async function handle(req, res) {
   }
 }
 
-// GET /api/recipes/:id
+// GET /api/recipes/:slug
 async function handleGET(req, res) {
   const session = await getSession(req)
   const recipe = await prisma.recipe.findOne({
@@ -31,7 +31,7 @@ async function handleGET(req, res) {
   return res.status(401).send("Unauthorized")
 }
 
-// POST /api/recipes/:id
+// POST /api/recipes/:slug
 async function handlePOST(req, res) {
   const session = await getSession(req)
   if (session) {
@@ -51,13 +51,14 @@ async function handlePOST(req, res) {
     const recipe = await prisma.recipe.update({
       where: { publicID: req.query.slug },
       data: data,
+      include: { ingredients: true, kitchen: true },
     })
     return res.json(recipe)
   }
   return res.status(401).send("Unauthorized")
 }
 
-// DELETE /api/recipes/:id
+// DELETE /api/recipes/:slug
 async function handleDELETE(req, res) {
   const session = await getSession(req)
   if (session) {

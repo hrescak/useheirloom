@@ -26,23 +26,6 @@ const InlineInput = styled.input`
 
 const IngredientItem: React.FC<IngredientItemProps> = (props) => {
   const [freeform, setFreeform] = useState(props.ingredient.freeform)
-  async function onSave() {
-    await fetch(
-      `/api/recipes/${props.recipePublicId}/recipe-ingredients/${props.ingredient.id}`,
-      {
-        method: "POST",
-        body: JSON.stringify({ freeform: freeform }),
-      }
-    ).then(() => props.revalidate())
-  }
-  async function onDelete() {
-    await fetch(
-      `/api/recipes/${props.recipePublicId}/recipe-ingredients/${props.ingredient.id}`,
-      {
-        method: "DELETE",
-      }
-    ).then(() => props.revalidate())
-  }
   if (props.editable) {
     return (
       <Draggable
@@ -73,7 +56,11 @@ const IngredientItem: React.FC<IngredientItemProps> = (props) => {
                 {props.ingredient.id && (
                   <span>
                     {props.ingredient.freeform != freeform && (
-                      <PrimaryButton onClick={() => onSave()}>
+                      <PrimaryButton
+                        onClick={() =>
+                          props.onEdit(props.ingredient.id, freeform)
+                        }
+                      >
                         Save
                       </PrimaryButton>
                     )}
@@ -81,7 +68,7 @@ const IngredientItem: React.FC<IngredientItemProps> = (props) => {
                 )}
               </ItemWrapper>
               <InlineButton
-                onClick={() => onDelete()}
+                onClick={() => props.onDelete(props.ingredient.id)}
                 icon={<Trash2 />}
                 hiddenLabel
               >

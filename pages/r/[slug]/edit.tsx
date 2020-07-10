@@ -54,16 +54,18 @@ const EditRecipe: React.FC = () => {
   )
   const { register, handleSubmit, errors } = useForm()
   async function onSubmit(formData) {
-    console.log(formData)
-    mutate(formData, false)
     const payload = _.pickBy(formData, (value, key) => data[key] != value)
-    console.log(payload)
-    mutate(
-      await fetch(`/api/recipes/${slug}`, {
-        method: "POST",
-        body: JSON.stringify(payload),
-      })
-    )
+    // if there's nothing to change, navigate right away
+    if (_.isEmpty(payload)) {
+      router.push(`/r/${slug}`)
+      return
+    }
+
+    // save data and wait for response before redirecting in case of new slug
+    await fetch(`/api/recipes/${slug}`, {
+      method: "POST",
+      body: JSON.stringify(payload),
+    })
       .then((p) => p.json())
       .then((data) => router.push(`/r/${data.publicID}`))
   }

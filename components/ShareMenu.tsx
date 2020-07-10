@@ -56,21 +56,22 @@ const ShareMenu: React.FC<ShareMenuProps> = (props) => {
   const [copied, setCopied] = useState(false)
   const [publicChecked, setPublicChecked] = useState(props.recipe.isPublic)
   async function onSwitchChange(checked) {
-    console.log(props.recipe)
+    // make sure we only send the public change
     const newData = {
       isPublic: checked,
       publicID: props.recipe.publicID,
     }
+
+    await fetch(`/api/recipes/${props.recipe.publicID}`, {
+      method: "POST",
+      body: JSON.stringify(newData),
+    })
+
     // optimistically mutate local copy
-    mutate(`/api/recipes/${props.recipe.publicID}`, newData, false)
-    // update on the background
-    mutate(
-      `/api/recipes/${props.recipe.publicID}`,
-      await fetch(`/api/recipes/${props.recipe.publicID}`, {
-        method: "POST",
-        body: JSON.stringify(newData),
-      })
-    )
+    mutate(`/api/recipes/${props.recipe.publicID}`, {
+      isPublic: checked,
+      ...props.recipe,
+    })
     setPublicChecked(checked)
   }
   const copyLink = () => {
