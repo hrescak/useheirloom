@@ -1,6 +1,6 @@
 import { getSession } from "../../../lib/iron"
 import { PrismaClient } from "@prisma/client"
-import { UserSession } from "../../../types"
+import { nanoid } from "nanoid"
 
 const prisma = new PrismaClient()
 
@@ -41,6 +41,8 @@ async function handlePOST(req, res) {
   const session = await getSession(req)
   const result = await prisma.recipe.create({
     data: {
+      publicID: nanoid(8),
+      author: { connect: { id: session.id } },
       kitchen: { connect: { id: session.kitchenId } },
     },
   })

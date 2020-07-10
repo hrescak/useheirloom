@@ -6,18 +6,15 @@ import IngredientList from "./IngredientList"
 import _ from "lodash"
 
 const RecipeIngredients: React.FC<RecipeIngredientProps> = (props) => {
-  const {
-    data,
-    mutate,
-  }: {
-    data?: RecipeIngredient[]
-    error?: any
-    mutate?: any
-  } = useSWR(
-    `/api/recipes/${props.recipeId}/recipe-ingredients`,
-    (url) => fetch(url).then((r) => r.json()),
-    { initialData: props.initialData }
-  )
+  var data: RecipeIngredient[] = props.initialData
+  if (!data || props.editable) {
+    let swr = useSWR(
+      `/api/recipes/${props.recipePublicId}/recipe-ingredients`,
+      (url) => fetch(url).then((r) => r.json()),
+      { initialData: props.initialData }
+    )
+    data = swr.data
+  }
   const noSectionIngredients =
     data && data.filter((ingredient) => ingredient.section == null)
   const yesSectionIngredients =
@@ -25,14 +22,23 @@ const RecipeIngredients: React.FC<RecipeIngredientProps> = (props) => {
   const ingredientsBySection =
     yesSectionIngredients &&
     _.chain(yesSectionIngredients).groupBy("section").values().value()
-  console.log(ingredientsBySection)
+
+  const onSectionUpdate = () => {
+    const rename = (newName: string, index: number) => {}
+    const add = (newName: string) => {}
+    const remove = (index: number) => {}
+    const move = (oldIndex: number, newIndex: number) => {}
+
+    return { rename, add, remove, move }
+  }
+  const saveSections = (sections: string[]) => {}
 
   return (
     <>
       <IngredientList
         ingredients={noSectionIngredients}
         editable={props.editable}
-        recipeId={props.recipeId}
+        recipePublicId={props.recipePublicId}
       />
       {ingredientsBySection &&
         props.sections &&
@@ -42,10 +48,11 @@ const RecipeIngredients: React.FC<RecipeIngredientProps> = (props) => {
             editable={props.editable}
             sectionId={idx}
             sectionName={props.sections[idx]}
-            recipeId={props.recipeId}
+            recipePublicId={props.recipePublicId}
+            onSectionUpdate={onSectionUpdate}
           />
         ))}
-      {data && data.length === 0 && <>No Ingredients yet</>}
+      {data && data.length === 0 && !props.editable && <>No Ingredients yet</>}
     </>
   )
 }

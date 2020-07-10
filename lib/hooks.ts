@@ -11,7 +11,7 @@ const fetcher = (url: string) =>
       return data || null
     })
 
-export function useFetcher(URL: string) {
+export function useFetcher(URL: string, shouldLoad: boolean = true) {
   const router = useRouter()
   const dataFetcher = (url) =>
     fetch(url).then(async (res) => {
@@ -27,21 +27,7 @@ export function useFetcher(URL: string) {
         return result
       }
     })
-  return useSWR(URL, dataFetcher)
-}
-
-export function usePrevious(value) {
-  // The ref object is a generic container whose current property is mutable ...
-  // ... and can hold any value, similar to an instance property on a class
-  const ref = useRef()
-
-  // Store current value in ref
-  useEffect(() => {
-    ref.current = value
-  }, [value]) // Only re-run if value changes
-
-  // Return previous value (happens before update in useEffect above)
-  return ref.current
+  return useSWR(() => (shouldLoad ? URL : null), dataFetcher)
 }
 
 export function useUser(
@@ -91,7 +77,7 @@ export const useCreateRecipe = () => {
     })
       .then((r) => r.json())
       .then((data) => {
-        router.push(`/recipes/edit/${data.id}`)
+        router.push(`/r/${data.publicID}/edit`)
         return data || null
       })
   }
@@ -168,4 +154,22 @@ export const useMoveRecipeIngredient = (
     }
   }
   return { moveIngredient, highestPriority }
+}
+
+export const useRecipeSection = (
+  sections: string[],
+  recipeId: number,
+  mutate: any
+) => {
+  const renameSection = (newName: string, index: number) => {}
+  const addSection = (newName: string) => {}
+  const removeSection = (index: number) => {}
+  const moveSection = (oldIndex: number, newIndex: number) => {}
+  const saveRecipe = () => {
+    fetch(`/api/recipes/${recipeId}`, {
+      method: "POST",
+    }).then((r) => r.json())
+  }
+
+  return { renameSection, addSection, removeSection, moveSection }
 }

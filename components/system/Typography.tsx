@@ -48,6 +48,7 @@ export const P = styled.p`
 `
 
 export const UL = styled.ul`
+  margin-top: 0.5rem;
   padding: 0;
   line-height: 1.25;
   @media (max-width: ${theme.breakpoints.medium}) {
@@ -57,6 +58,7 @@ export const UL = styled.ul`
 `
 
 export const OL = styled.ol`
+  margin-top: 0.5rem;
   padding: 0;
   line-height: 1.25;
   @media (max-width: ${theme.breakpoints.medium}) {

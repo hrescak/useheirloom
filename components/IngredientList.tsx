@@ -52,14 +52,16 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
       ing.id == ingredient.id ? { priority: ingredient.priority, ...ing } : ing
     )
     await fetch(
-      `/api/recipes/${props.recipeId}/recipe-ingredients/${ingredient.id}`,
+      `/api/recipes/${props.recipePublicId}/recipe-ingredients/${ingredient.id}`,
       {
         method: "POST",
         body: JSON.stringify(ingredient),
       }
-    ).then(() => mutate(`/api/recipes/${props.recipeId}/recipe-ingredients`))
+    ).then(() =>
+      mutate(`/api/recipes/${props.recipePublicId}/recipe-ingredients`)
+    )
     mutate(
-      `/api/recipes/${props.recipeId}/recipe-ingredients`,
+      `/api/recipes/${props.recipePublicId}/recipe-ingredients`,
       mutateData,
       false
     )
@@ -70,12 +72,14 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
   )
   async function onSubmit(formData) {
     const mutateData = data ? [...data, formData] : [formData]
-    await fetch(`/api/recipes/${props.recipeId}/recipe-ingredients`, {
+    await fetch(`/api/recipes/${props.recipePublicId}/recipe-ingredients`, {
       method: "POST",
       body: JSON.stringify(formData),
-    }).then(() => mutate(`/api/recipes/${props.recipeId}/recipe-ingredients`))
+    }).then(() =>
+      mutate(`/api/recipes/${props.recipePublicId}/recipe-ingredients`)
+    )
     mutate(
-      `/api/recipes/${props.recipeId}/recipe-ingredients`,
+      `/api/recipes/${props.recipePublicId}/recipe-ingredients`,
       mutateData,
       false
     )
@@ -97,11 +101,11 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
                           <IngredientItem
                             ingredient={ingredient}
                             idx={index}
-                            recipeId={props.recipeId}
+                            recipePublicId={props.recipePublicId}
                             editable={props.editable}
                             revalidate={() =>
                               mutate(
-                                `/api/recipes/${props.recipeId}/recipe-ingredients`
+                                `/api/recipes/${props.recipePublicId}/recipe-ingredients`
                               )
                             }
                           />
@@ -168,7 +172,7 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
                   <IngredientItem
                     ingredient={ingredient}
                     idx={index}
-                    recipeId={props.recipeId}
+                    recipePublicId={props.recipePublicId}
                     editable={props.editable}
                     revalidate={() => {}}
                   />

@@ -17,6 +17,7 @@ import Link from "next/link"
 import styled from "styled-components"
 import Stack from "../../../components/system/Stack"
 import RecipeIngredients from "../../../components/RecipeIngredients"
+import _ from "lodash"
 
 const Aside = styled.span`
   display: flex;
@@ -42,28 +43,35 @@ const EditRecipe: React.FC = () => {
   const router = useRouter()
   const [showSummary, setShowSummary] = useState(false)
   const [showSource, setShowSource] = useState(false)
-  const { id } = router.query
+  const { slug } = router.query
   const {
     data,
     error,
     mutate,
   }: { data?: RecipeProps; error?: any; mutate?: any } = useFetcher(
-    `/api/recipes/${id}`
+    `/api/recipes/${slug}`,
+    slug != undefined
   )
   const { register, handleSubmit, errors } = useForm()
-  async function onSubmit(data) {
-    mutate(data, false)
+  async function onSubmit(formData) {
+    console.log(formData)
+    mutate(formData, false)
+    const payload = _.pickBy(formData, (value, key) => data[key] != value)
+    console.log(payload)
     mutate(
-      await fetch(`/api/recipes/${id}`, {
+      await fetch(`/api/recipes/${slug}`, {
         method: "POST",
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       })
-    ).then((p) => router.push(`/recipes/${id}`))
+    )
+      .then((p) => p.json())
+      .then((data) => router.push(`/r/${data.publicID}`))
   }
+
   async function handleDelete() {
     if (confirm("Are you sure you want to delete this recipe?")) {
       mutate(
-        await fetch(`/api/recipes/${id}`, {
+        await fetch(`/api/recipes/${slug}`, {
           method: "DELETE",
           body: JSON.stringify(data),
         })
@@ -75,7 +83,7 @@ const EditRecipe: React.FC = () => {
       invertHeader
       title="Edit Recipe"
       leftControl={
-        <Link href={`/recipes/[id]`} as={`/recipes/${id}`}>
+        <Link href={`/r/[slug]`} as={`/r/${slug}`}>
           <PrimaryButton icon={<ChevronLeft />}>Back</PrimaryButton>
         </Link>
       }
@@ -154,7 +162,7 @@ const EditRecipe: React.FC = () => {
       )}
       <SectionHeader>Ingredients</SectionHeader>
       <RecipeIngredients
-        recipeId={Number(id)}
+        recipePublicId={data?.publicID}
         editable={true}
         initialData={data?.ingredients}
         sections={data?.ingredientSections}

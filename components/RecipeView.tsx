@@ -8,6 +8,10 @@ import ReactMarkdown from "react-markdown"
 import RecipeInstructions from "./RecipeInstructions"
 import RecipeIngredients from "./RecipeIngredients"
 
+const KitchenIntro = styled.span`
+  font-weight: 600;
+  color: ${(p) => p.theme.colors.text};
+`
 const SourceSection = styled.div`
   font-size: 0.875rem;
   color: ${(p) => p.theme.colors.textSecondary};
@@ -27,27 +31,37 @@ const Summary = styled.p`
   }
 `
 
-const RecipeView: React.FC<{ data: RecipeProps }> = ({ data }) =>
+const RecipeView: React.FC<{ data: RecipeProps; user: any }> = ({
+  data,
+  user,
+}) =>
   data ? (
     <>
       <H1>{data.name || "Draft Recipe"}</H1>
       {data.summary && <Summary>{data.summary}</Summary>}
-      {data.sourceName && (
-        <SourceSection>
-          {" "}
-          Source:&nbsp;
-          {data.sourceURL ? (
-            <a href={data.sourceURL} target="_blank" rel="noreferrer">
-              {data.sourceName}
-            </a>
-          ) : (
-            <span>{data.sourceName}</span>
-          )}
-        </SourceSection>
-      )}
+      <SourceSection>
+        {(!user || data.authorId != user.id) && (
+          <>
+            from <KitchenIntro>{data.kitchen.name}</KitchenIntro>
+            {data.sourceName && " · "}
+          </>
+        )}
+        {data.sourceName && (
+          <>
+            Source:&nbsp;
+            {data.sourceURL ? (
+              <a href={data.sourceURL} target="_blank" rel="noreferrer">
+                {data.sourceName}
+              </a>
+            ) : (
+              <span>{data.sourceName}</span>
+            )}
+          </>
+        )}
+      </SourceSection>
       <SectionHeader>Ingredients</SectionHeader>
       <RecipeIngredients
-        recipeId={Number(data.id)}
+        recipePublicId={data.publicID}
         editable={false}
         sections={data.ingredientSections}
         initialData={data.ingredients}

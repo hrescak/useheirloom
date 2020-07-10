@@ -27,26 +27,28 @@ export type RecipeProps = {
   ingredientSections: string[]
   instructions?: string
   isDeleted: boolean
+  authorId: number
   // categories   Category[]
   // starredBy          User[]
 }
 export type RecipeIngredientProps = {
   initialData?: RecipeIngredient[]
   sections?: string[]
-  recipeId: number
+  recipePublicId: string
   editable: boolean
 }
 
 export type IngredientListProps = {
-  recipeId: number
+  recipePublicId: string
   sectionName?: string
   sectionId?: string
   editable: boolean
   ingredients?: RecipeIngredient[]
+  onSectionUpdate?: () => any
 }
 
 export type IngredientItemProps = {
-  recipeId: number
+  recipePublicId: string
   idx: number
   editable: boolean
   ingredient: Partial<RecipeIngredient>

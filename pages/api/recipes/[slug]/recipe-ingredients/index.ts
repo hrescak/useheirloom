@@ -24,7 +24,7 @@ async function handleGET(req, res) {
   if (session) {
     const result = await prisma.recipeIngredient.findMany({
       where: {
-        recipeId: Number(req.query.id),
+        recipe: { publicID: req.query.slug },
       },
     })
     res.json(result)
@@ -45,7 +45,7 @@ async function handlePOST(req, res) {
         freeform: freeform,
         priority: Number(priority),
         section: section ? Number(section) : null,
-        recipe: { connect: { id: Number(req.query.id) } },
+        recipe: { connect: { publicID: req.query.slug } },
       },
     })
     res.json(result)

@@ -12,6 +12,7 @@ type Props = {
   invertHeader?: boolean
   leftControl?: ReactNode
   rightControl?: ReactNode
+  signedOut?: boolean
 }
 
 const PageWrap = styled.div`
@@ -56,15 +57,17 @@ const Layout: React.FC<Props> = (props) => {
             content={props.invertHeader ? "black" : "default"}
           />
         </Head>
-        <HeaderWrapper reverse={props.invertHeader} shadow={scrollY > 30}>
-          <Wrapper>
-            <InnerWrapper>
-              {props.leftControl}
-              <div style={{ flex: 2 }} />
-              {props.rightControl}
-            </InnerWrapper>
-          </Wrapper>
-        </HeaderWrapper>
+        {!props.signedOut && (
+          <HeaderWrapper reverse={props.invertHeader} shadow={scrollY > 30}>
+            <Wrapper>
+              <InnerWrapper>
+                {props.leftControl}
+                <div style={{ flex: 2 }} />
+                {props.rightControl}
+              </InnerWrapper>
+            </Wrapper>
+          </HeaderWrapper>
+        )}
         <Wrapper style={{ paddingTop: "88px" }}>
           <div>{props.children}</div>
         </Wrapper>

@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 enum Unit {
@@ -58,7 +58,7 @@ model Recipe {
   id                 Int      @default(autoincrement()) @id
   name               String?
   summary            String?
-  publicID           String    @unique
+  publicID           String?   @unique
   isPublic           Boolean   @default(value:false)
   sourceName         String?
   sourceURL          String?

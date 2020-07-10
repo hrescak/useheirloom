@@ -28,7 +28,7 @@ const IngredientItem: React.FC<IngredientItemProps> = (props) => {
   const [freeform, setFreeform] = useState(props.ingredient.freeform)
   async function onSave() {
     await fetch(
-      `/api/recipes/${props.recipeId}/recipe-ingredients/${props.ingredient.id}`,
+      `/api/recipes/${props.recipePublicId}/recipe-ingredients/${props.ingredient.id}`,
       {
         method: "POST",
         body: JSON.stringify({ freeform: freeform }),
@@ -37,7 +37,7 @@ const IngredientItem: React.FC<IngredientItemProps> = (props) => {
   }
   async function onDelete() {
     await fetch(
-      `/api/recipes/${props.recipeId}/recipe-ingredients/${props.ingredient.id}`,
+      `/api/recipes/${props.recipePublicId}/recipe-ingredients/${props.ingredient.id}`,
       {
         method: "DELETE",
       }

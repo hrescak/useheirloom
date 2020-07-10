@@ -70,7 +70,7 @@ const RecipeWrapper = styled.a`
 const RecipeListItem: React.FC<Props> = ({ recipe }) => {
   return (
     <div>
-      <Link href={`/recipes/[id]`} as={`/recipes/${recipe.id}`} passHref>
+      <Link href={`/r/[slug]`} as={`/r/${recipe.publicID}`} passHref>
         <RecipeWrapper>
           <RecipePreview>
             <FileText style={{ opacity: recipe.name ? "1" : "0.2" }} />
