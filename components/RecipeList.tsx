@@ -1,10 +1,11 @@
-import { useRecipes, useUser, useCreateRecipe } from "../lib/hooks"
+import useRecipes from "../lib/useRecipes"
 import Loader from "./system/Loader"
 import RecipeListItem from "./RecipeListItem"
 import styled from "styled-components"
 import { H2 } from "./system/Typography"
 import { PrimaryButton } from "./system/Button"
 import { PlusCircle } from "react-feather"
+import { useUser } from "../lib/hooks"
 
 const EmptySlate = styled.div`
   background: ${(p) => p.theme.colors.wash};
@@ -36,8 +37,7 @@ const WelcomeTitle = styled(H2)`
 
 const RecipeList: React.FC = () => {
   const user = useUser()
-  const recipes = useRecipes()
-  const createRecipe = useCreateRecipe()
+  const { recipes, createRecipe } = useRecipes()
   return (
     <div className="page">
       <main style={{ marginTop: "3rem" }}>

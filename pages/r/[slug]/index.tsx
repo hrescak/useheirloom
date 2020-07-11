@@ -1,41 +1,20 @@
-import React, { useState } from "react"
-import fetch from "isomorphic-unfetch"
+import React from "react"
+import { useUser } from "../../../lib/hooks"
+import useRecipe from "../../../lib/useRecipe"
 import Layout from "../../../components/layout/Layout"
-import { useRouter } from "next/router"
-import useSWR from "swr"
-import { RecipeProps } from "../../../types"
 import RecipeView from "../../../components/RecipeView"
 import ShareMenu from "../../../components/ShareMenu"
 import Link from "next/link"
 import { InlineButton, OutlineButton } from "../../../components/system/Button"
 import { ChevronLeft, Edit3 } from "react-feather"
-import { useUser } from "../../../lib/hooks"
 
 const RecipePage: React.FC = () => {
-  const router = useRouter()
   const user = useUser()
-  const { slug } = router.query
-  const {
-    data,
-    error,
-  }: {
-    data?: RecipeProps
-    error?: any
-    mutate?: any
-  } = useSWR(
-    () => (slug != undefined ? `/api/recipes/` + slug : null),
-    (url) =>
-      fetch(url).then((r) => {
-        if (r.status != 200) {
-          router.push("/")
-        }
-        return r.json()
-      })
-  )
+  const { recipe, error } = useRecipe()
 
   return (
     <Layout
-      title={data?.name}
+      title={recipe?.name}
       signedOut={!user}
       leftControl={
         <Link href={`/`}>
@@ -45,12 +24,12 @@ const RecipePage: React.FC = () => {
         </Link>
       }
       rightControl={
-        data &&
+        recipe &&
         user &&
-        data.authorId === user.id && (
+        recipe.authorId === user.id && (
           <>
-            <ShareMenu recipe={data} />
-            <Link href={`/r/[slug]/edit`} as={`/r/${data?.publicID}/edit`}>
+            <ShareMenu recipe={recipe} />
+            <Link href={`/r/[slug]/edit`} as={`/r/${recipe?.publicID}/edit`}>
               <OutlineButton icon={<Edit3 />} style={{ marginLeft: "1rem" }}>
                 Edit
               </OutlineButton>
@@ -59,7 +38,11 @@ const RecipePage: React.FC = () => {
         )
       }
     >
-      {error ? <p>{error.message}</p> : <RecipeView user={user} data={data} />}
+      {error ? (
+        <p>{error.message}</p>
+      ) : (
+        <RecipeView user={user} data={recipe} />
+      )}
     </Layout>
   )
 }

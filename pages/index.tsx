@@ -2,7 +2,7 @@ import React from "react"
 import Layout from "../components/layout/Layout"
 import { getSession } from "../lib/iron"
 import { UserSession } from "../types"
-import { useCreateRecipe } from "../lib/hooks"
+import useRecipes from "../lib/useRecipes"
 import { OutlineButton } from "../components/system/Button"
 import Obfuscate from "react-obfuscate"
 import Link from "next/link"
@@ -26,7 +26,7 @@ const Hello = styled.div`
 `
 
 const Index: React.FC<Props> = (props) => {
-  const createRecipe = useCreateRecipe()
+  const { createRecipe } = useRecipes()
   if (!Boolean(props.session)) {
     return (
       <PublicLayout>

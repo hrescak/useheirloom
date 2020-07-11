@@ -5,8 +5,8 @@ import Popover from "./system/Popover"
 import { RecipeProps } from "../types"
 import Switch from "react-switch"
 import { useState } from "react"
-import { mutate } from "swr"
 import { CopyToClipboard } from "react-copy-to-clipboard"
+import useRecipe from "../lib/useRecipe"
 
 const SwitchRow = styled.div`
   display: flex;
@@ -55,23 +55,13 @@ interface ShareMenuProps {
 const ShareMenu: React.FC<ShareMenuProps> = (props) => {
   const [copied, setCopied] = useState(false)
   const [publicChecked, setPublicChecked] = useState(props.recipe.isPublic)
+  const { updateRecipe } = useRecipe()
   async function onSwitchChange(checked) {
     // make sure we only send the public change
     const newData = {
       isPublic: checked,
-      publicID: props.recipe.publicID,
     }
-
-    await fetch(`/api/recipes/${props.recipe.publicID}`, {
-      method: "POST",
-      body: JSON.stringify(newData),
-    })
-
-    // optimistically mutate local copy
-    mutate(`/api/recipes/${props.recipe.publicID}`, {
-      isPublic: checked,
-      ...props.recipe,
-    })
+    await updateRecipe(newData)
     setPublicChecked(checked)
   }
   const copyLink = () => {

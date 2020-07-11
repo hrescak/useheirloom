@@ -3,7 +3,6 @@ import Layout from "../../../components/layout/Layout"
 import { WithUser } from "../../../components/hoc/withUser"
 import { useRouter } from "next/router"
 import { useForm } from "react-hook-form"
-import { RecipeProps } from "../../../types"
 import SectionHeader from "../../../components/system/SectionHeader"
 import { Input, Textarea, Label } from "../../../components/system/Form"
 import {
@@ -12,12 +11,12 @@ import {
   AccentButton,
 } from "../../../components/system/Button"
 import { Plus, ChevronLeft, Trash2, CheckCircle } from "react-feather"
-import { useFetcher } from "../../../lib/hooks"
 import Link from "next/link"
 import styled from "styled-components"
 import Stack from "../../../components/system/Stack"
 import RecipeIngredients from "../../../components/RecipeIngredients"
 import _ from "lodash"
+import useRecipe from "../../../lib/useRecipe"
 
 const Aside = styled.span`
   display: flex;
@@ -44,41 +43,18 @@ const EditRecipe: React.FC = () => {
   const [showSummary, setShowSummary] = useState(false)
   const [showSource, setShowSource] = useState(false)
   const { slug } = router.query
-  const {
-    data,
-    error,
-    mutate,
-  }: { data?: RecipeProps; error?: any; mutate?: any } = useFetcher(
-    `/api/recipes/${slug}`,
-    slug != undefined
-  )
+  const { recipe, updateRecipe, deleteRecipe } = useRecipe()
   const { register, handleSubmit, errors } = useForm()
+
   async function onSubmit(formData) {
-    const payload = _.pickBy(formData, (value, key) => data[key] != value)
+    const payload = _.pickBy(formData, (value, key) => recipe[key] != value)
     // if there's nothing to change, navigate right away
     if (_.isEmpty(payload)) {
       router.push(`/r/${slug}`)
       return
     }
-
-    // save data and wait for response before redirecting in case of new slug
-    await fetch(`/api/recipes/${slug}`, {
-      method: "POST",
-      body: JSON.stringify(payload),
-    })
-      .then((p) => p.json())
-      .then((data) => router.push(`/r/${data.publicID}`))
-  }
-
-  async function handleDelete() {
-    if (confirm("Are you sure you want to delete this recipe?")) {
-      mutate(
-        await fetch(`/api/recipes/${slug}`, {
-          method: "DELETE",
-          body: JSON.stringify(data),
-        })
-      ).then((p) => router.push(`/`))
-    }
+    // save data and redirect to recipe page
+    updateRecipe(payload, true)
   }
   return (
     <Layout
@@ -94,7 +70,7 @@ const EditRecipe: React.FC = () => {
           <PrimaryButton
             icon={<Trash2 />}
             style={{ marginRight: "0.5rem" }}
-            onClick={() => handleDelete()}
+            onClick={() => deleteRecipe()}
           >
             Delete
           </PrimaryButton>
@@ -109,36 +85,36 @@ const EditRecipe: React.FC = () => {
         type="text"
         placeholder="Something super tasty"
         name="name"
-        defaultValue={data?.name}
+        defaultValue={recipe?.name}
         ref={register}
       />
-      {((!showSummary && !data?.summary) ||
-        (!showSource && !data?.sourceName)) && (
+      {((!showSummary && !recipe?.summary) ||
+        (!showSource && !recipe?.sourceName)) && (
         <div>
-          {!showSummary && !data?.summary && (
+          {!showSummary && !recipe?.summary && (
             <InlineButton onClick={() => setShowSummary(true)} icon={<Plus />}>
               Add a Summary
             </InlineButton>
           )}
-          {!showSource && !data?.sourceName && (
+          {!showSource && !recipe?.sourceName && (
             <InlineButton onClick={() => setShowSource(true)} icon={<Plus />}>
               Add Source
             </InlineButton>
           )}
         </div>
       )}
-      {(showSummary || data?.summary) && (
+      {(showSummary || recipe?.summary) && (
         <>
           <Label>Recipe Summary or Description</Label>
           <Textarea
             name="summary"
-            defaultValue={data?.summary}
+            defaultValue={recipe?.summary}
             ref={register}
             rows={3}
           />
         </>
       )}
-      {(showSource || data?.sourceName) && (
+      {(showSource || recipe?.sourceName) && (
         <Stack row>
           <Half style={{ paddingRight: "1rem" }}>
             <Label>Source Title</Label>
@@ -146,7 +122,7 @@ const EditRecipe: React.FC = () => {
               type="text"
               placeholder="Food blog name, or 'Grandma'"
               name="sourceName"
-              defaultValue={data?.sourceName}
+              defaultValue={recipe?.sourceName}
               ref={register}
             />
           </Half>
@@ -156,7 +132,7 @@ const EditRecipe: React.FC = () => {
               type="url"
               placeholder="http://"
               name="sourceURL"
-              defaultValue={data?.sourceURL}
+              defaultValue={recipe?.sourceURL}
               ref={register}
             />
           </Half>
@@ -164,10 +140,10 @@ const EditRecipe: React.FC = () => {
       )}
       <SectionHeader>Ingredients</SectionHeader>
       <RecipeIngredients
-        recipePublicId={data?.publicID}
+        recipePublicId={recipe?.publicID}
         editable={true}
-        initialData={data?.ingredients}
-        sections={data?.ingredientSections}
+        initialData={recipe?.ingredients}
+        sections={recipe?.ingredientSections}
       />
       <Stack row>
         <SectionHeader style={{ flex: 2 }}>Instructions</SectionHeader>
@@ -184,7 +160,7 @@ const EditRecipe: React.FC = () => {
       </Stack>
       <Textarea
         name="instructions"
-        defaultValue={data?.instructions}
+        defaultValue={recipe?.instructions}
         ref={register}
         rows={20}
       />

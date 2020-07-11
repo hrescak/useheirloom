@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { useEffect } from "react"
 import Router, { useRouter } from "next/router"
 import useSWR from "swr"
 import { RecipeIngredient } from "@prisma/client"
@@ -61,27 +61,6 @@ export function useUser(
   }, [redirectTo, redirectIfFound, finished, hasUser])
 
   return error ? null : user
-}
-
-export const useRecipes = () => {
-  const { data, error } = useSWR("/api/recipes", fetcher)
-  const recipes = data
-  return error ? null : recipes
-}
-
-export const useCreateRecipe = () => {
-  const router = useRouter()
-  const createRecipe = () => {
-    fetch("/api/recipes", {
-      method: "POST",
-    })
-      .then((r) => r.json())
-      .then((data) => {
-        router.push(`/r/${data.publicID}/edit`)
-        return data || null
-      })
-  }
-  return createRecipe
 }
 
 export const useMoveRecipeIngredient = (
