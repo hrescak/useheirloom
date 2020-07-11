@@ -10,6 +10,7 @@ export default async function signup(req, res) {
     }
   } catch (error) {
     console.error(error)
-    res.status(500).end(error.message)
+    //TODO do a proper thing here
+    res.status(500).send("User with this email already exists")
   }
 }

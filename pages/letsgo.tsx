@@ -9,7 +9,7 @@ import { LogIn } from "react-feather"
 
 const Signup: React.FC = () => {
   useUser({ redirectTo: "/", redirectIfFound: true })
-  const { register, handleSubmit, errors, watch } = useForm()
+  const { register, handleSubmit, errors, watch, setError } = useForm()
   const pwd = watch("password")
   async function onSubmit(data) {
     try {
@@ -24,7 +24,7 @@ const Signup: React.FC = () => {
         throw new Error(await res.text())
       }
     } catch (error) {
-      console.error("An unexpected error happened occurred:", error)
+      setError("request", "", error.message)
     }
   }
 
@@ -32,6 +32,7 @@ const Signup: React.FC = () => {
     <PublicLayout>
       <form onSubmit={handleSubmit(onSubmit)}>
         <H1>Sign up</H1>
+        <FormError separateRow title={errors?.request?.message} />
         <Label>Email</Label>
         <Input
           placeholder="your@email.com"

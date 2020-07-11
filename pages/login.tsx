@@ -25,7 +25,6 @@ const Login = () => {
         throw new Error(await res.text())
       }
     } catch (error) {
-      console.log(error.message)
       setError("request", "", error.message)
     }
   }
