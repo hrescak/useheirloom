@@ -147,7 +147,7 @@ const SettingsPage: React.FC = (props) => {
           </InputRow>
           {newPassword && (
             <>
-              <Label>Enter New Password</Label>
+              <Label>Re-enter New Password</Label>
               <InputRow>
                 <Half>
                   <Input
