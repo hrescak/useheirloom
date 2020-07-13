@@ -11,6 +11,7 @@ import styled from "styled-components"
 import UserMenu from "../components/UserMenu"
 import { PlusCircle, LogIn } from "react-feather"
 import RecipeList from "../components/RecipeList"
+import { useUser } from "../lib/hooks"
 
 type Props = {
   session: UserSession
@@ -26,8 +27,9 @@ const Hello = styled.div`
 `
 
 const Index: React.FC<Props> = (props) => {
+  const user = useUser({}, { initialProps: props.session })
   const { createRecipe } = useRecipes()
-  if (!Boolean(props.session)) {
+  if (!user && !props.session) {
     return (
       <PublicLayout>
         <Hello>
@@ -70,7 +72,7 @@ const Index: React.FC<Props> = (props) => {
         />
       }
       rightControl={
-        props.session && (
+        user && (
           <>
             <OutlineButton
               onClick={() => createRecipe()}

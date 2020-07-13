@@ -5,6 +5,7 @@ import styled from "styled-components"
 import Footer from "./Footer"
 import Head from "next/head"
 import useScrollPosition from "@react-hook/window-scroll"
+import InstallBar from "../InstallBar"
 
 type Props = {
   children: ReactNode
@@ -73,6 +74,7 @@ const Layout: React.FC<Props> = (props) => {
         </Wrapper>
       </PageWrap>
       <Footer />
+      <InstallBar />
       <script
         data-goatcounter="https://heirloom.goatcounter.com/count"
         async

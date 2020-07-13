@@ -11,6 +11,8 @@ const theme = {
     controlActive: "#777",
     error: "#C23329",
     errorWash: "#F8D5D2",
+    inverseBackground: "#000000",
+    inverseText: "#f6f6f6",
   },
   breakpoints: {
     small: "28rem", //448px

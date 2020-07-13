@@ -2,6 +2,7 @@ import React, { ReactNode } from "react"
 import Meta from "./Meta"
 import styled from "styled-components"
 import Footer from "./Footer"
+import InstallBar from "../InstallBar"
 
 type Props = {
   children: ReactNode
@@ -38,6 +39,7 @@ const PublicLayout: React.FC<Props> = (props) => {
         <Wrapper>{props.children}</Wrapper>
       </PageWrap>
       <Footer isPublic />
+      <InstallBar />
     </>
   )
 }

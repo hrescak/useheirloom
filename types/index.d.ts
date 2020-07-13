@@ -1,5 +1,11 @@
 import { RecipeIngredient, Recipe } from "@prisma/client"
 
+declare global {
+  interface Window {
+    workbox: any
+  }
+}
+
 export type UserSession = {
   id: number
   name: string
