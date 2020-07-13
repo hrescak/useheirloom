@@ -6,12 +6,19 @@ import { H1 } from "../components/system/Typography"
 import { Label, Input, FormError } from "../components/system/Form"
 import { PrimaryButton } from "../components/system/Button"
 import { LogIn } from "react-feather"
+import { useContext, useState } from "react"
+import { ThemeContext } from "styled-components"
+import Stack from "../components/system/Stack"
+import { BarLoader } from "react-spinners"
 
 const Signup: React.FC = () => {
+  const theme = useContext(ThemeContext)
+  const [loading, setLoading] = useState(false)
   useUser({ redirectTo: "/", redirectIfFound: true })
   const { register, handleSubmit, errors, watch, setError } = useForm()
   const pwd = watch("password")
   async function onSubmit(data) {
+    setLoading(true)
     try {
       const res = await fetch("/api/auth/signup", {
         method: "POST",
@@ -23,8 +30,10 @@ const Signup: React.FC = () => {
       } else {
         throw new Error(await res.text())
       }
+      setLoading(false)
     } catch (error) {
       setError("request", "", error.message)
+      setLoading(false)
     }
   }
 
@@ -74,13 +83,16 @@ const Signup: React.FC = () => {
           })}
         />
         <FormError title={errors?.rpassword?.message} />
-        <PrimaryButton
-          style={{ marginTop: "1rem" }}
-          icon={<LogIn />}
-          onClick={handleSubmit(onSubmit)}
-        >
-          Create an account
-        </PrimaryButton>
+        <Stack row style={{ marginTop: "1rem", alignItems: "center" }}>
+          <PrimaryButton
+            style={{ marginRight: "1rem" }}
+            icon={<LogIn />}
+            onClick={handleSubmit(onSubmit)}
+          >
+            Create an account
+          </PrimaryButton>
+          {loading && <BarLoader color={theme.colors.textSecondary} />}
+        </Stack>
       </form>
     </PublicLayout>
   )

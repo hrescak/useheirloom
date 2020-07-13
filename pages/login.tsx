@@ -7,12 +7,19 @@ import { PrimaryButton } from "../components/system/Button"
 import { H1 } from "../components/system/Typography"
 import { FormError } from "../components/system/Form"
 import { LogIn } from "react-feather"
+import { ThemeContext } from "styled-components"
+import { BarLoader } from "react-spinners"
+import { useContext, useState } from "react"
+import Stack from "../components/system/Stack"
 
 const Login = () => {
+  const theme = useContext(ThemeContext)
+  const [loading, setLoading] = useState(false)
   useUser({ redirectTo: "/", redirectIfFound: true })
   const { register, handleSubmit, errors, setError } = useForm()
 
   async function onSubmit(data) {
+    setLoading(true)
     try {
       const res = await fetch("/api/auth/login", {
         method: "POST",
@@ -24,8 +31,10 @@ const Login = () => {
       } else {
         throw new Error(await res.text())
       }
+      setLoading(false)
     } catch (error) {
       setError("request", "", error.message)
+      setLoading(false)
     }
   }
 
@@ -54,13 +63,16 @@ const Login = () => {
           })}
         />
         <FormError title={errors?.password?.message} />
-        <PrimaryButton
-          style={{ marginTop: "1rem" }}
-          icon={<LogIn />}
-          onClick={handleSubmit(onSubmit)}
-        >
-          Log in
-        </PrimaryButton>
+        <Stack row style={{ alignItems: "center", marginTop: "1rem" }}>
+          <PrimaryButton
+            style={{ marginRight: "1rem" }}
+            icon={<LogIn />}
+            onClick={handleSubmit(onSubmit)}
+          >
+            Log in
+          </PrimaryButton>
+          {loading && <BarLoader color={theme.colors.textSecondary} />}
+        </Stack>
       </form>
     </PublicLayout>
   )
