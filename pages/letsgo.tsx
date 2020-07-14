@@ -8,7 +8,6 @@ import { PrimaryButton } from "../components/system/Button"
 import { LogIn } from "react-feather"
 import { useContext, useState } from "react"
 import { ThemeContext } from "styled-components"
-import Stack from "../components/system/Stack"
 import { BarLoader } from "react-spinners"
 
 const Signup: React.FC = () => {
@@ -83,7 +82,9 @@ const Signup: React.FC = () => {
           })}
         />
         <FormError title={errors?.rpassword?.message} />
-        <Stack row style={{ marginTop: "1rem", alignItems: "center" }}>
+        <div
+          style={{ display: "flex", marginTop: "1rem", alignItems: "center" }}
+        >
           <PrimaryButton
             style={{ marginRight: "1rem" }}
             icon={<LogIn />}
@@ -92,7 +93,7 @@ const Signup: React.FC = () => {
             Create an account
           </PrimaryButton>
           {loading && <BarLoader color={theme.colors.textSecondary} />}
-        </Stack>
+        </div>
       </form>
     </PublicLayout>
   )

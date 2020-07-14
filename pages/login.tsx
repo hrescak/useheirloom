@@ -10,7 +10,6 @@ import { LogIn } from "react-feather"
 import { ThemeContext } from "styled-components"
 import { BarLoader } from "react-spinners"
 import { useContext, useState } from "react"
-import Stack from "../components/system/Stack"
 
 const Login = () => {
   const theme = useContext(ThemeContext)
@@ -63,7 +62,9 @@ const Login = () => {
           })}
         />
         <FormError title={errors?.password?.message} />
-        <Stack row style={{ alignItems: "center", marginTop: "1rem" }}>
+        <div
+          style={{ display: "flex", alignItems: "center", marginTop: "1rem" }}
+        >
           <PrimaryButton
             style={{ marginRight: "1rem" }}
             icon={<LogIn />}
@@ -72,7 +73,7 @@ const Login = () => {
             Log in
           </PrimaryButton>
           {loading && <BarLoader color={theme.colors.textSecondary} />}
-        </Stack>
+        </div>
       </form>
     </PublicLayout>
   )

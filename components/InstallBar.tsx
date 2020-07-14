@@ -38,20 +38,20 @@ const InstallBar: React.FC = (props) => {
     ) {
       // add event listeners to handle any of PWA lifecycle event
       // https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-window.Workbox#events
-      window.workbox.addEventListener("installed", (event) => {
-        console.log(`Event ${event.type} is triggered.`)
-        console.log(event)
-      })
+      // window.workbox.addEventListener("installed", (event) => {
+      //   console.log(`Event ${event.type} is triggered.`)
+      //   console.log(event)
+      // })
 
-      window.workbox.addEventListener("controlling", (event) => {
-        console.log(`Event ${event.type} is triggered.`)
-        console.log(event)
-      })
+      // window.workbox.addEventListener("controlling", (event) => {
+      //   console.log(`Event ${event.type} is triggered.`)
+      //   console.log(event)
+      // })
 
-      window.workbox.addEventListener("activated", (event) => {
-        console.log(`Event ${event.type} is triggered.`)
-        console.log(event)
-      })
+      // window.workbox.addEventListener("activated", (event) => {
+      //   console.log(`Event ${event.type} is triggered.`)
+      //   console.log(event)
+      // })
 
       // A common UX pattern for progressive web apps is to show a banner when a service worker has updated and waiting to install.
       // NOTE: set skipWaiting to false in next.config.js pwa object

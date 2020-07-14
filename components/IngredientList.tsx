@@ -1,15 +1,13 @@
 import { IngredientListProps } from "../types"
-import { RecipeIngredient } from "@prisma/client"
-import { mutate } from "swr"
 import _ from "lodash"
 import { useForm } from "react-hook-form"
 import IngredientItem from "./IngredientItem"
 import { Droppable, DragDropContext } from "react-beautiful-dnd"
-import { useMoveRecipeIngredient } from "../lib/hooks"
 import styled from "styled-components"
 import { Plus, PlusCircle } from "react-feather"
 import { PrimaryButton } from "./system/Button"
 import { UL, H3 } from "./system/Typography"
+import useRecipeIngredients from "../lib/useRecipeIngredients"
 
 const Separator = styled.div`
   height: 2px;
@@ -45,74 +43,17 @@ const ListWrapper = styled.div<{ isSection?: boolean }>`
 `
 
 const IngredientList: React.FC<IngredientListProps> = (props) => {
-  const data = props.ingredients
   const { register, setValue, handleSubmit } = useForm()
-  const { moveIngredient, highestPriority } = useMoveRecipeIngredient(
-    _.sortBy(data, (i) => i.priority),
-    onMove
-  )
-  async function onMove(ingredient) {
-    //save moved ingredient
-    await fetch(
-      `/api/recipes/${props.recipePublicId}/recipe-ingredients/${ingredient.id}`,
-      {
-        method: "POST",
-        body: JSON.stringify(ingredient),
-      }
-    )
-    //optimistically mutate local state
-    const mutateData = data.map((ing) =>
-      ing.id == ingredient.id ? { priority: ingredient.priority, ...ing } : ing
-    )
-    mutate(
-      `/api/recipes/${props.recipePublicId}/recipe-ingredients`,
-      mutateData
-    )
-  }
+  const {
+    createIngredient,
+    renameIngredient,
+    moveIngredient,
+    deleteIngredient,
+  } = useRecipeIngredients(props.ingredients)
+
   async function onSubmit(formData) {
-    // save the new ingredient
-    await fetch(`/api/recipes/${props.recipePublicId}/recipe-ingredients`, {
-      method: "POST",
-      body: JSON.stringify(formData),
-    })
-    // if there's ingredients, add them to the list and mutate optimistically
-    const mutateData = data ? [...data, formData] : [formData]
-    mutate(
-      `/api/recipes/${props.recipePublicId}/recipe-ingredients`,
-      mutateData
-    )
+    createIngredient(formData)
     setValue("freeform", "")
-  }
-  async function onEdit(id, newName) {
-    await fetch(
-      `/api/recipes/${props.recipePublicId}/recipe-ingredients/${id}`,
-      {
-        method: "POST",
-        body: JSON.stringify({ freeform: newName }),
-      }
-    )
-    //optimistically mutate local state
-    const mutateData = data.map((ing) =>
-      ing.id == id ? { freeform: newName, ...ing } : ing
-    )
-    mutate(
-      `/api/recipes/${props.recipePublicId}/recipe-ingredients`,
-      mutateData
-    )
-  }
-  async function onDelete(id) {
-    await fetch(
-      `/api/recipes/${props.recipePublicId}/recipe-ingredients/${id}`,
-      {
-        method: "DELETE",
-      }
-    )
-    //optimistically mutate local state
-    const mutateData = _.remove(data, (ing) => ing.id != id)
-    mutate(
-      `/api/recipes/${props.recipePublicId}/recipe-ingredients`,
-      mutateData
-    )
   }
   return (
     <div>
@@ -123,8 +64,8 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
             <Droppable droppableId="ingredients" direction="vertical">
               {(provided, snapshot) => (
                 <div ref={provided.innerRef}>
-                  {data &&
-                    _.sortBy(data, (i) => i.priority).map(
+                  {props.ingredients &&
+                    _.sortBy(props.ingredients, (i) => i.priority).map(
                       (ingredient, index) => (
                         <div key={ingredient.freeform}>
                           <IngredientItem
@@ -132,8 +73,8 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
                             idx={index}
                             recipePublicId={props.recipePublicId}
                             editable={props.editable}
-                            onDelete={onDelete}
-                            onEdit={onEdit}
+                            onDelete={deleteIngredient}
+                            onEdit={renameIngredient}
                           />
                         </div>
                       )
@@ -143,7 +84,7 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
               )}
             </Droppable>
           </DragDropContext>
-          {data && data.length > 0 && <Separator />}
+          {props.ingredients && props.ingredients.length > 0 && <Separator />}
           <form onSubmit={handleSubmit(onSubmit)}>
             <div
               style={{
@@ -159,12 +100,6 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
                   type="text"
                   placeholder="Add an Ingredient..."
                   name="freeform"
-                  ref={register}
-                />
-                <input
-                  type="hidden"
-                  name="priority"
-                  value={highestPriority() + 1}
                   ref={register}
                 />
                 {props.sectionId != null && (
@@ -191,18 +126,20 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
         <>
           {props.sectionName && <H3>{props.sectionName}</H3>}
           <UL>
-            {data &&
-              data.length > 0 &&
-              _.sortBy(data, (i) => i.priority).map((ingredient, index) => (
-                <li key={ingredient.freeform} style={{ padding: "4px 0" }}>
-                  <IngredientItem
-                    ingredient={ingredient}
-                    idx={index}
-                    recipePublicId={props.recipePublicId}
-                    editable={props.editable}
-                  />
-                </li>
-              ))}
+            {props.ingredients &&
+              props.ingredients.length > 0 &&
+              _.sortBy(props.ingredients, (i) => i.priority).map(
+                (ingredient, index) => (
+                  <li key={ingredient.freeform} style={{ padding: "4px 0" }}>
+                    <IngredientItem
+                      ingredient={ingredient}
+                      idx={index}
+                      recipePublicId={props.recipePublicId}
+                      editable={props.editable}
+                    />
+                  </li>
+                )
+              )}
           </UL>
         </>
       )}

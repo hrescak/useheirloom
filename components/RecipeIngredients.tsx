@@ -1,24 +1,21 @@
 import React from "react"
-import useSWR from "swr"
-import { RecipeIngredient } from "@prisma/client"
 import { RecipeIngredientProps } from "../types"
 import IngredientList from "./IngredientList"
 import _ from "lodash"
+import useRecipeIngredients from "../lib/useRecipeIngredients"
 
 const RecipeIngredients: React.FC<RecipeIngredientProps> = (props) => {
-  var data: RecipeIngredient[] = props.initialData
-  if (!data || props.editable) {
-    let swr = useSWR(
-      `/api/recipes/${props.recipePublicId}/recipe-ingredients`,
-      (url) => fetch(url).then((r) => r.json()),
-      { initialData: props.initialData }
-    )
-    data = swr.data
+  let ingredients = props.initialData
+  if (props.editable) {
+    const fetchedData = useRecipeIngredients(props.initialData)
+    ingredients = fetchedData.ingredients
   }
   const noSectionIngredients =
-    data && data.filter((ingredient) => ingredient.section == null)
+    ingredients &&
+    ingredients.filter((ingredient) => ingredient.section == null)
   const yesSectionIngredients =
-    data && data.filter((ingredient) => ingredient.section != null)
+    ingredients &&
+    ingredients.filter((ingredient) => ingredient.section != null)
   const ingredientsBySection =
     yesSectionIngredients &&
     _.chain(yesSectionIngredients).groupBy("section").values().value()
@@ -52,7 +49,9 @@ const RecipeIngredients: React.FC<RecipeIngredientProps> = (props) => {
             onSectionUpdate={onSectionUpdate}
           />
         ))}
-      {data && data.length === 0 && !props.editable && <>No Ingredients yet</>}
+      {ingredients && ingredients.length === 0 && !props.editable && (
+        <>No Ingredients yet</>
+      )}
     </>
   )
 }

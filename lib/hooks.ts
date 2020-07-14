@@ -64,8 +64,7 @@ export function useUser(
 }
 
 export const useMoveRecipeIngredient = (
-  ingredients?: RecipeIngredient[] | null,
-  updateIngredient?: (ingredient: Partial<RecipeIngredient>) => any
+  ingredients?: RecipeIngredient[] | null
 ) => {
   const highestPriority = () => {
     if (ingredients && ingredients.length > 0) {
@@ -90,7 +89,7 @@ export const useMoveRecipeIngredient = (
     return 0 // if no todos
   }
 
-  const moveIngredient = (result: DropResult) => {
+  const targetPriority = (result: DropResult) => {
     if (
       result.destination &&
       result.destination.index !== result.source.index &&
@@ -124,15 +123,11 @@ export const useMoveRecipeIngredient = (
         }
       }
 
-      const ingredientToUpdate = ingredients[result.source.index]
-      updateIngredient({
-        id: ingredientToUpdate.id,
-        freeform: ingredientToUpdate.freeform,
-        priority: targetPriority,
-      })
+      return targetPriority
     }
   }
-  return { moveIngredient, highestPriority }
+
+  return { targetPriority, highestPriority }
 }
 
 export const useRecipeSection = (
