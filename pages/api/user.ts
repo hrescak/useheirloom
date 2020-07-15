@@ -19,7 +19,7 @@ export default async function handle(req, res) {
 // GET /api/settings
 async function handleGET(req, res) {
   const session = await getSession(req)
-  if (!session) res.json({ message: "Not Authenticated" })
+  if (!session) return res.json({ message: "Not Authenticated" })
 
   const user = await prisma.user.findOne({
     where: {
@@ -30,7 +30,7 @@ async function handleGET(req, res) {
     },
   })
   if (!user) {
-    res.status(401).json({ message: "Not Found" })
+    return res.status(401).json({ message: "Not Found" })
   }
   const responseUser = {
     id: user.id,
@@ -39,13 +39,13 @@ async function handleGET(req, res) {
     kitchenId: user.ownKitchen.id,
     kitchenName: user.ownKitchen.name,
   }
-  res.json({ user: responseUser })
+  return res.json({ user: responseUser })
 }
 
 // POST /api/settings
 async function handlePOST(req, res) {
   const session = await getSession(req)
-  if (!session) res.status(401).json({ message: "Not Authenticated" })
+  if (!session) return res.status(401).json({ message: "Not Authenticated" })
   // start an update object
   const data = JSON.parse(req.body)
   let dataToWrite = {
@@ -61,14 +61,14 @@ async function handlePOST(req, res) {
     const confirmedUser = await prisma.user.findOne({
       where: { id: session.id },
     })
-    if (!confirmedUser) res.status(401).json({ message: "Not Found" })
+    if (!confirmedUser) return res.status(401).json({ message: "Not Found" })
     const passwordsMatch =
       confirmedUser.hash ===
       crypto
         .pbkdf2Sync(data.oldPassword, confirmedUser.salt, 1000, 64, "sha512")
         .toString("hex")
     if (!passwordsMatch)
-      res.status(404).json({ message: "Old password doesn't match" })
+      return res.status(404).json({ message: "Old password doesn't match" })
     dataToWrite["hash"] = crypto
       .pbkdf2Sync(data.newPassword, confirmedUser.salt, 1000, 64, "sha512")
       .toString("hex")
@@ -78,5 +78,5 @@ async function handlePOST(req, res) {
     where: { id: session.id },
     data: dataToWrite,
   })
-  res.json(user)
+  return res.json(user)
 }
