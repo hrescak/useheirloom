@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 enum Unit {
@@ -31,8 +31,8 @@ enum CategoryType {
 
 model User {
   id             Int       @default(autoincrement()) @id
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt @default(now())
   email          String    @unique
   name           String
   googleId       Int?      @unique
@@ -42,13 +42,13 @@ model User {
   ownKitchen     Kitchen   @relation("KitchenOwnership")
   kitchens       Kitchen[] @relation(references: [id])
   starredRecipes Recipe[]
-  recipes        Recipe[]  @relation("RecipeOwnership")
+  recipes        Recipe[] @relation("RecipeOwnership")
 }
 
 model Kitchen {
   id          Int        @default(autoincrement()) @id
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt @default(now())
   name        String
   description String?
   owner       User       @relation("KitchenOwnership", references: [id], fields: [ownerId])
@@ -59,50 +59,50 @@ model Kitchen {
 }
 
 model Recipe {
-  id                 Int                @default(autoincrement()) @id
-  createdAt          DateTime           @default(now())
-  updatedAt          DateTime           @updatedAt
+  id                 Int      @default(autoincrement()) @id
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt @default(now())
   name               String?
   summary            String?
-  publicID           String             @unique
-  isPublic           Boolean            @default(value: false)
+  publicID           String    @unique
+  isPublic           Boolean   @default(value:false)
   sourceName         String?
   sourceURL          String?
   servings           Int?
   prepDuration       Int?
   cookDuration       Int?
   totalDuration      Int?
-  kitchen            Kitchen            @relation(references: [id], fields: [kitchenId])
+  kitchen            Kitchen  @relation(references: [id], fields: [kitchenId])
   kitchenId          Int
   imageURL           String?
-  ingredients        RecipeIngredient[]
+  ingredients  RecipeIngredient[]
   ingredientSections String[]
   instructions       String?
-  isDeleted          Boolean            @default(value: false)
-  categories         Category[]
+  isDeleted          Boolean  @default(value: false)
+  categories   Category[] 
   starredBy          User[]
-  author             User               @relation("RecipeOwnership", references: [id], fields: [authorId])
-  authorId           Int                @default(value: 1) //before manually going through everyone
+  author            User @relation("RecipeOwnership", references: [id], fields: [authorId])
+  authorId           Int @default(value:1) //before manually going through everyone
 
 }
 
 model Ingredient {
-  id        Int                @default(autoincrement()) @id
-  createdAt DateTime           @default(now())
-  updatedAt DateTime           @updatedAt
-  name      String
-  category  String
-  uses      RecipeIngredient[]
+  id       Int                @default(autoincrement()) @id
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt @default(now())
+  name     String
+  category String
+  uses     RecipeIngredient[]
 }
 
 model RecipeIngredient {
-  id           Int         @default(autoincrement()) @id
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+  id           Int        @default(autoincrement()) @id
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt @default(now())
   freeform     String
   ingredient   Ingredient? @relation(references: [id], fields: [ingredientId])
   ingredientId Int?
-  recipe       Recipe      @relation(references: [id], fields: [recipeId])
+  recipe       Recipe     @relation(references: [id], fields: [recipeId])
   recipeId     Int
   priority     Float
   quantity     Float?
@@ -112,13 +112,11 @@ model RecipeIngredient {
 
 model Category {
   id          Int          @default(autoincrement()) @id
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt @default(now())
   name        String
   description String
   kitchen     Kitchen      @relation(references: [id], fields: [kitchenId])
   kitchenId   Int
   type        CategoryType
-  Recipe      Recipe?      @relation(fields: [recipeId], references: [id])
-  recipeId    Int?
 }
