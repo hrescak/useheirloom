@@ -1,5 +1,5 @@
 import Router from "next/router"
-import { useUser } from "../lib/hooks"
+import { useUser } from "../lib/useUser"
 import PublicLayout from "../components/layout/PublicLayout"
 import { useForm } from "react-hook-form"
 import { Label, Input } from "../components/system/Form"

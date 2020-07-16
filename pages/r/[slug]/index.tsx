@@ -1,5 +1,5 @@
 import React from "react"
-import { useUser } from "../../../lib/hooks"
+import { useUser } from "../../../lib/useUser"
 import useRecipe from "../../../lib/useRecipe"
 import Layout from "../../../components/layout/Layout"
 import RecipeView from "../../../components/RecipeView"

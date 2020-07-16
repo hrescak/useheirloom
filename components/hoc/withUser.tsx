@@ -1,4 +1,4 @@
-import { useUser } from "../../lib/hooks"
+import { useUser } from "../../lib/useUser"
 
 export const WithUser = (WrappedComponent) => {
   const Wrapper = (props) => {

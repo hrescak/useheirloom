@@ -11,7 +11,7 @@ import styled from "styled-components"
 import UserMenu from "../components/UserMenu"
 import { PlusCircle, LogIn } from "react-feather"
 import RecipeList from "../components/RecipeList"
-import { useUser } from "../lib/hooks"
+import { useUser } from "../lib/useUser"
 
 type Props = {
   session: UserSession

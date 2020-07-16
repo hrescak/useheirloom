@@ -5,7 +5,7 @@ import styled from "styled-components"
 import { H2 } from "./system/Typography"
 import { PrimaryButton } from "./system/Button"
 import { PlusCircle } from "react-feather"
-import { useUser } from "../lib/hooks"
+import { useUser } from "../lib/useUser"
 
 const EmptySlate = styled.div`
   background: ${(p) => p.theme.colors.wash};

@@ -3,13 +3,13 @@ import styled from "styled-components"
 import Layout from "../../components/layout/Layout"
 import { H1, H2 } from "../../components/system/Typography"
 import { Label, Input, FormError } from "../../components/system/Form"
-import { useFetcher } from "../../lib/hooks"
 import { useForm } from "react-hook-form"
 import { WithUser } from "../../components/hoc/withUser"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import { PrimaryButton, AccentButton } from "../../components/system/Button"
 import { ChevronLeft, CheckCircle } from "react-feather"
+import { UserSession } from "../../types"
 
 const InputRow = styled.div`
   display: flex;
@@ -34,8 +34,7 @@ const Half = styled.div`
     width: 100%;
   }
 `
-const SettingsPage: React.FC = (props) => {
-  const { data } = useFetcher("/api/user")
+const SettingsPage: React.FC<{ user: UserSession }> = (props) => {
   const router = useRouter()
   const { handleSubmit, register, errors, setError, watch } = useForm()
   const newPassword = watch("newPassword")
@@ -73,7 +72,7 @@ const SettingsPage: React.FC = (props) => {
     >
       <H1>Account Settings</H1>
       <FormError separateRow title={errors?.request?.message} />
-      {data && data.user && (
+      {props.user && (
         <form onSubmit={handleSubmit(onSubmit)}>
           <Label>Email</Label>
           <InputRow>
@@ -81,7 +80,7 @@ const SettingsPage: React.FC = (props) => {
               <Input
                 name="email"
                 placeholder="your@email.com"
-                defaultValue={data.user.email}
+                defaultValue={props.user.email}
                 ref={register({
                   required: "Your email can't be blank",
                 })}
@@ -98,7 +97,7 @@ const SettingsPage: React.FC = (props) => {
               <Input
                 name="name"
                 placeholder="First Last"
-                defaultValue={data.user.name}
+                defaultValue={props.user.name}
                 ref={register({
                   required: "Your name can't be blank",
                 })}
@@ -116,7 +115,7 @@ const SettingsPage: React.FC = (props) => {
               <Input
                 name="kitchenName"
                 placeholder="Joe's Kitchen"
-                defaultValue={data.user.kitchenName}
+                defaultValue={props.user.kitchenName}
                 ref={register({
                   required: "Kitchen name can't be blank",
                 })}

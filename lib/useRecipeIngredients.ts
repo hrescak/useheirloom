@@ -3,7 +3,6 @@ import { useRouter } from "next/router"
 import { RecipeIngredient } from "@prisma/client"
 import _ from "lodash"
 import { DropResult } from "react-beautiful-dnd"
-import { useMoveRecipeIngredient } from "./hooks"
 
 const useRecipeIngredients = (initialData?: RecipeIngredient[]) => {
   const router = useRouter()
@@ -20,7 +19,7 @@ const useRecipeIngredients = (initialData?: RecipeIngredient[]) => {
   ingredients = _.sortBy(ingredients, (i) => i.priority)
 
   // helper functions for priority dragging targets
-  const { targetPriority, highestPriority } = useMoveRecipeIngredient(
+  const { targetPriority, highestPriority } = movePriorities(
     _.sortBy(ingredients, (i) => i.priority)
   )
 
@@ -53,12 +52,8 @@ const useRecipeIngredients = (initialData?: RecipeIngredient[]) => {
 
   // Drag ingredient to new spot
   const moveIngredient = async (result: DropResult) => {
-    console.log(result.source)
-    console.log(ingredients)
     const id = ingredients[result.source.index].id
-    console.log(ingredients[result.source.index])
     const newPriority = targetPriority(result)
-    console.log(newPriority)
     await fetch(`${apiURL}/${id}`, {
       method: "POST",
       body: JSON.stringify({ priority: newPriority }),
@@ -93,3 +88,70 @@ const useRecipeIngredients = (initialData?: RecipeIngredient[]) => {
 }
 
 export default useRecipeIngredients
+
+// helper functions for figuring out the target
+// priorities when moving and creating new ingredients
+const movePriorities = (ingredients?: RecipeIngredient[] | null) => {
+  const highestPriority = () => {
+    if (ingredients && ingredients.length > 0) {
+      return Math.max.apply(
+        Math,
+        ingredients.map((o: Partial<RecipeIngredient>) =>
+          o.priority ? o.priority : 0
+        )
+      )
+    }
+    return 0 // if no todos
+  }
+  const lowestPriority = () => {
+    if (ingredients && ingredients.length > 0) {
+      return Math.min.apply(
+        Math,
+        ingredients.map((o: Partial<RecipeIngredient>) =>
+          o.priority ? o.priority : 0
+        )
+      )
+    }
+    return 0 // if no todos
+  }
+
+  const targetPriority = (result: DropResult) => {
+    if (
+      result.destination &&
+      result.destination.index !== result.source.index &&
+      ingredients
+    ) {
+      let targetPriority = 0
+      switch (result.destination.index) {
+        case 0: {
+          // top most position, conjure a new lowest pri
+          targetPriority = lowestPriority() - 1
+          break
+        }
+        case ingredients.length - 1: {
+          // bottommost position, conjure a new highest pri
+          targetPriority = highestPriority() + 1
+          break
+        }
+        default: {
+          // everywhere in between
+          let toPriorityAbove =
+            ingredients[result.destination.index + 1].priority || 0
+          let toPriorityBelow =
+            ingredients[result.destination.index].priority || 0
+          if (result.source.index > result.destination.index) {
+            toPriorityBelow =
+              ingredients[result.destination.index - 1].priority || 0
+            toPriorityAbove =
+              ingredients[result.destination.index].priority || 0
+          }
+          targetPriority = (toPriorityBelow + toPriorityAbove) / 2
+        }
+      }
+
+      return targetPriority
+    }
+  }
+
+  return { targetPriority, highestPriority }
+}

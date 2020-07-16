@@ -1,7 +1,7 @@
 import React from "react"
 import Wrapper from "../system/Wrapper"
 import styled from "styled-components"
-import { useUser } from "../../lib/hooks"
+import { useUser } from "../../lib/useUser"
 import Obfuscate from "react-obfuscate"
 
 const FooterWrapper = styled.footer<{ centered?: boolean }>`
