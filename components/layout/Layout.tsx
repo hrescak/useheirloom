@@ -34,6 +34,7 @@ const HeaderWrapper = styled.header<{ reverse?: boolean; shadow?: boolean }>`
   left: 0;
   right: 0;
   min-height: 44px;
+  z-index: 2;
   background: ${(p) => (p.reverse ? "#000" : p.theme.colors.background)};
   margin-bottom: 2rem;
   transition: ${(p) => p.theme.transition};
