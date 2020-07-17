@@ -13,6 +13,7 @@ const theme = {
     errorWash: "#F8D5D2",
     inverseBackground: "#000000",
     inverseText: "#f6f6f6",
+    overlayWash: "rgba(0,0,0,.4)",
   },
   breakpoints: {
     small: "28rem", //448px

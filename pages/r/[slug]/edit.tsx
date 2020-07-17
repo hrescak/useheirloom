@@ -42,6 +42,7 @@ const EditRecipe: React.FC = () => {
   const router = useRouter()
   const [showSummary, setShowSummary] = useState(false)
   const [showSource, setShowSource] = useState(false)
+  const [showImage, setShowImage] = useState(false)
   const { slug } = router.query
   const { recipe, updateRecipe, deleteRecipe } = useRecipe()
   const { register, handleSubmit, errors } = useForm()
@@ -88,21 +89,23 @@ const EditRecipe: React.FC = () => {
         defaultValue={recipe?.name}
         ref={register}
       />
-      {((!showSummary && !recipe?.summary) ||
-        (!showSource && !recipe?.sourceName)) && (
-        <div>
-          {!showSummary && !recipe?.summary && (
-            <InlineButton onClick={() => setShowSummary(true)} icon={<Plus />}>
-              Add a Summary
-            </InlineButton>
-          )}
-          {!showSource && !recipe?.sourceName && (
-            <InlineButton onClick={() => setShowSource(true)} icon={<Plus />}>
-              Add Source
-            </InlineButton>
-          )}
-        </div>
-      )}
+      <div>
+        {!showSummary && !recipe?.summary && (
+          <InlineButton onClick={() => setShowSummary(true)} icon={<Plus />}>
+            Add a Summary
+          </InlineButton>
+        )}
+        {!showSource && !recipe?.sourceName && (
+          <InlineButton onClick={() => setShowSource(true)} icon={<Plus />}>
+            Add Source
+          </InlineButton>
+        )}
+        {!showImage && !recipe?.imageURL && (
+          <InlineButton onClick={() => setShowImage(true)} icon={<Plus />}>
+            Add Photo
+          </InlineButton>
+        )}
+      </div>
       {(showSummary || recipe?.summary) && (
         <>
           <Label>Recipe Summary or Description</Label>
@@ -137,6 +140,18 @@ const EditRecipe: React.FC = () => {
             />
           </Half>
         </Stack>
+      )}
+      {(showImage || recipe?.imageURL) && (
+        <>
+          <Label>Recipe Photo URL</Label>
+          <Input
+            type="text"
+            placeholder="https://www.recipe_photos.com/photo.png"
+            name="imageURL"
+            defaultValue={recipe?.imageURL}
+            ref={register}
+          />
+        </>
       )}
       <SectionHeader>Ingredients</SectionHeader>
       <RecipeIngredients
