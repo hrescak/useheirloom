@@ -27,6 +27,13 @@ const PageWrap = styled.div`
   }
 `
 
+const ContentWrap = styled(Wrapper)<{ signedOut: boolean }>`
+  padding-top: ${(p) => (p.signedOut ? "64px" : "88px")};
+  @media (max-width: ${(p) => p.theme.breakpoints.medium}) {
+    padding-top: ${(p) => (p.signedOut ? "32px" : "88px")};
+  }
+`
+
 const HeaderWrapper = styled.header<{ reverse?: boolean; shadow?: boolean }>`
   padding: 1rem 0;
   position: fixed;
@@ -70,9 +77,9 @@ const Layout: React.FC<Props> = (props) => {
             </Wrapper>
           </HeaderWrapper>
         )}
-        <Wrapper style={{ paddingTop: "88px" }}>
+        <ContentWrap signedOut={props.signedOut}>
           <div>{props.children}</div>
-        </Wrapper>
+        </ContentWrap>
       </PageWrap>
       <Footer />
       <InstallBar />
