@@ -36,23 +36,23 @@ const Image = styled.div<{ url: string; collapsed: boolean }>`
   height: 0;
   padding-top: ${(p) => (p.collapsed ? "56px" : "48%")};
   background-color: ${(p) => p.theme.colors.wash};
-  background-image:url(${(p) => p.url});
-  background-repeat:no-repeat;
+  background-image: url(${(p) => p.url});
+  background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  border-radius:0.375rem;
-  margin-top:1rem;
+  border-radius: 0.375rem;
+  margin-top: 1rem;
   position: relative;
   transition: ${(p) => p.theme.transition};
 
   > button {
-    opacity: 0
-    position:absolute;
-    top:8px;
-    right:8px;
+    opacity: 0;
+    position: absolute;
+    top: 8px;
+    right: 8px;
   }
   &:hover > button {
-    opacity:1
+    opacity: 1;
   }
 `
 

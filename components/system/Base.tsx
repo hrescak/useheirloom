@@ -6,7 +6,9 @@ export const BaseStyles = createGlobalStyle`
   ${normalize}
   html {
     font-size: 16px;
+    font-feature-settings: "rlig", "dlig", "case", "cpsp", "ss01";
     line-height: 1.5;
+    letter-spacing: -0.011em;
     background-color: ${theme.colors.background};
     color: ${theme.colors.text};
     padding: 0;

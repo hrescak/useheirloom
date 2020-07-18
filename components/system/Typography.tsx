@@ -8,6 +8,7 @@ const headingBase = css`
 export const H1 = styled.h1`
   ${headingBase}
   font-size: 2.25rem;
+  letter-spacing: -0.021em;
   margin: 1rem 0 0.5rem;
   @media (max-width: ${theme.breakpoints.medium}) {
     font-size: 2rem;
@@ -16,6 +17,7 @@ export const H1 = styled.h1`
 export const H1Small = styled.h1`
   ${headingBase}
   font-size: 1.75rem;
+  letter-spacing: -0.02em;
   margin: 1rem 0 0.5rem;
   @media (max-width: ${theme.breakpoints.medium}) {
     font-size: 1.5rem;
@@ -24,6 +26,7 @@ export const H1Small = styled.h1`
 export const H2 = styled.h2`
   ${headingBase}
   font-size: 1.5rem;
+  letter-spacing: -0.019em;
   margin: 1rem 0 0.25rem;
   @media (max-width: ${theme.breakpoints.medium}) {
     font-size: 1.25rem;
@@ -32,6 +35,7 @@ export const H2 = styled.h2`
 export const H3 = styled.h3`
   ${headingBase}
   font-size: 1.25rem;
+  letter-spacing: -0.017em;
   margin: 0.75rem 0 0.25rem;
   @media (max-width: ${theme.breakpoints.medium}) {
     font-size: 1.125rem;
