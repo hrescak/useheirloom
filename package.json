@@ -19,7 +19,7 @@
     "@tippyjs/react": "^4.0.2",
     "cookie": "^0.4.1",
     "isomorphic-unfetch": "^3.0.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "nanoid": "^3.1.9",
     "next": "^9.3.4",
     "next-connect": "^0.6.6",

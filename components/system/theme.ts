@@ -14,6 +14,7 @@ const theme = {
     inverseBackground: "#000000",
     inverseText: "#f6f6f6",
     overlayWash: "rgba(0,0,0,.4)",
+    lightOverlayWash: "rgba(0,0,0,.2)",
   },
   breakpoints: {
     small: "28rem", //448px

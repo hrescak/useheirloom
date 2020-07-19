@@ -23,7 +23,7 @@ const Meta = styled.div`
   margin-top: 0.5rem;
   color: ${(p) => p.theme.colors.textSecondary};
 `
-const RecipePreview = styled.div`
+const RecipePreview = styled.div<{ imageURL?: string }>`
   width: 3.5rem;
   height: 3.5rem;
   display: flex;
@@ -31,7 +31,10 @@ const RecipePreview = styled.div`
   justify-content: center;
   margin-right: 1rem;
   box-sizing: border-box;
-  border: 2px solid ${(p) => p.theme.colors.wash};
+  position: relative;
+  background: ${(p) => (p.imageURL ? `url(${p.imageURL})` : "none")};
+  background-size: cover;
+  border: ${(p) => (p.imageURL ? "none" : `2px solid ${p.theme.colors.wash}`)};
   border-radius: 8px;
   align-self: flex-start;
   transition: ${(p) => p.theme.transition};
@@ -39,6 +42,16 @@ const RecipePreview = styled.div`
     width: 3rem;
     height: 3rem;
   }
+`
+const BorderOutline = styled.div`
+  border: 2px solid ${(p) => p.theme.colors.lightOverlayWash};
+  box-sizing: border-box;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  top: 0;
+  left: 0;
 `
 const RecipeContent = styled.div`
   display: block;
@@ -60,7 +73,7 @@ const RecipeWrapper = styled.a`
     color: ${(p) => p.theme.colors.text};
   }
   &:hover ${RecipePreview} {
-    background: ${(p) => p.theme.colors.wash};
+    background-color: ${(p) => p.theme.colors.wash};
   }
   &:active {
     transform: scale(0.99);
@@ -72,8 +85,12 @@ const RecipeListItem: React.FC<Props> = ({ recipe }) => {
     <div>
       <Link href={`/r/[slug]`} as={`/r/${recipe.publicID}`} passHref>
         <RecipeWrapper>
-          <RecipePreview>
-            <FileText style={{ opacity: recipe.name ? "1" : "0.2" }} />
+          <RecipePreview imageURL={recipe.imageURL}>
+            {recipe.imageURL ? (
+              <BorderOutline />
+            ) : (
+              <FileText style={{ opacity: recipe.name ? "1" : "0.2" }} />
+            )}
           </RecipePreview>
           <RecipeContent style={{ opacity: recipe.name ? "1" : "0.2" }}>
             <H2 style={{ marginTop: "0" }}>

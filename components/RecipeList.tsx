@@ -51,18 +51,18 @@ const RecipeList: React.FC = () => {
             <TextWrapper>
               <WelcomeTitle> Welcome, {user.name}!</WelcomeTitle>
               <p>
-                I made Heirloom because I wanted a better way to save and
-                re-visit my favorite recipes. They were all over the internet,
-                hard to work with, and sometimes they just vanished.
+                I created Heirloom as a better way to save and re-visit my
+                favorite recipes. They were all over the internet, hard to work
+                with, and sometimes they just vanished.
               </p>
               <p>
-                Heirloom is your personal recipe book. It’s a very simple app
-                right now, and I’m hoping to not add too many features to take
-                away from the speed and ease of use it enjoys now.
+                Heirloom a simple, personal recipe book. It favors speed and
+                ease of use, and I'm planning to keep it as uncomplicated as
+                possible.
               </p>
               <p>
-                I’m hoping you Heirloom brings you joy, and please let me know
-                if you’d like to see some changes or improvements.
+                I’m hoping this place brings you joy, and please let me know if
+                you’d like to see some changes or improvements.
               </p>
               <p>
                 Cheers, <br />
