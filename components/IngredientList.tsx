@@ -45,11 +45,12 @@ const ListWrapper = styled.div<{ isSection?: boolean }>`
 const IngredientList: React.FC<IngredientListProps> = (props) => {
   const { register, setValue, handleSubmit } = useForm()
   const {
+    ingredients,
     createIngredient,
     renameIngredient,
     moveIngredient,
     deleteIngredient,
-  } = useRecipeIngredients(props.ingredients)
+  } = useRecipeIngredients(props.ingredients, props.sectionId, !props.editable)
 
   async function onSubmit(formData) {
     createIngredient(formData)
@@ -64,8 +65,8 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
             <Droppable droppableId="ingredients" direction="vertical">
               {(provided, snapshot) => (
                 <div ref={provided.innerRef}>
-                  {props.ingredients &&
-                    _.sortBy(props.ingredients, (i) => i.priority).map(
+                  {ingredients &&
+                    _.sortBy(ingredients, (i) => i.priority).map(
                       (ingredient, index) => (
                         <div key={ingredient.freeform}>
                           <IngredientItem
@@ -84,7 +85,7 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
               )}
             </Droppable>
           </DragDropContext>
-          {props.ingredients && props.ingredients.length > 0 && <Separator />}
+          {ingredients && ingredients.length > 0 && <Separator />}
           <form onSubmit={handleSubmit(onSubmit)}>
             <div
               style={{
@@ -102,10 +103,10 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
                   name="freeform"
                   ref={register}
                 />
-                {props.sectionId != null && (
+                {props.sectionId && (
                   <input
                     type="hidden"
-                    name="section"
+                    name="sectionId"
                     value={props.sectionId}
                     ref={register}
                   />
@@ -126,9 +127,9 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
         <>
           {props.sectionName && <H3>{props.sectionName}</H3>}
           <UL>
-            {props.ingredients &&
-              props.ingredients.length > 0 &&
-              _.sortBy(props.ingredients, (i) => i.priority).map(
+            {ingredients &&
+              ingredients.length > 0 &&
+              _.sortBy(ingredients, (i) => i.priority).map(
                 (ingredient, index) => (
                   <li key={ingredient.freeform} style={{ padding: "4px 0" }}>
                     <IngredientItem

@@ -4,18 +4,30 @@ import { RecipeIngredient } from "@prisma/client"
 import _ from "lodash"
 import { DropResult } from "react-beautiful-dnd"
 
-const useRecipeIngredients = (initialData?: RecipeIngredient[]) => {
+const useRecipeIngredients = (
+  initialData?: RecipeIngredient[],
+  sectionId?: number,
+  preventFetch?: boolean
+) => {
   const router = useRouter()
   const { slug } = router.query
   //only fetch after slug is loaded and when we're not prevented
-  const shouldFetch = slug !== undefined
+  const shouldFetch = slug !== undefined && !preventFetch
   const apiURL = `/api/recipes/${slug}/recipe-ingredients`
   const { data } = useSWR(
     () => (shouldFetch ? apiURL : null),
     (url) => fetch(url).then((r) => r.json()),
     { initialData: initialData }
   )
-  let ingredients: RecipeIngredient[] = data ? data : initialData
+  // make sure we remember list of all ingredients because that's the
+  // one we're mutating
+  const allIngredients = data
+
+  // if ingredients come from network, filter out the ones corresponding
+  // to our section (or lack thereof)
+  let ingredients: RecipeIngredient[] = data
+    ? _.filter(data, (i) => i.sectionId == sectionId)
+    : initialData
   ingredients = _.sortBy(ingredients, (i) => i.priority)
 
   // helper functions for priority dragging targets
@@ -30,11 +42,8 @@ const useRecipeIngredients = (initialData?: RecipeIngredient[]) => {
       method: "POST",
       body: JSON.stringify(newIngredient),
     })
-    // if there's ingredients, add them to the list and mutate optimistically
-    const mutateData = ingredients
-      ? [...ingredients, newIngredient]
-      : [newIngredient]
-    mutate(apiURL, mutateData)
+
+    mutate(apiURL, (data) => [...data, newIngredient])
   }
 
   // Rename Ingredient
@@ -44,7 +53,7 @@ const useRecipeIngredients = (initialData?: RecipeIngredient[]) => {
       body: JSON.stringify({ freeform: newName }),
     })
     //optimistically mutate local state
-    const mutateData = ingredients.map((ing) =>
+    const mutateData = allIngredients.map((ing) =>
       ing.id == id ? { freeform: newName, ...ing } : ing
     )
     mutate(apiURL, mutateData)
@@ -59,7 +68,7 @@ const useRecipeIngredients = (initialData?: RecipeIngredient[]) => {
       body: JSON.stringify({ priority: newPriority }),
     })
     //optimistically mutate local state
-    const mutateData = ingredients.map((ing) =>
+    const mutateData = allIngredients.map((ing) =>
       ing.id == id ? { priority: newPriority, ...ing } : ing
     )
     mutate(
@@ -74,7 +83,10 @@ const useRecipeIngredients = (initialData?: RecipeIngredient[]) => {
       method: "DELETE",
     })
     //optimistically mutate local state
-    const mutateData = _.remove(ingredients, (ing) => ing.id != id)
+    const mutateData = _.remove(
+      allIngredients,
+      (ing: RecipeIngredient) => ing.id != id
+    )
     mutate(apiURL, mutateData)
   }
 

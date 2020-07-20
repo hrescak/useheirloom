@@ -30,7 +30,7 @@ export type RecipeProps = {
   kitchenId: number
   imageURL?: string
   ingredients: RecipeIngredient[]
-  ingredientSections: string[]
+  ingredientSections: RecipeIngredientSection[]
   instructions?: string
   isDeleted: boolean
   authorId: number
@@ -39,9 +39,16 @@ export type RecipeProps = {
 }
 export type RecipeIngredientProps = {
   initialData?: RecipeIngredient[]
-  sections?: string[]
+  sections?: RecipeIngredientSection[]
   recipePublicId: string
   editable: boolean
+}
+
+export type RecipeIngredientSectionProps = {
+  id: number
+  name: string
+  recipeId: number
+  ingredients: RecipeIngredient[]
 }
 
 export type IngredientListProps = {

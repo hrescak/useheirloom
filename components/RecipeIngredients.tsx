@@ -1,25 +1,8 @@
 import React from "react"
 import { RecipeIngredientProps } from "../types"
 import IngredientList from "./IngredientList"
-import _ from "lodash"
-import useRecipeIngredients from "../lib/useRecipeIngredients"
 
 const RecipeIngredients: React.FC<RecipeIngredientProps> = (props) => {
-  let ingredients = props.initialData
-  if (props.editable) {
-    const fetchedData = useRecipeIngredients(props.initialData)
-    ingredients = fetchedData.ingredients
-  }
-  const noSectionIngredients =
-    ingredients &&
-    ingredients.filter((ingredient) => ingredient.section == null)
-  const yesSectionIngredients =
-    ingredients &&
-    ingredients.filter((ingredient) => ingredient.section != null)
-  const ingredientsBySection =
-    yesSectionIngredients &&
-    _.chain(yesSectionIngredients).groupBy("section").values().value()
-
   const onSectionUpdate = () => {
     const rename = (newName: string, index: number) => {}
     const add = (newName: string) => {}
@@ -33,25 +16,25 @@ const RecipeIngredients: React.FC<RecipeIngredientProps> = (props) => {
   return (
     <>
       <IngredientList
-        ingredients={noSectionIngredients}
+        ingredients={props.initialData}
         editable={props.editable}
         recipePublicId={props.recipePublicId}
       />
-      {ingredientsBySection &&
-        props.sections &&
-        ingredientsBySection.map((section, idx) => (
+      {props.sections &&
+        props.sections.map((section, idx) => (
           <IngredientList
-            ingredients={ingredientsBySection[idx]}
+            key={section.name}
+            ingredients={section.ingredients}
             editable={props.editable}
-            sectionId={idx}
-            sectionName={props.sections[idx]}
+            sectionId={section.id}
+            sectionName={section.name}
             recipePublicId={props.recipePublicId}
             onSectionUpdate={onSectionUpdate}
           />
         ))}
-      {ingredients && ingredients.length === 0 && !props.editable && (
-        <>No Ingredients yet</>
-      )}
+      {props.initialData &&
+        props.initialData.length === 0 &&
+        !props.editable && <>No Ingredients yet</>}
     </>
   )
 }

@@ -23,7 +23,15 @@ async function handleGET(req, res) {
   const session = await getSession(req)
   const recipe = await prisma.recipe.findOne({
     where: { publicID: req.query.slug },
-    include: { ingredients: true, kitchen: true },
+    include: {
+      ingredients: { where: { sectionId: null } },
+      kitchen: true,
+      ingredientSections: {
+        include: {
+          ingredients: true,
+        },
+      },
+    },
   })
   if (recipe.isPublic || (session && recipe.authorId === session.id)) {
     return res.status(200).json(recipe)

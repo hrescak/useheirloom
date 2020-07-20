@@ -38,13 +38,13 @@ async function handleGET(req, res) {
 // Optional fields in body:
 async function handlePOST(req, res) {
   const session = await getSession(req)
-  const { freeform, priority, section } = JSON.parse(req.body)
+  const { freeform, priority, sectionId } = JSON.parse(req.body)
   if (session) {
     const result = await prisma.recipeIngredient.create({
       data: {
         freeform: freeform,
         priority: Number(priority),
-        section: section ? Number(section) : null,
+        section: sectionId ? { connect: { id: Number(sectionId) } } : null,
         recipe: { connect: { publicID: req.query.slug } },
       },
     })
