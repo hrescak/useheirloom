@@ -32,9 +32,7 @@ const RecipeIngredients: React.FC<RecipeIngredientProps> = (props) => {
             onSectionUpdate={onSectionUpdate}
           />
         ))}
-      {props.initialData &&
-        props.initialData.length === 0 &&
-        !props.editable && <>No Ingredients yet</>}
+      {!props.initialData && !props.sections && <>No Ingredients Yet.</>}
     </>
   )
 }

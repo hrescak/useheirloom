@@ -116,6 +116,7 @@ model RecipeIngredientSection {
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
   name         String
+  priority     Float
   ingredients  RecipeIngredient[]
   recipe       Recipe @relation(references:[id], fields:[recipeId])
   recipeId     Int

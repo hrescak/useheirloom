@@ -36,7 +36,9 @@ async function handleGET(req, res) {
   if (recipe.isPublic || (session && recipe.authorId === session.id)) {
     return res.status(200).json(recipe)
   }
-  return res.status(401).send("Unauthorized")
+  return res
+    .status(401)
+    .json({ message: "Error: You don't have permission to view this recipe" })
 }
 
 // POST /api/recipes/:slug
