@@ -28,9 +28,9 @@ const PageWrap = styled.div`
 `
 
 const ContentWrap = styled(Wrapper)<{ signedOut: boolean }>`
-  padding-top: ${(p) => (p.signedOut ? "64px" : "88px")};
+  padding-top: ${(p) => (p.signedOut ? "64px" : "80px")};
   @media (max-width: ${(p) => p.theme.breakpoints.medium}) {
-    padding-top: ${(p) => (p.signedOut ? "32px" : "88px")};
+    padding-top: ${(p) => (p.signedOut ? "32px" : "80px")};
   }
 `
 
@@ -40,7 +40,7 @@ const HeaderWrapper = styled.header<{ reverse?: boolean; shadow?: boolean }>`
   top: 0;
   left: 0;
   right: 0;
-  min-height: 44px;
+  min-height: 36px;
   z-index: 2;
   background: ${(p) => (p.reverse ? "#000" : p.theme.colors.background)};
   margin-bottom: 2rem;

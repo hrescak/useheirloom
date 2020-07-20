@@ -6,7 +6,7 @@ import theme from "../theme"
 const Base = styled.button`
   font-size: 1rem;
   font-weight: 500;
-  padding: 8px 12px;
+  padding: 6px 10px;
   display: inline-block;
   border: none;
   text-align: left;

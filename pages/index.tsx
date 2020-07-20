@@ -67,7 +67,7 @@ const Index: React.FC<Props> = (props) => {
       leftControl={
         <img
           src="/images/heirloom.svg"
-          height="38"
+          height="36"
           alt="Heirloom in script typeface"
         />
       }
