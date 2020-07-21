@@ -124,7 +124,7 @@ define("./sw.js", ["./workbox-b90066a8"], function (workbox) {
       },
       {
         url: "/_next/static/runtime/webpack.js",
-        revision: "e35e628873de52d34696871dfe012b2d",
+        revision: "f701cae38cb7a7da50473ee5d6e60694",
       },
     ],
     {

@@ -131,7 +131,7 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
               ingredients.length > 0 &&
               _.sortBy(ingredients, (i) => i.priority).map(
                 (ingredient, index) => (
-                  <li key={ingredient.freeform} style={{ padding: "4px 0" }}>
+                  <li key={ingredient.freeform}>
                     <IngredientItem
                       ingredient={ingredient}
                       idx={index}

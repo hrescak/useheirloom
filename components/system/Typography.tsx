@@ -59,6 +59,9 @@ export const UL = styled.ul`
     padding: 0 1.25rem 0;
     font-size: 1.125rem;
   }
+  li {
+    padding: 4px 0;
+  }
 `
 
 export const OL = styled.ol`
@@ -68,6 +71,9 @@ export const OL = styled.ol`
   @media (max-width: ${theme.breakpoints.medium}) {
     padding: 0 1.25rem 0;
     font-size: 1.125rem;
+  }
+  li {
+    padding: 4px 0;
   }
 `
 
@@ -83,5 +89,4 @@ export const Heading: React.FC<{ level?: number }> = (props) => {
     default:
       return <H3 {...props} />
   }
-  return <H3 {...props} />
 }
