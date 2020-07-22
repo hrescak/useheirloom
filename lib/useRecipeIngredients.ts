@@ -56,7 +56,6 @@ const useRecipeIngredients = (
     const mutateData = allIngredients.map((ing) => {
       if (ing.id == id) {
         ing.freeform = newName
-        return ing
       }
       return ing
     })
@@ -68,23 +67,24 @@ const useRecipeIngredients = (
     const id = ingredients[result.source.index].id
     const newPriority = targetPriority(result)
 
-    await fetch(`${apiURL}/${id}`, {
-      method: "POST",
-      body: JSON.stringify({ priority: newPriority }),
-    })
-
     //optimistically mutate local state
     const mutateData = allIngredients.map((ing) => {
       if (ing.id == id) {
         ing.priority = newPriority
-        return ing
       }
       return ing
     })
     mutate(
       apiURL,
-      _.sortBy(mutateData, (i) => i.priority)
+      _.sortBy(mutateData, (i) => i.priority),
+      false
     )
+
+    // update the moved ingredient in the backend
+    await fetch(`${apiURL}/${id}`, {
+      method: "POST",
+      body: JSON.stringify({ priority: newPriority }),
+    })
   }
 
   // Delete ingredient
@@ -138,12 +138,12 @@ const movePriorities = (ingredients?: RecipeIngredient[] | null) => {
   }
 
   const targetPriority = (result: DropResult) => {
+    let targetPriority = ingredients[result.source.index].priority
     if (
       result.destination &&
       result.destination.index !== result.source.index &&
       ingredients
     ) {
-      let targetPriority = 0
       switch (result.destination.index) {
         case 0: {
           // top most position, conjure a new lowest pri
@@ -170,9 +170,8 @@ const movePriorities = (ingredients?: RecipeIngredient[] | null) => {
           targetPriority = (toPriorityBelow + toPriorityAbove) / 2
         }
       }
-
-      return targetPriority
     }
+    return targetPriority
   }
 
   return { targetPriority, highestPriority }
