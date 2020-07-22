@@ -18,7 +18,7 @@ const theme = {
   },
   breakpoints: {
     small: "28rem", //448px
-    medium: "46rem", //736px
+    medium: "50rem", //736px
   },
   transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
 }
