@@ -53,9 +53,13 @@ const useRecipeIngredients = (
       body: JSON.stringify({ freeform: newName }),
     })
     //optimistically mutate local state
-    const mutateData = allIngredients.map((ing) =>
-      ing.id == id ? { freeform: newName, ...ing } : ing
-    )
+    const mutateData = allIngredients.map((ing) => {
+      if (ing.id == id) {
+        ing.freeform = newName
+        return ing
+      }
+      return ing
+    })
     mutate(apiURL, mutateData)
   }
 
@@ -63,14 +67,20 @@ const useRecipeIngredients = (
   const moveIngredient = async (result: DropResult) => {
     const id = ingredients[result.source.index].id
     const newPriority = targetPriority(result)
+
     await fetch(`${apiURL}/${id}`, {
       method: "POST",
       body: JSON.stringify({ priority: newPriority }),
     })
+
     //optimistically mutate local state
-    const mutateData = allIngredients.map((ing) =>
-      ing.id == id ? { priority: newPriority, ...ing } : ing
-    )
+    const mutateData = allIngredients.map((ing) => {
+      if (ing.id == id) {
+        ing.priority = newPriority
+        return ing
+      }
+      return ing
+    })
     mutate(
       apiURL,
       _.sortBy(mutateData, (i) => i.priority)

@@ -24,11 +24,3 @@ const theme = {
 }
 
 export default theme
-
-// text: '#eeeeee',
-// textSecondary: '#ccc',
-// accent: '#DBFF00',
-// background: '#121212',
-// wash: '#242424',
-// control: '#5a5a5a',
-// controlText:'white'
