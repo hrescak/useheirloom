@@ -1,5 +1,6 @@
 import { useRouter } from "next/router"
 import { mutate } from "swr"
+import _ from "lodash"
 
 export const useRecipeSection = () => {
   const router = useRouter()
@@ -14,7 +15,6 @@ export const useRecipeSection = () => {
     })
     //optimistically mutate local state
     mutate(mutateURL, (recipe) => {
-      console.log(recipe)
       recipe.ingredientSections.map((section) => {
         if (section.id === id) {
           section.name = newName
@@ -25,7 +25,21 @@ export const useRecipeSection = () => {
     })
   }
   const addSection = (newName: string) => {}
-  const removeSection = (index: number) => {}
+
+  const removeSection = async (id: number) => {
+    await fetch(`${apiURL}/${id}`, {
+      method: "DELETE",
+    })
+    //optimistically mutate local state
+    mutate(mutateURL, (recipe) => {
+      recipe.ingredientSections = _.filter(
+        recipe.ingredientSections,
+        (s) => s.id != id
+      )
+      console.log(recipe)
+      return recipe
+    })
+  }
   const moveSection = (oldIndex: number, newIndex: number) => {}
 
   return { renameSection, addSection, removeSection, moveSection }

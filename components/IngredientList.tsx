@@ -4,8 +4,8 @@ import { useForm } from "react-hook-form"
 import IngredientItem from "./IngredientItem"
 import { Droppable, DragDropContext } from "react-beautiful-dnd"
 import styled from "styled-components"
-import { Plus, PlusCircle } from "react-feather"
-import { PrimaryButton } from "./system/Button"
+import { Plus, PlusCircle, Trash2 } from "react-feather"
+import { PrimaryButton, InlineButton } from "./system/Button"
 import { UL, H3 } from "./system/Typography"
 import useRecipeIngredients from "../lib/useRecipeIngredients"
 import { useState } from "react"
@@ -35,11 +35,17 @@ const InlineInput = styled.input`
   font-size: 1rem;
   padding: 16px;
 `
+const HeaderEditWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`
 const HeaderEdit = styled.div`
   border: 1px solid ${(p) => p.theme.colors.wash};
   border-radius: 0.5rem;
   padding-right: 0.5rem;
   display: flex;
+  flex: 2;
   flex-direction: row;
   align-items: center;
 `
@@ -69,7 +75,7 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
     moveIngredient,
     deleteIngredient,
   } = useRecipeIngredients(props.ingredients, props.sectionId, !props.editable)
-  const { renameSection } = useRecipeSection()
+  const { renameSection, removeSection } = useRecipeSection()
 
   async function onSubmit(formData) {
     createIngredient(formData)
@@ -78,24 +84,36 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
   const onHeaderRename = () => {
     renameSection(sectionHeader, props.sectionId)
   }
+  const onHeaderDelete = () => {
+    removeSection(props.sectionId)
+  }
   return (
     <div>
       {props.editable ? (
         <ListWrapper isSection={props.sectionId != null}>
           {props.sectionName && (
-            <HeaderEdit>
-              <HeaderInput
-                type="text"
-                placeholder="Ingredient section name"
-                onChange={(e) => setSectionHeader(e.target.value)}
-                value={sectionHeader}
-              />
-              {props.sectionName != sectionHeader && (
-                <PrimaryButton onClick={() => onHeaderRename()}>
-                  Save
-                </PrimaryButton>
-              )}
-            </HeaderEdit>
+            <HeaderEditWrapper>
+              <HeaderEdit>
+                <HeaderInput
+                  type="text"
+                  placeholder="Ingredient section name"
+                  onChange={(e) => setSectionHeader(e.target.value)}
+                  value={sectionHeader}
+                />
+                {props.sectionName != sectionHeader && (
+                  <PrimaryButton onClick={() => onHeaderRename()}>
+                    Save
+                  </PrimaryButton>
+                )}
+              </HeaderEdit>
+              <InlineButton
+                onClick={() => onHeaderDelete()}
+                icon={<Trash2 />}
+                hiddenLabel
+              >
+                Delete Ingredient Section
+              </InlineButton>
+            </HeaderEditWrapper>
           )}
           <DragDropContext onDragEnd={moveIngredient}>
             <Droppable droppableId="ingredients" direction="vertical">
