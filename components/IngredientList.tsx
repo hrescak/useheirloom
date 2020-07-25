@@ -15,7 +15,7 @@ import { useRecipeSection } from "../lib/useRecipeSections"
 const Separator = styled.div`
   height: 2px;
   background: ${(p) => p.theme.colors.wash};
-  margin: 0.75rem;
+  margin: 0.5rem 0.75rem 0.75rem;
 `
 const ItemWrapper = styled.div`
   align-items: center;
@@ -36,18 +36,20 @@ const InlineInput = styled.input`
   padding: 16px;
 `
 const HeaderEditWrapper = styled.div`
+  align-items: center;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  padding-bottom: 4px;
 `
 const HeaderEdit = styled.div`
   border: 1px solid ${(p) => p.theme.colors.wash};
   border-radius: 0.5rem;
-  padding-right: 0.5rem;
   display: flex;
   flex: 2;
   flex-direction: row;
   align-items: center;
+  margin-right: 8px;
+  padding-right: 0.5rem;
 `
 const HeaderInput = styled(Input)`
   background: none;
@@ -61,7 +63,7 @@ const ListWrapper = styled.div<{ isSection?: boolean }>`
     p.isSection &&
     `
     border-radius: 8px;
-    padding: 1rem 0;
+    padding: 1rem 0 0.5rem;
   `}
 `
 
@@ -130,6 +132,7 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
                             editable={props.editable}
                             onDelete={deleteIngredient}
                             onEdit={renameIngredient}
+                            isDragging={snapshot.isDraggingOver}
                           />
                         </div>
                       )

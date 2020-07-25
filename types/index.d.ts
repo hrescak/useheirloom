@@ -67,4 +67,5 @@ export type IngredientItemProps = {
   ingredient: Partial<RecipeIngredient>
   onEdit?: (id: number, newName: string) => any
   onDelete?: (id: number) => any
+  isDragging?: boolean
 }

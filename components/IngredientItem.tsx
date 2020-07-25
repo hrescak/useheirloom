@@ -13,8 +13,39 @@ const ItemWrapper = styled.div`
   align-items: center;
   border-radius: 8px;
   padding: 0 4px 0 12px;
-  margin-right: 8px;
   background: ${(p) => p.theme.colors.wash};
+`
+const ItemRow = styled.div<{ dragged?: boolean; otherDragged?: boolean }>`
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  padding: 4px 0;
+  border-radius: 8px;
+  transition: ${(p) => p.theme.transition};
+  ${ItemWrapper} {
+    ${(p) =>
+      p.dragged &&
+      `
+      box-shadow: 0 3px 8px rgba(0,0,0,.2);
+    `}
+  }
+  ${InlineButton} {
+    display: none;
+  }
+  &:hover ${ItemWrapper} {
+    ${(p) =>
+      !(p.dragged || p.otherDragged) &&
+      `
+      margin-right: 8px;
+    `}
+  }
+  &:hover ${InlineButton} {
+    ${(p) =>
+      !(p.dragged || p.otherDragged) &&
+      `
+      display:block;
+    `}
+  }
 `
 const InlineInput = styled.input`
   border: 0;
@@ -35,14 +66,10 @@ const IngredientItem: React.FC<IngredientItemProps> = (props) => {
       >
         {(provided, snapshot) => (
           <div ref={provided.innerRef} {...provided.draggableProps}>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                margin: " 0.5rem 0",
-                alignItems: "center",
-              }}
+            <ItemRow
               aria-label="Editable Ingredient Item"
+              dragged={snapshot.isDragging}
+              otherDragged={props.isDragging}
             >
               <ItemWrapper>
                 <div style={{ height: "24px" }} {...provided.dragHandleProps}>
@@ -74,7 +101,7 @@ const IngredientItem: React.FC<IngredientItemProps> = (props) => {
               >
                 Delete Ingredient
               </InlineButton>
-            </div>
+            </ItemRow>
           </div>
         )}
       </Draggable>
