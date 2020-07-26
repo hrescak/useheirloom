@@ -6,14 +6,15 @@ import { AlignJustify, Trash2 } from "react-feather"
 import { PrimaryButton, InlineButton } from "./system/Button"
 
 const ItemWrapper = styled.div`
+  align-items: center;
+  background: ${(p) => p.theme.colors.wash};
+  border-radius: 8px;
   box-sizing: border-box;
-  width: 100%;
+  color: ${(p) => p.theme.colors.textSecondary};
   display: flex;
   flex-direction: row;
-  align-items: center;
-  border-radius: 8px;
   padding: 0 4px 0 12px;
-  background: ${(p) => p.theme.colors.wash};
+  width: 100%;
 `
 const ItemRow = styled.div<{ dragged?: boolean; otherDragged?: boolean }>`
   align-items: center;
@@ -50,9 +51,10 @@ const ItemRow = styled.div<{ dragged?: boolean; otherDragged?: boolean }>`
 const InlineInput = styled.input`
   border: 0;
   background: 0;
-  font-size: 1rem;
-  padding: 16px;
   flex: 2;
+  font-size: 1rem;
+  padding: 1rem;
+  padding-left: 0.5rem;
 `
 
 const IngredientItem: React.FC<IngredientItemProps> = (props) => {

@@ -12,19 +12,12 @@ import { useState } from "react"
 import { Input } from "./system/Form"
 import { useRecipeSection } from "../lib/useRecipeSections"
 
-const Separator = styled.div`
-  height: 2px;
-  background: ${(p) => p.theme.colors.wash};
-  margin: 0.5rem 0.75rem 0.75rem;
-`
 const ItemWrapper = styled.div`
   align-items: center;
-  background: ${(p) => p.theme.colors.wash};
-  border-radius: 8px;
+  color: ${(p) => p.theme.colors.textSecondary};
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
-  margin-right: 8px;
   padding: 0 4px 0 12px;
   width: 100%;
 `
@@ -33,7 +26,8 @@ const InlineInput = styled.input`
   border: 0;
   flex: 2;
   font-size: 1rem;
-  padding: 16px;
+  padding: 1rem;
+  padding-left: 0.5rem;
 `
 const HeaderEditWrapper = styled.div`
   align-items: center;
@@ -69,7 +63,8 @@ const ListWrapper = styled.div<{ isSection?: boolean }>`
 
 const IngredientList: React.FC<IngredientListProps> = (props) => {
   const [sectionHeader, setSectionHeader] = useState(props.sectionName)
-  const { register, setValue, handleSubmit } = useForm()
+  const { register, watch, setValue, handleSubmit } = useForm()
+  const watchNewIngredient = watch("freeform")
   const {
     ingredients,
     createIngredient,
@@ -142,14 +137,12 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
               )}
             </Droppable>
           </DragDropContext>
-          {ingredients && ingredients.length > 0 && <Separator />}
           <form onSubmit={handleSubmit(onSubmit)}>
             <div
               style={{
                 display: "flex",
                 flexDirection: "row",
                 alignItems: "center",
-                margin: "0.5rem 0",
               }}
             >
               <ItemWrapper>
@@ -171,14 +164,17 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
                   />
                 )}
               </ItemWrapper>
-              <PrimaryButton
-                onClick={handleSubmit(onSubmit)}
-                icon={<PlusCircle />}
-                hiddenLabel
-              >
-                {" "}
-                Add an ingredient
-              </PrimaryButton>
+              {watchNewIngredient && (
+                <PrimaryButton
+                  style={{ marginLeft: "8px" }}
+                  onClick={handleSubmit(onSubmit)}
+                  icon={<PlusCircle />}
+                  hiddenLabel
+                >
+                  {" "}
+                  Add an ingredient
+                </PrimaryButton>
+              )}
             </div>
           </form>
         </ListWrapper>
