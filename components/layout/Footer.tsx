@@ -37,7 +37,7 @@ const Footer: React.FC<{ isPublic?: boolean }> = ({ isPublic }) => {
                 body: `Hi, My name is ${user?.name} and i have following thoughts about :\n\n-\n-\n\n Thanks!\n ${user?.name} - ${user?.email}`,
               }}
             >
-              Send Feedback
+              Feedback
             </Obfuscate>
           </span>
         )}
