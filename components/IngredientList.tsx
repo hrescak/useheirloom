@@ -2,7 +2,7 @@ import { IngredientListProps } from "../types"
 import _ from "lodash"
 import { useForm } from "react-hook-form"
 import IngredientItem from "./IngredientItem"
-import { Droppable, DragDropContext } from "react-beautiful-dnd"
+import { Droppable } from "react-beautiful-dnd"
 import styled from "styled-components"
 import { Plus, PlusCircle, Trash2 } from "react-feather"
 import { PrimaryButton, InlineButton } from "./system/Button"
@@ -66,13 +66,13 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
   const { register, watch, setValue, handleSubmit } = useForm()
   const watchNewIngredient = watch("freeform")
   const {
-    ingredients,
+    ingredientsInSection,
     createIngredient,
     renameIngredient,
     moveIngredient,
     deleteIngredient,
-  } = useRecipeIngredients(props.ingredients, props.sectionId, !props.editable)
-  // const ingredients = ingredientsForSection(props.sectionId)
+  } = useRecipeIngredients(props.ingredients, !props.editable)
+  const ingredients = ingredientsInSection(props.sectionId)
   const { renameSection, removeSection } = useRecipeSection()
 
   async function onSubmit(formData) {
@@ -113,31 +113,32 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
               </InlineButton>
             </HeaderEditWrapper>
           )}
-          <DragDropContext onDragEnd={moveIngredient}>
-            <Droppable droppableId="ingredients" direction="vertical">
-              {(provided, snapshot) => (
-                <div ref={provided.innerRef}>
-                  {ingredients &&
-                    _.sortBy(ingredients, (i) => i.priority).map(
-                      (ingredient, index) => (
-                        <div key={ingredient.freeform}>
-                          <IngredientItem
-                            ingredient={ingredient}
-                            idx={index}
-                            recipePublicId={props.recipePublicId}
-                            editable={props.editable}
-                            onDelete={deleteIngredient}
-                            onEdit={renameIngredient}
-                            isDragging={snapshot.isDraggingOver}
-                          />
-                        </div>
-                      )
-                    )}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
+          <Droppable
+            droppableId={`droppable-${props.sectionId}`}
+            direction="vertical"
+          >
+            {(provided, snapshot) => (
+              <div ref={provided.innerRef}>
+                {ingredients &&
+                  _.sortBy(ingredients, (i) => i.priority).map(
+                    (ingredient, index) => (
+                      <div key={ingredient.freeform}>
+                        <IngredientItem
+                          ingredient={ingredient}
+                          idx={index}
+                          recipePublicId={props.recipePublicId}
+                          editable={props.editable}
+                          onDelete={deleteIngredient}
+                          onEdit={renameIngredient}
+                          isDragging={snapshot.isDraggingOver}
+                        />
+                      </div>
+                    )
+                  )}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div
               style={{

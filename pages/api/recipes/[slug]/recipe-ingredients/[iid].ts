@@ -34,7 +34,15 @@ async function handleGET(req, res) {
 async function handlePOST(req, res) {
   const session = await getSession(req)
   if (session) {
-    const data = JSON.parse(req.body)
+    const { sectionId, ...data } = JSON.parse(req.body)
+    // include sectionId ONLY when it's not ommited in the request
+    // null is a valid value for sectionId
+    if (sectionId !== undefined) {
+      data.section =
+        sectionId != null
+          ? { connect: { id: Number(sectionId) } }
+          : { disconnect: true }
+    }
     const recipeIngredient = await prisma.recipeIngredient.update({
       where: { id: Number(req.query.iid) },
       data: data,

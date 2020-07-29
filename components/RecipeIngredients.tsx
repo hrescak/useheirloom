@@ -1,6 +1,8 @@
 import React from "react"
 import { RecipeIngredientProps } from "../types"
 import IngredientList from "./IngredientList"
+import useRecipeIngredients from "../lib/useRecipeIngredients"
+import { DragDropContext } from "react-beautiful-dnd"
 
 const RecipeIngredients: React.FC<RecipeIngredientProps> = (props) => {
   const onSectionUpdate = () => {
@@ -11,10 +13,14 @@ const RecipeIngredients: React.FC<RecipeIngredientProps> = (props) => {
 
     return { rename, add, remove, move }
   }
+  const { moveIngredient } = useRecipeIngredients(
+    props.initialData,
+    !props.editable
+  )
   const saveSections = (sections: string[]) => {}
 
   return (
-    <>
+    <DragDropContext onDragEnd={moveIngredient}>
       <IngredientList
         ingredients={props.initialData}
         editable={props.editable}
@@ -37,7 +43,7 @@ const RecipeIngredients: React.FC<RecipeIngredientProps> = (props) => {
         props.initialData.length == 0 &&
         props.sections &&
         props.sections.length == 0 && <>No Ingredients yet.</>}
-    </>
+    </DragDropContext>
   )
 }
 
