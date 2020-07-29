@@ -72,6 +72,7 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
     moveIngredient,
     deleteIngredient,
   } = useRecipeIngredients(props.ingredients, props.sectionId, !props.editable)
+  // const ingredients = ingredientsForSection(props.sectionId)
   const { renameSection, removeSection } = useRecipeSection()
 
   async function onSubmit(formData) {

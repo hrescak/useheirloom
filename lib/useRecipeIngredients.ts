@@ -35,6 +35,13 @@ const useRecipeIngredients = (
     _.sortBy(ingredients, (i) => i.priority)
   )
 
+  const ingredientsForSection = (id: number) => {
+    return _.chain(allIngredients)
+      .filter((i) => i.sectionId == id)
+      .sortBy("priority")
+      .value()
+  }
+
   const createIngredient = async (newIngredient) => {
     // save the new ingredient
     newIngredient["priority"] = highestPriority() + 1
@@ -102,6 +109,7 @@ const useRecipeIngredients = (
 
   return {
     ingredients,
+    ingredientsForSection,
     createIngredient,
     renameIngredient,
     moveIngredient,
