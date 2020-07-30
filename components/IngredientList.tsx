@@ -2,9 +2,9 @@ import { IngredientListProps } from "../types"
 import _ from "lodash"
 import { useForm } from "react-hook-form"
 import IngredientItem from "./IngredientItem"
-import { Droppable } from "react-beautiful-dnd"
+import { Droppable, Draggable } from "react-beautiful-dnd"
 import styled from "styled-components"
-import { Plus, PlusCircle, Trash2 } from "react-feather"
+import { Plus, PlusCircle, Trash2, AlignJustify } from "react-feather"
 import { PrimaryButton, InlineButton } from "./system/Button"
 import { UL, H3 } from "./system/Typography"
 import useRecipeIngredients from "../lib/useRecipeIngredients"
@@ -44,11 +44,13 @@ const HeaderEdit = styled.div`
   align-items: center;
   margin-right: 8px;
   padding-right: 0.5rem;
+  padding-left: 12px;
 `
 const HeaderInput = styled(Input)`
   background: none;
   font-weight: 600;
   font-size: 1.25rem;
+  padding-left: 8px;
   margin: 0 0.5rem 0 0;
 `
 
@@ -69,7 +71,6 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
     ingredientsInSection,
     createIngredient,
     renameIngredient,
-    moveIngredient,
     deleteIngredient,
   } = useRecipeIngredients(props.ingredients, !props.editable)
   const ingredients = ingredientsInSection(props.sectionId)
@@ -85,100 +86,127 @@ const IngredientList: React.FC<IngredientListProps> = (props) => {
   const onHeaderDelete = () => {
     removeSection(props.sectionId)
   }
+  const renderEditableIngredients = () => (
+    <Droppable droppableId={`droppable-${props.sectionId}`} type="INGREDIENT">
+      {(provided, snapshot) => (
+        <div ref={provided.innerRef}>
+          {ingredients &&
+            _.sortBy(ingredients, (i) => i.priority).map(
+              (ingredient, index) => (
+                <div key={ingredient.freeform}>
+                  <IngredientItem
+                    ingredient={ingredient}
+                    idx={index}
+                    recipePublicId={props.recipePublicId}
+                    editable={props.editable}
+                    onDelete={deleteIngredient}
+                    onEdit={renameIngredient}
+                    isDragging={snapshot.isDraggingOver}
+                  />
+                </div>
+              )
+            )}
+          {provided.placeholder}
+        </div>
+      )}
+    </Droppable>
+  )
+
+  const renderNewIngredientForm = () => (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
+        <ItemWrapper>
+          <Plus />
+          <InlineInput
+            type="text"
+            placeholder={`Add an ingredient${
+              props.sectionName ? " to this section" : ""
+            }...`}
+            name="freeform"
+            ref={register}
+          />
+          {props.sectionId && (
+            <input
+              type="hidden"
+              name="sectionId"
+              value={props.sectionId}
+              ref={register}
+            />
+          )}
+        </ItemWrapper>
+        {watchNewIngredient && (
+          <PrimaryButton
+            style={{ marginLeft: "8px" }}
+            onClick={handleSubmit(onSubmit)}
+            icon={<PlusCircle />}
+            hiddenLabel
+          >
+            {" "}
+            Add an ingredient
+          </PrimaryButton>
+        )}
+      </div>
+    </form>
+  )
+
   return (
     <div>
       {props.editable ? (
         <ListWrapper isSection={props.sectionId != null}>
-          {props.sectionName && (
-            <HeaderEditWrapper>
-              <HeaderEdit>
-                <HeaderInput
-                  type="text"
-                  placeholder="Ingredient section name"
-                  onChange={(e) => setSectionHeader(e.target.value)}
-                  value={sectionHeader}
-                />
-                {props.sectionName != sectionHeader && (
-                  <PrimaryButton onClick={() => onHeaderRename()}>
-                    Save
-                  </PrimaryButton>
-                )}
-              </HeaderEdit>
-              <InlineButton
-                onClick={() => onHeaderDelete()}
-                icon={<Trash2 />}
-                hiddenLabel
-              >
-                Delete Ingredient Section
-              </InlineButton>
-            </HeaderEditWrapper>
-          )}
-          <Droppable
-            droppableId={`droppable-${props.sectionId}`}
-            direction="vertical"
-          >
-            {(provided, snapshot) => (
-              <div ref={provided.innerRef}>
-                {ingredients &&
-                  _.sortBy(ingredients, (i) => i.priority).map(
-                    (ingredient, index) => (
-                      <div key={ingredient.freeform}>
-                        <IngredientItem
-                          ingredient={ingredient}
-                          idx={index}
-                          recipePublicId={props.recipePublicId}
-                          editable={props.editable}
-                          onDelete={deleteIngredient}
-                          onEdit={renameIngredient}
-                          isDragging={snapshot.isDraggingOver}
-                        />
-                      </div>
-                    )
-                  )}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
+          {props.sectionName ? (
+            <Draggable
+              draggableId={"sid" + props.sectionId}
+              index={props.idx}
+              key={props.sectionId}
+              type="SECTION"
             >
-              <ItemWrapper>
-                <Plus />
-                <InlineInput
-                  type="text"
-                  placeholder={`Add an ingredient${
-                    props.sectionName ? " to this section" : ""
-                  }...`}
-                  name="freeform"
-                  ref={register}
-                />
-                {props.sectionId && (
-                  <input
-                    type="hidden"
-                    name="sectionId"
-                    value={props.sectionId}
-                    ref={register}
-                  />
-                )}
-              </ItemWrapper>
-              {watchNewIngredient && (
-                <PrimaryButton
-                  style={{ marginLeft: "8px" }}
-                  onClick={handleSubmit(onSubmit)}
-                  icon={<PlusCircle />}
-                  hiddenLabel
-                >
-                  {" "}
-                  Add an ingredient
-                </PrimaryButton>
+              {(provided, snapshot) => (
+                <div ref={provided.innerRef} {...provided.draggableProps}>
+                  <HeaderEditWrapper>
+                    <HeaderEdit>
+                      <div
+                        style={{ height: "24px" }}
+                        {...provided.dragHandleProps}
+                      >
+                        <AlignJustify />
+                      </div>
+                      <HeaderInput
+                        type="text"
+                        placeholder="Ingredient section name"
+                        onChange={(e) => setSectionHeader(e.target.value)}
+                        value={sectionHeader}
+                      />
+                      {props.sectionName != sectionHeader && (
+                        <PrimaryButton onClick={() => onHeaderRename()}>
+                          Save
+                        </PrimaryButton>
+                      )}
+                    </HeaderEdit>
+                    <InlineButton
+                      onClick={() => onHeaderDelete()}
+                      icon={<Trash2 />}
+                      hiddenLabel
+                    >
+                      Delete Ingredient Section
+                    </InlineButton>
+                  </HeaderEditWrapper>
+                  {renderEditableIngredients()}
+                  {renderNewIngredientForm()}
+                </div>
               )}
-            </div>
-          </form>
+            </Draggable>
+          ) : (
+            <>
+              {renderEditableIngredients()}
+              {renderNewIngredientForm()}
+            </>
+          )}
         </ListWrapper>
       ) : (
         <>

@@ -55,9 +55,9 @@ export type IngredientListProps = {
   recipePublicId: string
   sectionName?: string
   sectionId?: number
+  idx?: number
   editable: boolean
   ingredients?: RecipeIngredient[]
-  onSectionUpdate?: () => any
 }
 
 export type IngredientItemProps = {

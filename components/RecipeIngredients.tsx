@@ -2,42 +2,55 @@ import React from "react"
 import { RecipeIngredientProps } from "../types"
 import IngredientList from "./IngredientList"
 import useRecipeIngredients from "../lib/useRecipeIngredients"
-import { DragDropContext } from "react-beautiful-dnd"
+import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd"
+import { useRecipeSection } from "../lib/useRecipeSections"
+import _ from "lodash"
 
 const RecipeIngredients: React.FC<RecipeIngredientProps> = (props) => {
-  const onSectionUpdate = () => {
-    const rename = (newName: string, index: number) => {}
-    const add = (newName: string) => {}
-    const remove = (index: number) => {}
-    const move = (oldIndex: number, newIndex: number) => {}
-
-    return { rename, add, remove, move }
-  }
   const { moveIngredient } = useRecipeIngredients(
     props.initialData,
     !props.editable
   )
-  const saveSections = (sections: string[]) => {}
+  const sections = _.sortBy(props.sections, "priority")
+  console.log(sections)
+  const { moveSection } = useRecipeSection(sections)
+  const onDragEnd = (result: DropResult) => {
+    console.log(result.type)
+    if (result.type == "INGREDIENT") {
+      moveIngredient(result)
+    }
+    if (result.type == "SECTION") {
+      moveSection(result)
+    }
+  }
 
   return (
-    <DragDropContext onDragEnd={moveIngredient}>
+    <DragDropContext onDragEnd={onDragEnd}>
       <IngredientList
         ingredients={props.initialData}
         editable={props.editable}
         recipePublicId={props.recipePublicId}
       />
-      {props.sections &&
-        props.sections.map((section, idx) => (
-          <IngredientList
-            key={section.name}
-            ingredients={section.ingredients}
-            editable={props.editable}
-            sectionId={section.id}
-            sectionName={section.name}
-            recipePublicId={props.recipePublicId}
-            onSectionUpdate={onSectionUpdate}
-          />
-        ))}
+      {props.sections && (
+        <Droppable droppableId="sectionDroppable" type="SECTION">
+          {(provided, snapshot) => (
+            <div ref={provided.innerRef}>
+              {sections.map((section, idx) => (
+                <IngredientList
+                  key={section.name}
+                  ingredients={section.ingredients}
+                  editable={props.editable}
+                  sectionId={section.id}
+                  idx={idx}
+                  sectionName={section.name}
+                  recipePublicId={props.recipePublicId}
+                />
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      )}
       {!props.editable &&
         props.initialData &&
         props.initialData.length == 0 &&

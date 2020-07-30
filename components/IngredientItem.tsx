@@ -65,6 +65,7 @@ const IngredientItem: React.FC<IngredientItemProps> = (props) => {
         draggableId={"did" + props.ingredient.id}
         index={props.idx}
         key={props.ingredient.id}
+        type="INGREDIENT"
       >
         {(provided, snapshot) => (
           <div ref={provided.innerRef} {...provided.draggableProps}>

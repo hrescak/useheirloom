@@ -73,13 +73,21 @@ const useRecipeIngredients = (
       false
     )
 
+    // we need to make sure we're sending sectionId ONLY if
+    // they differ, otherwise the disconnect prisma call will
+    // not work when we drag in between null sectionID ingredients,
+    // but if we omit it, it doesn't get updated.
+    const payload = {
+      priority: newPriority,
+    }
+    if (result.destination.droppableId != result.source.droppableId) {
+      payload["sectionId"] = destinationSectionId
+    }
+
     // update the moved ingredient in the backend
     await fetch(`${apiURL}/${resultIngredientId}`, {
       method: "POST",
-      body: JSON.stringify({
-        priority: newPriority,
-        sectionId: destinationSectionId,
-      }),
+      body: JSON.stringify(payload),
     })
   }
 
