@@ -42,7 +42,7 @@ const Index: React.FC<Props> = (props) => {
             Heirloom is your personal recipe book. It’s a simple, small and fast
             web-based recipe manager I’m building mostly for myself.{" "}
             <Link href="/login">
-              <a>Get in</a>
+              <a>Log in</a>
             </Link>{" "}
             if you already have an account or&nbsp;
             <Obfuscate
@@ -55,9 +55,19 @@ const Index: React.FC<Props> = (props) => {
             >
               hit me up
             </Obfuscate>{" "}
-            if you want to try it out and give me feedback.
+            if you want to try it out.
           </p>
           <p>Cheers, Matej</p>
+          <p style={{ opacity: 0.4 }}>
+            P.S. Here's a really good{" "}
+            <a
+              href="https://useheirloom.com/r/sourdough-waffles"
+              rel="noreferrer"
+            >
+              Sourdough Waffles
+            </a>{" "}
+            recipe.{" "}
+          </p>
         </Hello>
       </PublicLayout>
     )

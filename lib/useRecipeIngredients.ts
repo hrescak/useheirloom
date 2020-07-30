@@ -152,8 +152,6 @@ const useRecipeIngredients = (
     const { destinationSectionId } = dropResultInfo(result)
     const ingredients = ingredientsInSection(destinationSectionId)
     let targetPriority = 0
-    console.log(result)
-    console.log(ingredients)
     const isSamePosition =
       result.destination.droppableId == result.source.droppableId &&
       result.destination.index == result.source.index
@@ -177,7 +175,6 @@ const useRecipeIngredients = (
             targetPriority = highestPriority(destinationSectionId) + 1
             break
           }
-          console.log("here")
         }
         default: {
           // everywhere in between when moving within the same list
@@ -201,7 +198,6 @@ const useRecipeIngredients = (
             toPriorityAbove = ingredients[result.destination.index].priority
             toPriorityBelow = ingredients[result.destination.index - 1].priority
           }
-          console.log("this is ")
           targetPriority = (toPriorityBelow + toPriorityAbove) / 2
         }
       }

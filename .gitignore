@@ -78,12 +78,14 @@ typings/
 # Next.js build output
 .next
 
+# VS Code stuffs
+.vscode
+
 # Serverless directories
 .serverless/
 
-
 # Mac image stuffs
-*.DS_Store
+.DS_Store
 
 # PWA service workers
 public/sw.js
