@@ -1,8 +1,6 @@
-<div align="center">
-  ![Heirloom](https://raw.githubusercontent.com/hrescak/useheirloom/f45153db02beed454a67965ff13445dea18e245f/public/images/heirloom.svg)
-</div>
+![Heirloom](https://raw.githubusercontent.com/hrescak/useheirloom/f45153db02beed454a67965ff13445dea18e245f/public/images/heirloom.svg)
 
-# Heirloom
+## What is this
 
 Heirloom is a small personal recipe manager. I've always wanted to build one for myself and now that I'm at [Prisma](https://prisma.io), wanting to try out Prisma 2 in real world was the final push. I hope you enjoy it - the code is probably clowny but hey, you live you learn.
 
