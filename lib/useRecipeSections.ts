@@ -26,7 +26,25 @@ export const useRecipeSection = (sections?: RecipeIngredientSection[]) => {
       return recipe
     })
   }
-  const addSection = (newName: string) => {}
+  const createSection = async (newSection) => {
+    const payload = {
+      name: newSection["freeform"],
+      priority: highestPriority() + 1,
+    }
+    await fetch(apiURL, {
+      method: "POST",
+      body: JSON.stringify(payload),
+    })
+
+    mutate(mutateURL, (recipe) => ({
+      ...recipe,
+      ingredientSections: _.concat(recipe.ingredientSections, {
+        name: payload.name,
+        priority: payload.priority,
+        ingredients: [],
+      }),
+    }))
+  }
 
   const removeSection = async (id: number) => {
     await fetch(`${apiURL}/${id}`, {
@@ -126,5 +144,5 @@ export const useRecipeSection = (sections?: RecipeIngredientSection[]) => {
     return targetPriority
   }
 
-  return { renameSection, addSection, removeSection, moveSection }
+  return { renameSection, createSection, removeSection, moveSection }
 }

@@ -5,6 +5,14 @@ import useRecipeIngredients from "../lib/useRecipeIngredients"
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd"
 import { useRecipeSection } from "../lib/useRecipeSections"
 import _ from "lodash"
+import NewIngredientForm from "./NewIngredientForm"
+import styled from "styled-components"
+
+const Separator = styled.div`
+  height: 2px;
+  background: ${(p) => p.theme.colors.wash};
+  margin: 0.5rem 0.75rem 0.75rem;
+`
 
 const RecipeIngredients: React.FC<RecipeIngredientProps> = (props) => {
   const { moveIngredient } = useRecipeIngredients(
@@ -13,7 +21,7 @@ const RecipeIngredients: React.FC<RecipeIngredientProps> = (props) => {
   )
   const sections = _.sortBy(props.sections, "priority")
   console.log(sections)
-  const { moveSection } = useRecipeSection(sections)
+  const { moveSection, createSection } = useRecipeSection(sections)
   const onDragEnd = (result: DropResult) => {
     console.log(result.type)
     if (result.type == "INGREDIENT") {
@@ -50,6 +58,15 @@ const RecipeIngredients: React.FC<RecipeIngredientProps> = (props) => {
             </div>
           )}
         </Droppable>
+      )}
+      {props.editable && (
+        <>
+          <Separator />
+          <NewIngredientForm
+            placeholder="Add new section of ingredients..."
+            onFormSubmit={createSection}
+          />
+        </>
       )}
       {!props.editable &&
         props.initialData &&
