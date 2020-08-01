@@ -1,7 +1,9 @@
 import { WithUser } from "../../components/hoc/withUser"
 import Layout from "../../components/layout/Layout"
+import { useRouter } from "next/router"
 
 const Bookmark: React.FC = () => {
+  const router = useRouter()
   return (
     <Layout
       leftControl={
@@ -12,7 +14,7 @@ const Bookmark: React.FC = () => {
         />
       }
     >
-      Attempting to save new recipe...
+      Attempting to save new recipe from <strong>{router.query.url}</strong>...
     </Layout>
   )
 }
