@@ -30,22 +30,26 @@ export default async function handle(req, res) {
         ingredients: {
           create: recipe.ingredients.map((ing, idx) => ({
             freeform: ing,
-            priority: idx,
           })),
         },
       }
       if (recipe.image) {
         data["imageURL"] = recipe.image
       }
-      console.log(data)
-      const result = await prisma.recipe.create({
-        data: data,
-      })
-      return res.status(200).json({ location: `/r/${slug}` })
+      // attempt to save data to DB, and override terrible
+      // error message with simple ones.
+      try {
+        const result = await prisma.recipe.create({
+          data: data,
+        })
+        return res.status(200).json({ location: `/r/${slug}` })
+      } catch (e) {
+        throw new Error("Error creating recipe")
+      }
     }
   } catch (error) {
     console.log(error)
-    return res.status(500).json({ message: "Error creating recipe" })
+    return res.status(500).json({ message: error.message })
   }
   return res.status(500).json({ message: "Unexpected error occured" })
 }
