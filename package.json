@@ -37,6 +37,7 @@
     "react-spinners": "^0.8.3",
     "react-switch": "^5.0.1",
     "react-truncate": "^2.4.0",
+    "recipe-scraper": "^1.23.4",
     "slugify": "^1.4.0",
     "styled-components": "^4.4.1",
     "styled-normalize": "^8.0.7",

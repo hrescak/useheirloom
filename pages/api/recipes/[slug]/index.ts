@@ -1,6 +1,6 @@
 import { getSession } from "../../../../lib/iron"
 import { PrismaClient } from "@prisma/client"
-import slugify from "slugify"
+import slugFromName from "../../../../lib/slugHelper"
 
 const prisma = new PrismaClient()
 
@@ -49,14 +49,7 @@ async function handlePOST(req, res) {
 
     // if we're changing a name, we gon gotta change the slug too
     if (data.name && data.name != "") {
-      let slugToSave = slugify(data.name).toLowerCase().substr(0, 60)
-      const slugCount = await prisma.recipe.count({
-        where: { publicID: slugToSave },
-      })
-
-      // if it already exists, we'll append the ID to it
-      slugToSave = slugCount > 0 ? slugToSave + "-" + data.id : slugToSave
-      data.publicID = slugToSave
+      data.publicID = slugFromName(prisma, data.name, data.id)
     }
     const recipe = await prisma.recipe.update({
       where: { publicID: req.query.slug },
