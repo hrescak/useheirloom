@@ -12,7 +12,7 @@ export const useRecipeSection = (sections?: RecipeIngredientSection[]) => {
 
   const renameSection = async (newName: string, id: number) => {
     await fetch(`${apiURL}/${id}`, {
-      method: "POST",
+      method: "PUT",
       body: JSON.stringify({ name: newName }),
     })
     //optimistically mutate local state
@@ -81,7 +81,7 @@ export const useRecipeSection = (sections?: RecipeIngredientSection[]) => {
 
     //send server update
     await fetch(`${apiURL}/${sectionId}`, {
-      method: "POST",
+      method: "PUT",
       body: JSON.stringify({ priority: newPriority }),
     })
   }
