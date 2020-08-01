@@ -20,10 +20,8 @@ const RecipeIngredients: React.FC<RecipeIngredientProps> = (props) => {
     !props.editable
   )
   const sections = _.sortBy(props.sections, "priority")
-  console.log(sections)
   const { moveSection, createSection } = useRecipeSection(sections)
   const onDragEnd = (result: DropResult) => {
-    console.log(result.type)
     if (result.type == "INGREDIENT") {
       moveIngredient(result)
     }
