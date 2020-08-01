@@ -30,6 +30,7 @@ export default async function handle(req, res) {
         ingredients: {
           create: recipe.ingredients.map((ing, idx) => ({
             freeform: ing,
+            priority: idx,
           })),
         },
       }
