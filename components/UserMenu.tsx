@@ -2,7 +2,7 @@ import React from "react"
 import Popover from "./system/Popover"
 import styled from "styled-components"
 import { InlineButton, OutlineButton } from "./system/Button"
-import { User, Settings, LogOut, Bookmark } from "react-feather"
+import { User, MoreHorizontal, LogOut, Bookmark } from "react-feather"
 import Link from "next/link"
 
 const Row = styled.div`
@@ -39,7 +39,7 @@ const UserMenu: React.FC = () => {
       trigger="click"
       interactive={true}
     >
-      <OutlineButton icon={<Settings />} hiddenLabel>
+      <OutlineButton icon={<MoreHorizontal />} hiddenLabel>
         {" "}
         Profile
       </OutlineButton>
