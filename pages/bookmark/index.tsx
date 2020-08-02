@@ -1,28 +1,15 @@
 import { WithUser } from "../../components/hoc/withUser"
-import Layout from "../../components/layout/Layout"
 import { useRouter } from "next/router"
 import useBookmark from "../../lib/useBookmark"
 import ErrorBox from "../../components/system/ErrorBox"
-import Link from "next/link"
+import LoggedInLayout from "../../components/layout/LoggedInLayout"
 
 const Bookmark: React.FC = () => {
   const router = useRouter()
   const { redirecting, error } = useBookmark()
 
   return (
-    <Layout
-      leftControl={
-        <Link href="/">
-          <a>
-            <img
-              src="/images/heirloom.svg"
-              height="36"
-              alt="Heirloom in script typeface"
-            />
-          </a>
-        </Link>
-      }
-    >
+    <LoggedInLayout>
       {error ? (
         <ErrorBox
           title="Recipe wasn't successfully added"
@@ -36,7 +23,7 @@ const Bookmark: React.FC = () => {
           ...
         </>
       )}
-    </Layout>
+    </LoggedInLayout>
   )
 }
 

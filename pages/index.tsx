@@ -1,17 +1,13 @@
 import React from "react"
-import Layout from "../components/layout/Layout"
 import { getSession } from "../lib/iron"
 import { UserSession } from "../types"
-import useRecipes from "../lib/useRecipes"
-import { OutlineButton } from "../components/system/Button"
 import Obfuscate from "react-obfuscate"
 import Link from "next/link"
 import PublicLayout from "../components/layout/PublicLayout"
 import styled from "styled-components"
-import UserMenu from "../components/UserMenu"
-import { PlusCircle, LogIn } from "react-feather"
 import RecipeList from "../components/RecipeList"
 import { useUser } from "../lib/useUser"
+import LoggedInLayout from "../components/layout/LoggedInLayout"
 
 type Props = {
   session: UserSession
@@ -28,7 +24,6 @@ const Hello = styled.div`
 
 const Index: React.FC<Props> = (props) => {
   const user = useUser({}, { initialProps: props.session })
-  const { createRecipe } = useRecipes()
   if (!user && !props.session) {
     return (
       <PublicLayout>
@@ -73,31 +68,9 @@ const Index: React.FC<Props> = (props) => {
     )
   }
   return (
-    <Layout
-      leftControl={
-        <img
-          src="/images/heirloom.svg"
-          height="36"
-          alt="Heirloom in script typeface"
-        />
-      }
-      rightControl={
-        user && (
-          <>
-            <OutlineButton
-              onClick={() => createRecipe()}
-              icon={<PlusCircle />}
-              style={{ marginRight: "8px" }}
-            >
-              New Recipe
-            </OutlineButton>
-            <UserMenu />
-          </>
-        )
-      }
-    >
+    <LoggedInLayout>
       <RecipeList />
-    </Layout>
+    </LoggedInLayout>
   )
 }
 // Making sure we don't have flash of logged in /  out content on homepage

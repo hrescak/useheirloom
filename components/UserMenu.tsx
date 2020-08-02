@@ -2,7 +2,7 @@ import React from "react"
 import Popover from "./system/Popover"
 import styled from "styled-components"
 import { InlineButton, OutlineButton } from "./system/Button"
-import { User, Settings, LogOut } from "react-feather"
+import { User, Settings, LogOut, Bookmark } from "react-feather"
 import Link from "next/link"
 
 const Row = styled.div`
@@ -21,7 +21,12 @@ const UserMenu: React.FC = () => {
         <>
           <Row style={{ border: "none" }}>
             <Link href="/user/settings">
-              <InlineButton icon={<Settings />}>Account Settings</InlineButton>
+              <InlineButton icon={<User />}>Account Settings</InlineButton>
+            </Link>
+          </Row>
+          <Row>
+            <Link href="/bookmark/howto">
+              <InlineButton icon={<Bookmark />}>Bookmarklet</InlineButton>
             </Link>
           </Row>
           <Row>
@@ -34,7 +39,7 @@ const UserMenu: React.FC = () => {
       trigger="click"
       interactive={true}
     >
-      <OutlineButton icon={<User />} hiddenLabel>
+      <OutlineButton icon={<Settings />} hiddenLabel>
         {" "}
         Profile
       </OutlineButton>
