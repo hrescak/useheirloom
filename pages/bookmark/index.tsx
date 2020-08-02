@@ -6,8 +6,7 @@ import LoggedInLayout from "../../components/layout/LoggedInLayout"
 
 const Bookmark: React.FC = () => {
   const router = useRouter()
-  const { redirecting, error } = useBookmark()
-
+  const { error } = useBookmark()
   return (
     <LoggedInLayout>
       {error ? (
@@ -15,11 +14,9 @@ const Bookmark: React.FC = () => {
           title="Recipe wasn't successfully added"
           message={error.message}
         />
-      ) : redirecting ? (
-        <>Redirecting...</>
       ) : (
         <>
-          Attempting to save new recipe from <strong>{router.query.url}</strong>
+          Saving recipe from <strong>{router.query.url}</strong>
           ...
         </>
       )}

@@ -27,6 +27,9 @@ async function handleGET(req, res) {
         kitchenId: session.kitchenId,
         isDeleted: false,
       },
+      orderBy: {
+        updatedAt: "desc",
+      },
     })
     res.json(result)
   } else {

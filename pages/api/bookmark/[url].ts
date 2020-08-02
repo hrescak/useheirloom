@@ -16,6 +16,7 @@ export default async function handle(req, res) {
   try {
     const recipe = await recipeScraper(decodedURL)
     if (recipe) {
+      console.log("We got a recipe")
       const slug = await slugFromName(prisma, recipe.name)
       const URLtoExtract = new URL(decodedURL)
       const sourceName = URLtoExtract.hostname
@@ -40,10 +41,14 @@ export default async function handle(req, res) {
       // attempt to save data to DB, and override terrible
       // error message with simple ones.
       try {
+        console.log("We about to save")
         const result = await prisma.recipe.create({
           data: data,
         })
-        return res.status(200).json({ location: `/r/${slug}` })
+        if (result) {
+          console.log("we have result - " + result.publicID)
+          return res.status(200).json({ location: `/r/${result.publicID}` })
+        }
       } catch (e) {
         throw new Error("Error creating recipe")
       }
