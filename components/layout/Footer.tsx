@@ -4,11 +4,11 @@ import styled from "styled-components"
 import { useUser } from "../../lib/useUser"
 import Obfuscate from "react-obfuscate"
 
-const FooterWrapper = styled.footer<{ centered?: boolean }>`
+const FooterWrapper = styled.footer`
   height: 44px;
   /* text-align: center; */
   font-size: 0.875rem;
-  ${(p) => (p.centered ? "text-align: center" : "")};
+  text-align: center;
   color: ${(p) => p.theme.colors.textSecondary};
   & a {
     color: ${(p) => p.theme.colors.textSecondary};
@@ -21,7 +21,7 @@ const FooterWrapper = styled.footer<{ centered?: boolean }>`
 const Footer: React.FC<{ isPublic?: boolean }> = ({ isPublic }) => {
   const user = useUser()
   return (
-    <FooterWrapper centered={isPublic}>
+    <FooterWrapper>
       <Wrapper>
         Heirloom · Made by{" "}
         <a href="https://hrescak.com" target="_blank" rel="noreferrer">
