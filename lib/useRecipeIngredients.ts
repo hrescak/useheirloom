@@ -43,7 +43,7 @@ const useRecipeIngredients = (
   // Rename Ingredient
   const renameIngredient = async (id, newName) => {
     await fetch(`${apiURL}/${id}`, {
-      method: "POST",
+      method: "PUT",
       body: JSON.stringify({ freeform: newName }),
     })
     //optimistically mutate local state
@@ -86,7 +86,7 @@ const useRecipeIngredients = (
 
     // update the moved ingredient in the backend
     await fetch(`${apiURL}/${resultIngredientId}`, {
-      method: "POST",
+      method: "PUT",
       body: JSON.stringify(payload),
     })
   }
