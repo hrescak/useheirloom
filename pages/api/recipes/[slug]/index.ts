@@ -33,7 +33,10 @@ async function handleGET(req, res) {
       },
     },
   })
-  if (recipe.isPublic || (session && recipe.authorId === session.id)) {
+  if (
+    recipe &&
+    (recipe.isPublic || (session && recipe.authorId === session.id))
+  ) {
     return res.status(200).json(recipe)
   }
   return res
@@ -49,7 +52,8 @@ async function handlePOST(req, res) {
 
     // if we're changing a name, we gon gotta change the slug too
     if (data.name && data.name != "") {
-      data.publicID = slugFromName(prisma, data.name, data.id)
+      data.publicID = await slugFromName(prisma, data.name, data.id)
+      console.log(data.publicID)
     }
     const recipe = await prisma.recipe.update({
       where: { publicID: req.query.slug },

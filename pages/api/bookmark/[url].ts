@@ -55,7 +55,7 @@ export default async function handle(req, res) {
     }
   } catch (error) {
     console.log(error)
-    return res.status(500).json({ message: error.message })
+    return res.status(400).json({ message: error.message })
   }
-  return res.status(500).json({ message: "Unexpected error occured" })
+  return res.status(404).json({ message: "Unexpected error occured" })
 }
