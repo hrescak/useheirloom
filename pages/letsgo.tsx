@@ -37,7 +37,7 @@ const Signup: React.FC = () => {
   }
 
   return (
-    <PublicLayout>
+    <PublicLayout title="Welcome to Heirloom!">
       <form onSubmit={handleSubmit(onSubmit)}>
         <H1>Sign up</H1>
         <FormError separateRow title={errors?.request?.message} />
@@ -46,6 +46,7 @@ const Signup: React.FC = () => {
           placeholder="your@email.com"
           name="email"
           type="text"
+          autoCapitalize="off"
           ref={register({
             required: "Email is required",
           })}

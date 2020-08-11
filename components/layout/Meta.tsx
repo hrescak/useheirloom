@@ -2,8 +2,11 @@ import Head from "next/head"
 
 const Meta: React.FC<{ title?: string }> = (props) => (
   <Head>
-    <title>{props.title ? props.title : "Heirloom"}</title>
-    <meta name="og:title" content={props.title ? props.title : "Heirloom"} />
+    <title>{props.title ? `${props.title} | Heirloom` : "Heirloom"}</title>
+    <meta
+      name="og:title"
+      content={props.title ? `${props.title} | Heirloom` : "Heirloom"}
+    />
     <meta
       name="description"
       content="Heirloom is a small but mighty online recipe manager"

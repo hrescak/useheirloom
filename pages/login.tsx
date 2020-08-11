@@ -38,7 +38,7 @@ const Login = () => {
   }
 
   return (
-    <PublicLayout>
+    <PublicLayout title="Welcome back!">
       <form onSubmit={handleSubmit(onSubmit)}>
         <H1>Log in</H1>
         <FormError separateRow title={errors?.request?.message} />
@@ -46,6 +46,7 @@ const Login = () => {
         <Input
           placeholder="your@email.com"
           name="email"
+          autoCapitalize="off"
           type="text"
           ref={register({
             required: "Your email can't be blank",
