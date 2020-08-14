@@ -6,6 +6,7 @@ import { H2 } from "./system/Typography"
 import { PrimaryButton } from "./system/Button"
 import { PlusCircle } from "react-feather"
 import { useUser } from "../lib/useUser"
+import Link from "next/link"
 
 const EmptySlate = styled.div`
   background: ${(p) => p.theme.colors.wash};
@@ -19,14 +20,18 @@ const EmptySlate = styled.div`
 `
 const TextWrapper = styled.div`
   margin: 2rem auto;
-  padding: 0 1rem;
+  padding: 0 1rem 4rem;
   box-sizing: border-box;
-  width: 26rem;
+  width: 32rem;
   max-width: 100%;
-`
-const ButtonWrapper = styled.div`
-  padding-bottom: 4rem;
-  text-align: center;
+  a {
+    background: ${(p) => p.theme.colors.accentWash};
+    color: ${(p) => p.theme.colors.text};
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-weight: 600;
+  }
 `
 const WelcomeTitle = styled(H2)`
   font-size: 2rem;
@@ -56,9 +61,17 @@ const RecipeList: React.FC = () => {
                 with, and sometimes they just vanished.
               </p>
               <p>
-                Heirloom a simple, personal recipe book. It favors speed and
-                ease of use, and I'm planning to keep it as uncomplicated as
-                possible.
+                Heirloom favors speed and ease of use, and I'm planning to keep
+                it as uncomplicated as possible. Whenever you're ready, feel
+                free to{" "}
+                <a href="" onClick={() => createRecipe()}>
+                  create your first recipe
+                </a>{" "}
+                or
+                <Link href="/bookmark/howto">
+                  <a>save one from the web</a>
+                </Link>
+                .
               </p>
               <p>
                 I’m hoping this place brings you joy, and please let me know if
@@ -69,14 +82,6 @@ const RecipeList: React.FC = () => {
                 Matej
               </p>
             </TextWrapper>
-            <ButtonWrapper>
-              <PrimaryButton
-                icon={<PlusCircle />}
-                onClick={() => createRecipe()}
-              >
-                Create your first recipe
-              </PrimaryButton>
-            </ButtonWrapper>
           </EmptySlate>
         ) : (
           <Loader />
