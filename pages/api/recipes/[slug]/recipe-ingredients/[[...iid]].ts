@@ -63,7 +63,7 @@ async function handlePOST(req, res) {
       data: {
         freeform: freeform,
         priority: Number(priority),
-        section: sectionId ? { connect: { id: Number(sectionId) } } : null,
+        section: sectionId ? { connect: { id: Number(sectionId) } } : undefined,
         recipe: { connect: { publicID: req.query.slug } },
       },
     })
