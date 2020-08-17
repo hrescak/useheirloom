@@ -13,7 +13,7 @@ export default async function handle(req, res) {
   } else if (req.method === "POST") {
     handlePOST(req, res)
   } else if (req.method === "PUT") {
-    handlePOST(req, res)
+    handlePUT(req, res)
   } else if (req.method === "DELETE") {
     handleDELETE(req, res)
   } else {

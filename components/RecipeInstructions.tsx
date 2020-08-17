@@ -15,7 +15,7 @@ const RecipeInstructions: React.FC<{ instructions?: string }> = (props) => {
       }}
     />
   ) : (
-    <>"No instructions yet."</>
+    <>No instructions yet.</>
   )
 }
 

@@ -51,14 +51,19 @@ export const useRecipeSection = (sections?: RecipeIngredientSection[]) => {
       method: "DELETE",
     })
     //optimistically mutate local state
-    mutate(mutateURL, (recipe) => {
-      recipe.ingredientSections = _.filter(
-        recipe.ingredientSections,
-        (s) => s.id != id
-      )
-      console.log(recipe)
-      return recipe
-    })
+    mutate(
+      mutateURL,
+      (recipe) => {
+        recipe.ingredientSections = recipe.ingredientSections.filter(
+          (s) => s.id !== id
+        )
+
+        console.log("new recipe")
+        console.log(recipe)
+        return recipe
+      },
+      false
+    )
   }
   const moveSection = async (result: DropResult) => {
     const newPriority = targetPriority(result)
