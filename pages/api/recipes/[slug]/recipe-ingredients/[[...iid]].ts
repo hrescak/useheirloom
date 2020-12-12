@@ -44,7 +44,7 @@ async function handleGET(req, res) {
 async function handleSingleGET(req, res) {
   const session = await getSession(req)
   if (session) {
-    const recipeIngredient = await prisma.recipeIngredient.findOne({
+    const recipeIngredient = await prisma.recipeIngredient.findUnique({
       where: { id: Number(req.query.iid) },
     })
     res.json(recipeIngredient)

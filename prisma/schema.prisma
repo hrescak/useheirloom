@@ -30,7 +30,7 @@ enum CategoryType {
 }
 
 model User {
-  id             Int       @default(autoincrement()) @id
+  id             Int       @id @default(autoincrement())
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
   email          String    @unique
@@ -39,14 +39,14 @@ model User {
   avatarUrl      String?
   hash           String
   salt           String
-  ownKitchen     Kitchen   @relation("KitchenOwnership")
+  ownKitchen     Kitchen?  @relation("KitchenOwnership")
   kitchens       Kitchen[] @relation(references: [id])
   starredRecipes Recipe[]
   recipes        Recipe[]  @relation("RecipeOwnership")
 }
 
 model Kitchen {
-  id          Int        @default(autoincrement()) @id
+  id          Int        @id @default(autoincrement())
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   name        String
@@ -59,35 +59,35 @@ model Kitchen {
 }
 
 model Recipe {
-  id                 Int                @default(autoincrement()) @id
-  createdAt          DateTime           @default(now())
-  updatedAt          DateTime           @updatedAt
+  id                 Int                       @id @default(autoincrement())
+  createdAt          DateTime                  @default(now())
+  updatedAt          DateTime                  @updatedAt
   name               String?
   summary            String?
-  publicID           String             @unique
-  isPublic           Boolean            @default(value: false)
+  publicID           String                    @unique
+  isPublic           Boolean                   @default(value: false)
   sourceName         String?
   sourceURL          String?
   servings           Int?
   prepDuration       Int?
   cookDuration       Int?
   totalDuration      Int?
-  kitchen            Kitchen            @relation(references: [id], fields: [kitchenId])
+  kitchen            Kitchen                   @relation(references: [id], fields: [kitchenId])
   kitchenId          Int
   imageURL           String?
   ingredients        RecipeIngredient[]
   ingredientSections RecipeIngredientSection[]
   instructions       String?
-  isDeleted          Boolean            @default(value: false)
+  isDeleted          Boolean                   @default(value: false)
   categories         Category[]
   starredBy          User[]
-  author             User               @relation("RecipeOwnership", references: [id], fields: [authorId])
-  authorId           Int                
+  author             User                      @relation("RecipeOwnership", references: [id], fields: [authorId])
+  authorId           Int
 
 }
 
 model Ingredient {
-  id        Int                @default(autoincrement()) @id
+  id        Int                @id @default(autoincrement())
   createdAt DateTime           @default(now())
   updatedAt DateTime           @updatedAt
   name      String
@@ -96,35 +96,35 @@ model Ingredient {
 }
 
 model RecipeIngredient {
-  id           Int         @default(autoincrement()) @id
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+  id           Int                      @id @default(autoincrement())
+  createdAt    DateTime                 @default(now())
+  updatedAt    DateTime                 @updatedAt
   freeform     String
-  ingredient   Ingredient? @relation(references: [id], fields: [ingredientId])
+  ingredient   Ingredient?              @relation(references: [id], fields: [ingredientId])
   ingredientId Int?
-  recipe       Recipe      @relation(references: [id], fields: [recipeId])
+  recipe       Recipe                   @relation(references: [id], fields: [recipeId])
   recipeId     Int
   priority     Float
   quantity     Float?
   unit         Unit?
-  section      RecipeIngredientSection? @relation(references:[id], fields:[sectionId])
+  section      RecipeIngredientSection? @relation(references: [id], fields: [sectionId])
   sectionId    Int?
 }
 
 model RecipeIngredientSection {
-  id           Int         @default(autoincrement()) @id
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-  name         String
-  priority     Float       @default(value:1)
-  ingredients  RecipeIngredient[]
-  recipe       Recipe @relation(references:[id], fields:[recipeId])
-  recipeId     Int
+  id          Int                @id @default(autoincrement())
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  name        String
+  priority    Float              @default(value: 1)
+  ingredients RecipeIngredient[]
+  recipe      Recipe             @relation(references: [id], fields: [recipeId])
+  recipeId    Int
 
 }
 
 model Category {
-  id          Int          @default(autoincrement()) @id
+  id          Int          @id @default(autoincrement())
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   name        String

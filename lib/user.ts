@@ -29,7 +29,7 @@ export async function createUser({ email, name, password }) {
 }
 
 export async function findUser({ email, password }) {
-  const user = await prisma.user.findOne({
+  const user = await prisma.user.findUnique({
     where: {
       email: email.toLowerCase(),
     },
