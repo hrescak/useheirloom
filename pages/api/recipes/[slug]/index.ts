@@ -21,7 +21,7 @@ export default async function handle(req, res) {
 // GET /api/recipes/:slug
 async function handleGET(req, res) {
   const session = await getSession(req)
-  const recipe = await prisma.recipe.findOne({
+  const recipe = await prisma.recipe.findUnique({
     where: { publicID: req.query.slug },
     include: {
       ingredients: { where: { sectionId: null } },

@@ -21,7 +21,7 @@ async function handleGET(req, res) {
   const session = await getSession(req)
   if (!session) return res.json({ message: "Not Authenticated" })
 
-  const user = await prisma.user.findOne({
+  const user = await prisma.user.findUnique({
     where: {
       id: session.id,
     },
@@ -58,7 +58,7 @@ async function handlePOST(req, res) {
   // if we're updating a password, let's make sure it's only included in
   // the write if the old one matches the one we have
   if (data.newPassword) {
-    const confirmedUser = await prisma.user.findOne({
+    const confirmedUser = await prisma.user.findUnique({
       where: { id: session.id },
     })
     if (!confirmedUser) return res.status(401).json({ message: "Not Found" })
