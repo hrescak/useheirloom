@@ -7,6 +7,6 @@ a proper database management with backups, CDN for recipe photos, more involved 
 | Item                  | Monthly cost       | Yearly Cost       | Note                                            |
 |-----------------------|--------------------|-------------------|-------------------------------------------------|
 | Domain (Google)       | $1                 | $12               |                                                 |
-| G-suite               | $6                 | $72               | Just to have thing separate                     |
+| ~G-suite~             | ~$6~               | ~$72~             | Just to have thing separate - since canceled.   |
 | GoatCounter           | $5                 | $60               | Privacy-friendly analytics (via GH Sponsors)    |
-| **Total**             | **$12**            | **$144**          |                                                 | 
+| **Total**             | **$12**            | **$72**           |                                                 | 
