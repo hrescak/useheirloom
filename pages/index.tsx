@@ -41,7 +41,7 @@ const Index: React.FC<Props> = (props) => {
             </Link>{" "}
             if you already have an account or&nbsp;
             <Obfuscate
-              email="matej@useheirloom.com"
+              email="message.heirloom@gmail.com"
               headers={{
                 subject: "Let me iiiiin",
                 body:
