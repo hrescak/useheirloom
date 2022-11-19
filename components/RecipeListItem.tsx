@@ -83,7 +83,12 @@ const RecipeWrapper = styled.a`
 const RecipeListItem: React.FC<Props> = ({ recipe }) => {
   return (
     <div>
-      <Link href={`/r/[slug]`} as={`/r/${recipe.publicID}`} passHref>
+      <Link
+        href={`/r/[slug]`}
+        as={`/r/${recipe.publicID}`}
+        passHref
+        legacyBehavior
+      >
         <RecipeWrapper>
           <RecipePreview imageURL={recipe.imageURL}>
             {recipe.imageURL ? (

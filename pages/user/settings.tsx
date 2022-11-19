@@ -36,7 +36,13 @@ const Half = styled.div`
 `
 const SettingsPage: React.FC<{ user: UserSession }> = (props) => {
   const router = useRouter()
-  const { handleSubmit, register, errors, setError, watch } = useForm()
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    setError,
+    watch,
+  } = useForm()
   const newPassword = watch("newPassword")
   async function onSubmit(formData) {
     try {
@@ -52,7 +58,7 @@ const SettingsPage: React.FC<{ user: UserSession }> = (props) => {
     } catch (error) {
       // dude you jank
       const parsedError = JSON.parse(error.message)
-      setError("request", "", parsedError.message)
+      setError("request", { message: parsedError.message })
     }
   }
   return (
@@ -60,7 +66,7 @@ const SettingsPage: React.FC<{ user: UserSession }> = (props) => {
       title="User Settings"
       invertHeader
       leftControl={
-        <Link href={`/`}>
+        <Link href={`/`} legacyBehavior>
           <PrimaryButton icon={<ChevronLeft />}>Back</PrimaryButton>
         </Link>
       }
@@ -78,10 +84,9 @@ const SettingsPage: React.FC<{ user: UserSession }> = (props) => {
           <InputRow>
             <Half>
               <Input
-                name="email"
                 placeholder="your@email.com"
                 defaultValue={props.user.email}
-                ref={register({
+                {...register("email", {
                   required: "Your email can't be blank",
                 })}
               />
@@ -95,10 +100,9 @@ const SettingsPage: React.FC<{ user: UserSession }> = (props) => {
           <InputRow>
             <Half>
               <Input
-                name="name"
                 placeholder="First Last"
                 defaultValue={props.user.name}
-                ref={register({
+                {...register("name", {
                   required: "Your name can't be blank",
                 })}
               />
@@ -113,10 +117,9 @@ const SettingsPage: React.FC<{ user: UserSession }> = (props) => {
           <InputRow>
             <Half>
               <Input
-                name="kitchenName"
                 placeholder="Joe's Kitchen"
                 defaultValue={props.user.kitchenName}
-                ref={register({
+                {...register("kitchenName", {
                   required: "Kitchen name can't be blank",
                 })}
               />
@@ -132,10 +135,9 @@ const SettingsPage: React.FC<{ user: UserSession }> = (props) => {
           <InputRow>
             <Half>
               <Input
-                name="newPassword"
                 placeholder="New Password"
                 type="password"
-                ref={register}
+                {...register("newPassword")}
               />
               <FormError title={errors?.newPassword?.message} />
             </Half>
@@ -150,10 +152,9 @@ const SettingsPage: React.FC<{ user: UserSession }> = (props) => {
               <InputRow>
                 <Half>
                   <Input
-                    name="confirmNewPassword"
                     type="password"
                     placeholder="New Password Again"
-                    ref={register({
+                    {...register("confirmNewPassword", {
                       validate: (value) =>
                         value === newPassword || "The passwords don't match", // <p>error message</p>
                     })}
@@ -166,10 +167,9 @@ const SettingsPage: React.FC<{ user: UserSession }> = (props) => {
               <InputRow>
                 <Half>
                   <Input
-                    name="oldPassword"
                     type="password"
                     placeholder="Old Password"
-                    ref={register}
+                    {...register("oldPassword")}
                   />
                   <FormError title={errors?.oldPassword?.message} />
                 </Half>

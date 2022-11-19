@@ -16,7 +16,7 @@ const useRecipeIngredients = (
   const { data } = useSWR(
     () => (shouldFetch ? apiURL : null),
     (url) => fetch(url).then((r) => r.json()),
-    { initialData: initialData }
+    { fallbackData: initialData }
   )
   // make sure we remember list of all ingredients because that's the
   // one we're mutating

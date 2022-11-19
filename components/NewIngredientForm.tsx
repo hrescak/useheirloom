@@ -54,16 +54,10 @@ const NewIngredientForm: React.FC<NewIngredientFormProps> = ({
           <InlineInput
             type="text"
             placeholder={placeholder ? placeholder : `Add new item...`}
-            name="freeform"
-            ref={register}
+            {...register("freeform")}
           />
           {sectionId && (
-            <input
-              type="hidden"
-              name="sectionId"
-              value={sectionId}
-              ref={register}
-            />
+            <input type="hidden" value={sectionId} {...register("sectionId")} />
           )}
         </ItemWrapper>
         {watchNewIngredient && (

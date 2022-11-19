@@ -4,6 +4,7 @@ import { localStrategy } from "../../../lib/password-local"
 import { encryptSession } from "../../../lib/iron"
 import { setTokenCookie } from "../../../lib/auth-cookies"
 import { UserSession } from "../../../types"
+import { NextApiRequest, NextApiResponse } from "next"
 
 const authenticate = (method, req, res) =>
   new Promise((resolve, reject) => {
@@ -18,7 +19,7 @@ const authenticate = (method, req, res) =>
 
 passport.use(localStrategy)
 
-export default nextConnect()
+export default nextConnect<NextApiRequest, NextApiResponse>()
   .use(passport.initialize())
   .post(async (req, res) => {
     try {

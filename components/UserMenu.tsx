@@ -20,17 +20,17 @@ const UserMenu: React.FC = () => {
       content={
         <>
           <Row style={{ border: "none" }}>
-            <Link href="/user/settings">
+            <Link href="/user/settings" legacyBehavior>
               <InlineButton icon={<User />}>Account Settings</InlineButton>
             </Link>
           </Row>
           <Row>
-            <Link href="/bookmark/howto">
+            <Link href="/bookmark/howto" legacyBehavior>
               <InlineButton icon={<Bookmark />}>Bookmarklet</InlineButton>
             </Link>
           </Row>
           <Row>
-            <Link href="/api/auth/logout">
+            <Link href="/api/auth/logout" legacyBehavior>
               <InlineButton icon={<LogOut />}>Log Out</InlineButton>
             </Link>
           </Row>

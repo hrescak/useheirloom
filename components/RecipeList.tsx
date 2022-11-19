@@ -68,10 +68,7 @@ const RecipeList: React.FC = () => {
                   create your first recipe
                 </a>{" "}
                 or
-                <Link href="/bookmark/howto">
-                  <a>save one from the web</a>
-                </Link>
-                .
+                <Link href="/bookmark/howto">save one from the web</Link>.
               </p>
               <p>
                 I’m hoping this place brings you joy, and please let me know if

@@ -14,7 +14,13 @@ const Signup: React.FC = () => {
   const theme = useContext(ThemeContext)
   const [loading, setLoading] = useState(false)
   useUser({ redirectTo: "/", redirectIfFound: true })
-  const { register, handleSubmit, errors, watch, setError } = useForm()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    setError,
+  } = useForm()
   const pwd = watch("password")
   async function onSubmit(data) {
     setLoading(true)
@@ -31,7 +37,7 @@ const Signup: React.FC = () => {
       }
       setLoading(false)
     } catch (error) {
-      setError("request", "", error.message)
+      setError("request", { message: error.message })
       setLoading(false)
     }
   }
@@ -44,10 +50,9 @@ const Signup: React.FC = () => {
         <Label>Email</Label>
         <Input
           placeholder="your@email.com"
-          name="email"
           type="text"
           autoCapitalize="off"
-          ref={register({
+          {...register("email", {
             required: "Email is required",
           })}
         />
@@ -55,9 +60,8 @@ const Signup: React.FC = () => {
         <Label>Name</Label>
         <Input
           placeholder="Your Name"
-          name="name"
           type="text"
-          ref={register({
+          {...register("name", {
             required: "Name is required",
           })}
         />
@@ -65,9 +69,8 @@ const Signup: React.FC = () => {
         <Label>Password</Label>
         <Input
           placeholder="Password"
-          name="password"
           type="password"
-          ref={register({
+          {...register("password", {
             required: "Password is required", // <p>error message</p>
           })}
         />
@@ -75,9 +78,8 @@ const Signup: React.FC = () => {
         <Label>Repeat Password</Label>
         <Input
           placeholder="Repeat password"
-          name="rpassword"
           type="password"
-          ref={register({
+          {...register("rpassword", {
             required: "Retype password from above",
             validate: (value) => value === pwd || "The passwords don't match", // <p>error message</p>
           })}

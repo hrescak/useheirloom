@@ -36,10 +36,8 @@ const Index: React.FC<Props> = (props) => {
           <p>
             Heirloom is your personal recipe book. It’s a simple, small and fast
             web-based recipe manager I’m building mostly for myself.{" "}
-            <Link href="/login">
-              <a>Log in</a>
-            </Link>{" "}
-            if you already have an account or&nbsp;
+            <Link href="/login">Log in</Link> if you already have an account
+            or&nbsp;
             <Obfuscate
               email="message.heirloom@gmail.com"
               headers={{

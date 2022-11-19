@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import { AlertTriangle } from "react-feather"
 import { useEffect, useState } from "react"
+import type { FieldError, FieldErrorsImpl, Merge } from "react-hook-form"
 
 const Err = styled.div<{ separateRow?: boolean }>`
   position: ${(p) => (p.separateRow ? "relative" : "absolute")};
@@ -38,10 +39,10 @@ const ErrWrapper = styled.div<{ separateRow?: boolean; wiggle?: boolean }>`
   }
 `
 
-export const FormError: React.FC<{ title: string; separateRow?: boolean }> = ({
-  title,
-  separateRow,
-}) => {
+export const FormError: React.FC<{
+  title?: string | FieldError | Merge<FieldError, FieldErrorsImpl<any>>
+  separateRow?: boolean
+}> = ({ title, separateRow }) => {
   const [wiggle, setWiggle] = useState(false)
   const [prevTitle, setPrevTitle] = useState("")
   useEffect(() => {
@@ -55,21 +56,18 @@ export const FormError: React.FC<{ title: string; separateRow?: boolean }> = ({
       }, 1000)
     }
     if (title) {
-      setPrevTitle(title)
+      setPrevTitle(title as string)
     }
   }, [title])
-  return (
-    (title && (
-      <ErrWrapper separateRow={separateRow} wiggle={wiggle}>
-        <Err separateRow={separateRow}>
-          <AlertTriangle
-            size={16}
-            style={{ verticalAlign: "middle", margin: "-3px 5px 0 0" }}
-          />
-          {title}
-        </Err>
-      </ErrWrapper>
-    )) ||
-    null
-  )
+  return title ? (
+    <ErrWrapper separateRow={separateRow} wiggle={wiggle}>
+      <Err separateRow={separateRow}>
+        <AlertTriangle
+          size={16}
+          style={{ verticalAlign: "middle", margin: "-3px 5px 0 0" }}
+        />
+        {title}
+      </Err>
+    </ErrWrapper>
+  ) : null
 }

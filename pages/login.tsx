@@ -15,7 +15,12 @@ const Login = () => {
   const theme = useContext(ThemeContext)
   const [loading, setLoading] = useState(false)
   useUser({ redirectTo: "/", redirectIfFound: true })
-  const { register, handleSubmit, errors, setError } = useForm()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm()
 
   async function onSubmit(data) {
     setLoading(true)
@@ -32,7 +37,7 @@ const Login = () => {
       }
       setLoading(false)
     } catch (error) {
-      setError("request", "", error.message)
+      setError("request", { message: error.message })
       setLoading(false)
     }
   }
@@ -45,10 +50,9 @@ const Login = () => {
         <Label>Email</Label>
         <Input
           placeholder="your@email.com"
-          name="email"
           autoCapitalize="off"
           type="text"
-          ref={register({
+          {...register("email", {
             required: "Your email can't be blank",
           })}
         />
@@ -56,9 +60,8 @@ const Login = () => {
         <Label>Password</Label>
         <Input
           placeholder="password"
-          name="password"
           type="password"
-          ref={register({
+          {...register("password", {
             required: "Your password can't be blank", // <p>error message</p>
           })}
         />
