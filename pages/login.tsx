@@ -15,7 +15,12 @@ const Login = () => {
   const theme = useContext(ThemeContext)
   const [loading, setLoading] = useState(false)
   useUser({ redirectTo: "/", redirectIfFound: true })
-  const { register, handleSubmit, errors, setError } = useForm()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm()
 
   async function onSubmit(data) {
     setLoading(true)

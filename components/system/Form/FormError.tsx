@@ -38,7 +38,7 @@ const ErrWrapper = styled.div<{ separateRow?: boolean; wiggle?: boolean }>`
   }
 `
 
-export const FormError: React.FC<{ title: string; separateRow?: boolean }> = ({
+export const FormError: React.FC<{ title?: string; separateRow?: boolean }> = ({
   title,
   separateRow,
 }) => {

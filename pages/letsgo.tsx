@@ -37,7 +37,7 @@ const Signup: React.FC = () => {
       }
       setLoading(false)
     } catch (error) {
-      setError("request", "", error.message)
+      setError("request", { message: error.message })
       setLoading(false)
     }
   }
