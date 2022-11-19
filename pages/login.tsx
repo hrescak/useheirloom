@@ -46,7 +46,7 @@ const Login = () => {
     <PublicLayout title="Welcome back!">
       <form onSubmit={handleSubmit(onSubmit)}>
         <H1>Log in</H1>
-        <FormError separateRow title={`${errors?.request?.message}`} />
+        <FormError separateRow title={errors?.request?.message} />
         <Label>Email</Label>
         <Input
           placeholder="your@email.com"
@@ -56,7 +56,7 @@ const Login = () => {
             required: "Your email can't be blank",
           })}
         />
-        <FormError title={`${errors?.email?.message}`} />
+        <FormError title={errors?.email?.message} />
         <Label>Password</Label>
         <Input
           placeholder="password"
@@ -65,7 +65,7 @@ const Login = () => {
             required: "Your password can't be blank", // <p>error message</p>
           })}
         />
-        <FormError title={`${errors?.password?.message}`} />
+        <FormError title={errors?.password?.message} />
         <div
           style={{ display: "flex", alignItems: "center", marginTop: "1rem" }}
         >
