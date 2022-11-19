@@ -45,10 +45,9 @@ const Login = () => {
         <Label>Email</Label>
         <Input
           placeholder="your@email.com"
-          name="email"
           autoCapitalize="off"
           type="text"
-          ref={register({
+          {...register("email", {
             required: "Your email can't be blank",
           })}
         />
@@ -56,9 +55,8 @@ const Login = () => {
         <Label>Password</Label>
         <Input
           placeholder="password"
-          name="password"
           type="password"
-          ref={register({
+          {...register("password", {
             required: "Your password can't be blank", // <p>error message</p>
           })}
         />

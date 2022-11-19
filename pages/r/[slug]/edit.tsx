@@ -85,9 +85,8 @@ const EditRecipe: React.FC = () => {
       <Input
         type="text"
         placeholder="Something super tasty"
-        name="name"
         defaultValue={recipe?.name}
-        ref={register}
+        {...register("name")}
       />
       <div>
         {!showSummary && !recipe?.summary && (
@@ -110,10 +109,9 @@ const EditRecipe: React.FC = () => {
         <>
           <Label>Recipe Summary or Description</Label>
           <Textarea
-            name="summary"
             defaultValue={recipe?.summary}
-            ref={register}
             rows={3}
+            {...register("summary")}
           />
         </>
       )}
@@ -124,9 +122,8 @@ const EditRecipe: React.FC = () => {
             <Input
               type="text"
               placeholder="Food blog name, or 'Grandma'"
-              name="sourceName"
               defaultValue={recipe?.sourceName}
-              ref={register}
+              {...register("sourceName")}
             />
           </Half>
           <Half style={{ paddingLeft: "1rem" }}>
@@ -134,9 +131,8 @@ const EditRecipe: React.FC = () => {
             <Input
               type="url"
               placeholder="http://"
-              name="sourceURL"
               defaultValue={recipe?.sourceURL}
-              ref={register}
+              {...register("sourceURL")}
             />
           </Half>
         </Stack>
@@ -147,9 +143,8 @@ const EditRecipe: React.FC = () => {
           <Input
             type="text"
             placeholder="https://www.recipe_photos.com/photo.png"
-            name="imageURL"
             defaultValue={recipe?.imageURL}
-            ref={register}
+            {...register("imageURL")}
           />
         </>
       )}
@@ -174,10 +169,9 @@ const EditRecipe: React.FC = () => {
         </Aside>
       </Stack>
       <Textarea
-        name="instructions"
         defaultValue={recipe?.instructions}
-        ref={register}
         rows={20}
+        {...register("instructions")}
       />
     </Layout>
   )
