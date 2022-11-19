@@ -14,13 +14,11 @@ const LoggedInLayout: React.FC = (props) => {
     <Layout
       leftControl={
         <Link href="/">
-          <a>
-            <img
-              src="/images/heirloom.svg"
-              height="36"
-              alt="Heirloom in script typeface"
-            />
-          </a>
+          <img
+            src="/images/heirloom.svg"
+            height="36"
+            alt="Heirloom in script typeface"
+          />
         </Link>
       }
       rightControl={

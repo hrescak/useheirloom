@@ -62,7 +62,7 @@ const EditRecipe: React.FC = () => {
       invertHeader
       title="Edit Recipe"
       leftControl={
-        <Link href={`/r/[slug]`} as={`/r/${slug}`}>
+        <Link href={`/r/[slug]`} as={`/r/${slug}`} legacyBehavior>
           <PrimaryButton icon={<ChevronLeft />}>Back</PrimaryButton>
         </Link>
       }

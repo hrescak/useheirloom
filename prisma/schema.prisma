@@ -40,7 +40,7 @@ model User {
   hash           String
   salt           String
   ownKitchen     Kitchen?  @relation("KitchenOwnership")
-  kitchens       Kitchen[] @relation(references: [id])
+  kitchens       Kitchen[]
   starredRecipes Recipe[]
   recipes        Recipe[]  @relation("RecipeOwnership")
 }
@@ -52,8 +52,8 @@ model Kitchen {
   name        String
   description String?
   owner       User       @relation("KitchenOwnership", references: [id], fields: [ownerId])
-  ownerId     Int
-  users       User[]     @relation(references: [id])
+  ownerId     Int        @unique
+  users       User[]
   recipes     Recipe[]
   categories  Category[]
 }
@@ -83,7 +83,6 @@ model Recipe {
   starredBy          User[]
   author             User                      @relation("RecipeOwnership", references: [id], fields: [authorId])
   authorId           Int
-
 }
 
 model Ingredient {
@@ -120,7 +119,6 @@ model RecipeIngredientSection {
   ingredients RecipeIngredient[]
   recipe      Recipe             @relation(references: [id], fields: [recipeId])
   recipeId    Int
-
 }
 
 model Category {

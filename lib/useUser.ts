@@ -20,7 +20,7 @@ export function useUser(
     "/api/user",
     fetcher,
     {
-      initialData: initialData,
+      fallbackData: initialData,
     }
   )
   const user = data?.user

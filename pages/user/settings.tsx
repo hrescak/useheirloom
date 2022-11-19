@@ -60,7 +60,7 @@ const SettingsPage: React.FC<{ user: UserSession }> = (props) => {
       title="User Settings"
       invertHeader
       leftControl={
-        <Link href={`/`}>
+        <Link href={`/`} legacyBehavior>
           <PrimaryButton icon={<ChevronLeft />}>Back</PrimaryButton>
         </Link>
       }

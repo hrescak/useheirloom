@@ -10,14 +10,17 @@ const useRecipeIngredients = (
 ) => {
   const router = useRouter()
   const { slug } = router.query
+  console.log(slug)
   //only fetch after slug is loaded and when we're not prevented
   const shouldFetch = slug !== undefined && !preventFetch
   const apiURL = `/api/recipes/${slug}/recipe-ingredients`
+  console.log(apiURL)
   const { data } = useSWR(
     () => (shouldFetch ? apiURL : null),
     (url) => fetch(url).then((r) => r.json()),
-    { initialData: initialData }
+    { fallbackData: initialData }
   )
+  console.log(shouldFetch)
   // make sure we remember list of all ingredients because that's the
   // one we're mutating
   const allIngredients = data

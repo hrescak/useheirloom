@@ -17,7 +17,7 @@ const RecipePage: React.FC = () => {
       title={recipe?.name}
       signedOut={!user}
       leftControl={
-        <Link href={`/`}>
+        <Link href={`/`} legacyBehavior>
           <InlineButton noMargin icon={<ChevronLeft />}>
             Recipes
           </InlineButton>
@@ -29,7 +29,11 @@ const RecipePage: React.FC = () => {
         recipe.authorId === user.id && (
           <>
             <ShareMenu recipe={recipe} />
-            <Link href={`/r/[slug]/edit`} as={`/r/${recipe?.publicID}/edit`}>
+            <Link
+              href={`/r/[slug]/edit`}
+              as={`/r/${recipe?.publicID}/edit`}
+              legacyBehavior
+            >
               <OutlineButton icon={<Edit3 />} style={{ marginLeft: "1rem" }}>
                 Edit
               </OutlineButton>
