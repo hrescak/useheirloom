@@ -14,7 +14,13 @@ const Signup: React.FC = () => {
   const theme = useContext(ThemeContext)
   const [loading, setLoading] = useState(false)
   useUser({ redirectTo: "/", redirectIfFound: true })
-  const { register, handleSubmit, errors, watch, setError } = useForm()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    setError,
+  } = useForm()
   const pwd = watch("password")
   async function onSubmit(data) {
     setLoading(true)

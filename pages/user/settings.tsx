@@ -36,7 +36,13 @@ const Half = styled.div`
 `
 const SettingsPage: React.FC<{ user: UserSession }> = (props) => {
   const router = useRouter()
-  const { handleSubmit, register, errors, setError, watch } = useForm()
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    setError,
+    watch,
+  } = useForm()
   const newPassword = watch("newPassword")
   async function onSubmit(formData) {
     try {

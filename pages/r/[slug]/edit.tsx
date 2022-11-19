@@ -45,7 +45,7 @@ const EditRecipe: React.FC = () => {
   const [showImage, setShowImage] = useState(false)
   const { slug } = router.query
   const { recipe, updateRecipe, deleteRecipe } = useRecipe()
-  const { register, handleSubmit, errors } = useForm()
+  const { register, handleSubmit } = useForm()
 
   async function onSubmit(formData) {
     const payload = _.pickBy(formData, (value, key) => recipe[key] != value)
