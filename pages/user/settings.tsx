@@ -58,7 +58,7 @@ const SettingsPage: React.FC<{ user: UserSession }> = (props) => {
     } catch (error) {
       // dude you jank
       const parsedError = JSON.parse(error.message)
-      setError("request", "", parsedError.message)
+      setError("request", { message: parsedError.message })
     }
   }
   return (
